@@ -1,5 +1,7 @@
 import { supabase } from "@/supabase"
 import Header from "./components/Header"
+import Searchbar from "./components/Searchbar"
+import AddItemButton from "./components/AddItemButton"
 
 export default async function Home() {
   const { data, error } = await supabase.from("products").select()
@@ -11,8 +13,11 @@ export default async function Home() {
 
   return (
     <>
-      <Header />
-      <h1>Bonjour</h1>
+      <div className="main--container">
+        <Header />
+        <Searchbar />
+        <AddItemButton />
+      </div>
     </>
   )
 }

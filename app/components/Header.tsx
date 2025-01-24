@@ -1,16 +1,19 @@
 import { getAllProducts } from "@/supabase"
-import { translations } from "../translations"
-import Link from "next/link"
+import Logo from "./Logo"
 
 export default async function Header() {
   console.log(await getAllProducts())
 
   return (
-    <nav>
-      <Link href="/">{translations.nav.account}</Link>
-      <Link href="/">{translations.nav.addProduct}</Link>
-      <Link href="/">{translations.nav.messages}</Link>
-      <Link href="/">{translations.nav.favorites}</Link>
-    </nav>
+    <>
+      <header>
+        <i className="header--burger-icon fa-solid fa-burger"></i>
+        <Logo />
+        <div className="header--icons">
+          <i className="fa-regular fa-heart"></i>
+          <i className="fa-regular fa-paper-plane"></i>
+        </div>
+      </header>
+    </>
   )
 }

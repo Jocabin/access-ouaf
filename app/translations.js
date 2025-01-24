@@ -5,4 +5,10 @@ export const translations = {
         messages: 'Messagerie',
         favorites: 'Favoris',
     },
+    search: {
+        placeholder: 'Rechercher',
+    },
+    button: {
+        addItem: 'Créer une annonce'
+    }
 }
