@@ -1,8 +1,6 @@
-import { getAllProducts } from "@/supabase"
 import Logo from "./Logo"
 
 export default async function Header() {
-  console.log(await getAllProducts())
 
   return (
     <>
