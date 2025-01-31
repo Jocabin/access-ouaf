@@ -1,0 +1,10 @@
+.header__menu {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .header__menu {
+        display: none;
+    }
+}

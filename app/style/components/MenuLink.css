@@ -1,0 +1,11 @@
+.menu__link {
+    display: block;
+    padding: 10px 15px;
+    color: var(--black);
+    text-decoration: none;
+    font-weight: var(--bold700);
+}
+
+.menu__link--highlighted {
+    color: var(--brown);
+}
