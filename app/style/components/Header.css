@@ -1,0 +1,15 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header i {
+    font-size: 1.25rem;
+}
+
+.header--icons {
+    width: 4rem;
+    display: flex;
+    justify-content: space-between;
+}
