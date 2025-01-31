@@ -1,6 +1,6 @@
 import Logo from "./Logo"
 
-export default async function Header() {
+export default function Header() {
 
   return (
     <>

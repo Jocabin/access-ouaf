@@ -1,0 +1,16 @@
+.menu__link {
+    display: block;
+    padding: 10px 15px;
+    color: var(--black);
+    text-decoration: none;
+    font-weight: var(--bold700);
+}
+
+.menu__link:hover {
+    color: var(--brown);
+    transition: 0.2s ease;
+}
+
+.menu__link--highlighted {
+    color: var(--brown);
+}
