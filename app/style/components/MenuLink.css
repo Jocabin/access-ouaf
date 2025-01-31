@@ -6,6 +6,11 @@
     font-weight: var(--bold700);
 }
 
+.menu__link:hover {
+    color: var(--brown);
+    transition: 0.2s ease;
+}
+
 .menu__link--highlighted {
     color: var(--brown);
 }
