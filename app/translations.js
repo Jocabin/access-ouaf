@@ -24,4 +24,12 @@ export const translations = {
     food: "Alimentaire",
     sales: "Promotions",
   },
+  footer: {
+    privacyPolicy: "Politique de confidentialité",
+    termsAndConditions: "Termes et conditions",
+    aboutUs: "À propos",
+    contactUs: "Nous contacter",
+    logIn: "Se connecter",
+    createAccount: "Créer un compte",
+  },
 }

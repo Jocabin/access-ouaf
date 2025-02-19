@@ -2,6 +2,7 @@ import { getAllProducts } from "@/supabase"
 import Header from "./components/Header"
 import Searchbar from "./components/Searchbar"
 import HeaderMenu from "./components/HeaderMenu"
+import Footer from "./components/Footer"
 
 export default async function Home() {
   console.log(await getAllProducts())
@@ -12,6 +13,8 @@ export default async function Home() {
         <Header />
         <Searchbar />
         <HeaderMenu />
+        <div className="main--content"></div>
+        <Footer />
       </div>
     </>
   )
