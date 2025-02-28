@@ -34,3 +34,12 @@ export const translations = {
     title: "Pour votre animal",
   },
 };
+  footer: {
+    privacyPolicy: "Politique de confidentialité",
+    termsAndConditions: "Termes et conditions",
+    aboutUs: "À propos",
+    contactUs: "Nous contacter",
+    logIn: "Se connecter",
+    createAccount: "Créer un compte",
+  },
+}
