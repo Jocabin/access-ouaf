@@ -1,3 +1,5 @@
+import { title } from "process";
+
 export const translations = {
   nav: {
     account: "Mon compte",
@@ -24,4 +26,11 @@ export const translations = {
     food: "Alimentaire",
     sales: "Promotions",
   },
-}
+  homeCard: {
+    bold: "Vendez vos produits dès maintenant",
+    text: "lorem ipsum pas le time frero",
+  },
+  gridCard: {
+    title: "Pour votre animal",
+  },
+};

@@ -1,8 +1,8 @@
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
-
 @import 'style/components.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --white: #ffffff;
@@ -28,10 +28,56 @@ h1 {
   font-family: Urbanist-SemiBold, sans-serif;
 }
 
+h2 {
+  font-family: Urbanist-SemiBold, sans-serif;
+}
+
+.grid-content {
+  margin-top: 6.250rem;
+}
+
 .main--container {
   max-width: 80rem;
   margin: 0 auto;
   padding: 1.25rem;
+}
+
+.product-grid-title {
+  margin-bottom: 3.125rem;
+}
+
+.cat-picture {
+  border-radius: 1rem;
+}
+
+.title-home-card {
+  font-size: 19;
+  font-family: Urbanist-SemiBold, sans-serif;
+}
+
+.products-grid-home {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+.card {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card-div {
+  width: 240px;
+  height: 352px;
+}
+
+@media (max-width: 576px) {
+  .products-grid-home {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {}
