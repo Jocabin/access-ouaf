@@ -11,6 +11,7 @@ export default async function Homepage() {
 
   return (
     <>
+    <div className="desktop-homepage">
       <Link href="/" className="relative flex justify-center mt-20">
         <Image src={logoUrl} alt="Image d'un chat " width={1170} height={395} className="cat-picture"/>
         <div className="absolute top-1/2 left-0 bg-white -translate-y-1/2 ml-40 p-5 rounded-lg">
@@ -21,15 +22,38 @@ export default async function Homepage() {
       </Link>
       <div className="grid-content">
       <h2 className="product-grid-title">{translations.gridCard.title}</h2>
-      <div className="products-grid-home">
-        {products.data?.map(product => (
-          <Card 
-            key={product.id} 
-            imageUrl={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${product.img}`} 
-            title={product.name} 
-            price={`${product.price} €`} 
-          />
-        ))}
+        <div className="products-grid-home">
+          {products.data?.map(product => (
+            <Card 
+              key={product.id} 
+              imageUrl={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${product.img}`} 
+              title={product.name} 
+              price={`${product.price} €`}
+              width={240} 
+              height={352}
+            />
+          ))}
+        </div>
+      </div>
+
+      </div>
+    <div className="phone-homepage">
+
+        <Button label={translations.button.addItem}/>
+      <div className="grid-content">
+      <h2 className="product-grid-title">{translations.gridCard.title}</h2>
+        <div className="products-grid-home">
+          {products.data?.map(product => (
+            <Card 
+              key={product.id} 
+              imageUrl={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${product.img}`} 
+              title={product.name} 
+              price={`${product.price} €`}
+              width={139} 
+              height={241}
+            />
+          ))}
+        </div>
       </div>
 
       </div>

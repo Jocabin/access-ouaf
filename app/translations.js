@@ -33,7 +33,6 @@ export const translations = {
   gridCard: {
     title: "Pour votre animal",
   },
-};
   footer: {
     privacyPolicy: "Politique de confidentialité",
     termsAndConditions: "Termes et conditions",
@@ -42,4 +41,4 @@ export const translations = {
     logIn: "Se connecter",
     createAccount: "Créer un compte",
   },
-}
+};

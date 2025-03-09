@@ -67,22 +67,65 @@ h2 {
   gap: 1rem;
   margin-left: auto;
   margin-right: auto;
+  justify-items: center;
   
 }
 
 .card {
   margin-left: auto;
   margin-right: auto;
+  flex-direction: column;
+  align-items: center;
 }
 
 .card-div {
   width: 240px;
   height: 352px;
+  border-radius: 1rem !important;
+  overflow: hidden;
+}
+
+.card-image {
+  border-radius: 1rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-price {
+  color: var(--brown);
+}
+
+.phone-homepage {
+  display: none;
+}
+.desktop-homepage {
+  display: block;
 }
 
 @media (max-width: 576px) {
   .products-grid-home {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-content {
+    margin-top: 2.5rem;
+  }
+
+  .card {
+    width: 172px;
+    height: 341px;
+  }
+
+  .card-div {
+    width: 172px;
+    height: 241px;
+  }
+  .phone-homepage {
+    display: block;
+  }
+  .desktop-homepage {
+    display: none;
   }
 }
 
