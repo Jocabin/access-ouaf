@@ -17,7 +17,7 @@ export default function ImageSlider({ productImages, productDescription }: Image
                         <nav className="flex justify-center mt-2 mb-4">
                                 {productImages.map((_, i) => (
                                         <span key={i} onClick={() => { setImageIndex(i) }}
-                                                className={`w-4 h-4 border-2 cursor-pointer border-black rounded-full mx-1 ${(imageIndex === i ? "bg-black" : "")}`} />
+                                                className={`w-3 h-3 border-2 cursor-pointer border-black rounded-full mx-1 ${(imageIndex === i ? "bg-black" : "")}`} />
                                 ))}
                         </nav>
                 </div>

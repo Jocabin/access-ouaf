@@ -18,6 +18,12 @@
         font-family: Quicksand, sans-serif;
 }
 
+html,
+body {
+        width: 100vw;
+        height: 100vh;
+}
+
 body {
         color: var(--black);
         background: var(--background);
