@@ -1,7 +1,7 @@
 type ButtonProps = {
-  label?: string
+        children: any
 }
 
-export default function Button({ label }: ButtonProps) {
-  return <button className="button">{label}</button>
+export default function Button({ children }: ButtonProps) {
+        return <button className="button">{children}</button>
 }
