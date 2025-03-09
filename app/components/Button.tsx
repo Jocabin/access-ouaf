@@ -1,5 +1,5 @@
 type ButtonProps = {
-        children: any
+        children: React.ReactNode
 }
 
 export default function Button({ children }: ButtonProps) {

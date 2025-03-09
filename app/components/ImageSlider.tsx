@@ -1,5 +1,6 @@
 'use client'
 
+import Image from "next/image"
 import { useState } from "react"
 
 type ImageSliderProps = {
@@ -12,7 +13,7 @@ export default function ImageSlider({ productImages, productDescription }: Image
 
         return (
                 <div>
-                        <img src={productImages[imageIndex]} alt={productDescription} />
+                        <Image src={productImages[imageIndex]} alt={productDescription} width={600} height={600} />
 
                         <nav className="flex justify-center mt-2 mb-4">
                                 {productImages.map((_, i) => (
