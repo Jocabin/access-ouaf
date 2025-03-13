@@ -2,12 +2,15 @@
 import React, { useState } from 'react'
 import Logo from "./Logo"
 import RegisterForm from './RegisterForm'
+import { Button } from 'primereact/button'
+import { Dialog } from 'primereact/dialog'
 
 export default function Header() {
-  const [isRegisterOpen, setRegisterOpen] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const [isRegistered, setIsRegistered] = useState(false);
 
-  const toggleRegister = () => {
-    setRegisterOpen(!isRegisterOpen)
+  const handleSuccess = () => {
+    setIsRegistered(true)
   }
 
   return (
@@ -16,11 +19,29 @@ export default function Header() {
         <i className="header--burger-icon fa-solid fa-burger"></i>
         <Logo />
         <div className="header--icons">
-          <i className="fa-regular fa-heart" />
-          <i className="fa-regular fa-paper-plane" />
-          <i className="fa-regular fa-user" onClick={ toggleRegister } />
+          <Button icon="fa-regular fa-heart" text onClick={() => null} />
+          <Button icon="fa-regular fa-paper-plane" text onClick={() => null} />
+          <Button icon="pi pi-user" text onClick={() => setVisible(true)} />
+          <Dialog
+              visible={visible}
+              header="Inscription"
+              draggable={false}
+              style={{ width: '30vw', height: '70vh' }}
+              onHide={() => setVisible(false)}
+          >
+            {isRegistered ? (
+                <div>
+                  <p>Inscription réussie, vérifiez votre boîte mail pour activer votre compte.</p>
+                  <Button label="Fermer" className="w-full mt-4" onClick={() => {
+                    setVisible(false);
+                    setIsRegistered(false);
+                  }} />
+                </div>
+            ) : (
+                <RegisterForm onSuccess={ handleSuccess } />
+            )}
+          </Dialog>
         </div>
-        { isRegisterOpen && <RegisterForm /> }
       </header>
     </>
   )

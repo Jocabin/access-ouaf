@@ -9,8 +9,6 @@ header i {
 }
 
 .header--icons {
-    width: 4rem;
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
 }
