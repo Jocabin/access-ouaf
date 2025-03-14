@@ -10,6 +10,7 @@ export const translations = {
   },
   button: {
     addItem: "Créer une annonce",
+    login: "Se connecter",
   },
   categories: {
     dog: "Chien",
@@ -31,5 +32,14 @@ export const translations = {
     contactUs: "Nous contacter",
     logIn: "Se connecter",
     createAccount: "Créer un compte",
+  },
+  pages: {
+    loginPage: {
+      title: "Se connecter",
+      email: "E-mail",
+      password: "Mot de passe",
+      signUp: "Ou inscrivez-vous",
+      placeholder: "exemple@mail.fr"
+    },
   },
 }
