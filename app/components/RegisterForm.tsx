@@ -95,8 +95,8 @@ const RegisterForm = ({ onSuccess }) => {
                             required
                         />
                     </div>
-                    <div className="flex flex-row justify-between gap-2">
-                        <div className="flex flex-col gap-2 w-3/4">
+                    <div className="flex flex-col md:flex-row md:justify-between gap-2">
+                        <div className="flex flex-col gap-2 md:w-3/4">
                             <label htmlFor="address">Adresse</label>
                             <InputText
                                 type="text"
@@ -107,7 +107,7 @@ const RegisterForm = ({ onSuccess }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="flex flex-col gap-2 w-1/4">
+                        <div className="flex flex-col gap-2 md:w-1/4">
                             <label htmlFor="postal_code">Code postal</label>
                             <InputText
                                 type="number"
@@ -119,8 +119,8 @@ const RegisterForm = ({ onSuccess }) => {
                             />
                         </div>
                     </div>
-                    <div className="flex flex-row justify-between gap-2">
-                        <div className="flex flex-col gap-2 w-1/3">
+                    <div className="flex flex-col md:flex-row md:justify-between gap-2">
+                        <div className="flex flex-col gap-2 md:w-1/3">
                             <label htmlFor="city">Ville</label>
                             <InputText
                                 type="text"
@@ -131,7 +131,7 @@ const RegisterForm = ({ onSuccess }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="flex flex-col gap-2 w-1/3">
+                        <div className="flex flex-col gap-2 md:w-1/3">
                             <label htmlFor="country">Pays</label>
                             <InputText
                                 type="text"
@@ -142,7 +142,7 @@ const RegisterForm = ({ onSuccess }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="flex flex-col gap-2 w-1/3">
+                        <div className="flex flex-col gap-2 md:w-1/3">
                             <label htmlFor="phone">Téléphone</label>
                             <InputText
                                 type="text"

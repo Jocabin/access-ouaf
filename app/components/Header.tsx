@@ -23,10 +23,14 @@ export default function Header() {
           <Button icon="fa-regular fa-paper-plane" text onClick={() => null} />
           <Button icon="pi pi-user" text onClick={() => setVisible(true)} />
           <Dialog
+              className="responsive-dialog"
               visible={visible}
               header="Inscription"
               draggable={false}
-              style={{ width: '30vw', height: '70vh' }}
+              style={{
+                height: 'auto',
+                maxHeight: '90vh',
+              }}
               onHide={() => setVisible(false)}
           >
             {isRegistered ? (

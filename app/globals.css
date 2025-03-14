@@ -52,7 +52,15 @@ h1 {
   flex: 1;
 }
 
+.responsive-dialog {
+  width: 30vw;
+}
+
 @media (max-width: 768px) {
+  .responsive-dialog {
+    width: 90vw;
+  }
+
   footer {
     flex-direction: column;
     gap: 1rem;
