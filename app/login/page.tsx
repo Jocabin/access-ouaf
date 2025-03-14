@@ -1,67 +1,70 @@
-import { login } from "@/supabase"
+"use client"
+
+import { useState } from "react"
+import { InputText } from "primereact/inputtext"
+import { Button } from "primereact/button"
+import { Toast } from "primereact/toast"
+import { useRef } from "react"
 import { translations } from "../translations"
 
-export default async function LoginPage() {
-  //   function handleSubmit(event) {
-  //     const textInput = event.target.textInput.value
-  //     const searchType = event.target.searchType.value
-  //     const params = new URLSearchParams(searchParams)
+const LoginForm = ({ onSuccess }) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  })
+  const [loading, setLoading] = useState(false)
+  const toast = useRef(null)
 
-  //     event.preventDefault()
-
-  //     params.set("search", textInput)
-  //     params.set("source", searchType)
-  //     router.push(`?${params.toString()}`)
-  //   }
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    const form = event.currentTarget
-    const formData = new FormData(form)
-    const email = formData.get("email") as string
-    const password = formData.get("password") as string
-
-    if (!email || !password) {
-      console.error("Email and password are required.")
-      return
-    }
-
-    const response = await login(email, password)
-
-    if (response.error) {
-      console.error("Login failed:", response.error)
-      // Display error message in the UI
-    } else {
-      console.log("Login successful:", response.user)
-      // Redirect or update UI on successful login
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
   }
 
   return (
-    <>
-      {/* <div className="narrow--container"> */}
-      <h2>{translations.pages.loginPage.title}</h2>
-
-      <form onSubmit={(event) => handleSubmit(event)}>
-        <label htmlFor="">
-          <h3>{translations.pages.loginPage.email}</h3>
-        </label>
-        <input
-          type="text"
-          name="email"
-          placeholder={translations.pages.loginPage.placeholder}
-          required
-        />
-
-        <label htmlFor="">
-          <h3>{translations.pages.loginPage.password}</h3>
-        </label>
-        <input type="password" name="password" required />
-
-        <button type="submit">{translations.button.login}</button>
+    <div>
+      <Toast ref={toast} />
+      <form>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email">{translations.pages.loginPage.email}</label>
+            <InputText
+              type="email"
+              id="email"
+              name="email"
+              className="p-inputtext-sm"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="password">
+              {translations.pages.loginPage.password}
+            </label>
+            <InputText
+              type="password"
+              id="password"
+              name="password"
+              className="p-inputtext-sm"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <Button
+            type="submit"
+            className="flex justify-center mt-4"
+            loading={loading}
+          >
+            {translations.button.login}
+          </Button>
+        </div>
       </form>
-      {/* </div> */}
-    </>
+    </div>
   )
 }
+
+export default LoginForm
