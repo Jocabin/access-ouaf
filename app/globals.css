@@ -171,12 +171,3 @@ h2 {
     font-size: 1rem;
 }
 
-footer {
-  flex-direction: column;
-  gap: 1rem;
-  padding: 2rem 2rem 1rem 2rem;
-}
-.footer__link {
-  font-size: 1rem;
-}
-
