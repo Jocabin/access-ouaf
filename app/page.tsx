@@ -18,8 +18,9 @@ export default async function Home() {
           <Header />
           <Searchbar />
           <HeaderMenu />
-          <Homepage />
-          <div className="main--content"></div>
+          <div className="main--content">
+            <Homepage />
+          </div>
           <Footer />
         </div>
       </PrimeReactProvider>
