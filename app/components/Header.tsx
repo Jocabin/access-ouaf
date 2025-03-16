@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import Logo from "./Logo"
 import RegisterForm from './RegisterForm'
+import { translations } from '../translations'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 
@@ -25,7 +26,7 @@ export default function Header() {
           <Dialog
               className="responsive-dialog"
               visible={visible}
-              header="Inscription"
+              header={ translations.header.registerDialogTitle }
               draggable={false}
               style={{
                 height: 'auto',
@@ -35,8 +36,8 @@ export default function Header() {
           >
             {isRegistered ? (
                 <div>
-                  <p>Inscription réussie, vérifiez votre boîte mail pour activer votre compte.</p>
-                  <Button label="Fermer" className="w-full mt-4" onClick={() => {
+                    <p>{translations.header.registerSuccessMessage}</p>
+                    <Button label={ translations.header.closeButton } className="w-full mt-4" onClick={() => {
                     setVisible(false);
                     setIsRegistered(false);
                   }} />

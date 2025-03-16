@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
-import { useRef } from 'react'
+import { translations } from '../translations'
 
 const RegisterForm = ({ onSuccess }) => {
     const [formData, setFormData] = useState({
@@ -42,12 +42,24 @@ const RegisterForm = ({ onSuccess }) => {
 
             if (response.ok) {
                 onSuccess()
-                toast.current.show({ severity: 'success', summary: 'Succès', detail: data.message || 'Inscription réussie' })
+                toast.current.show({
+                    severity: 'success',
+                    summary: translations.register.successSummary,
+                    detail: data.message || translations.register.successMessage,
+                })
             } else {
-                toast.current.show({ severity: 'error', summary: 'Erreur', detail: data.error || 'Erreur lors de l\'inscription' })
+                toast.current.show({
+                    severity: 'error',
+                    summary: translations.register.errorSummary,
+                    detail: data.error || translations.register.errorMessage,
+                })
             }
         } catch (error) {
-            toast.current.show({ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue lors de l\'inscription' })
+            toast.current.show({
+                severity: 'error',
+                summary: translations.register.errorSummary,
+                detail: translations.register.networkError,
+            })
             console.error('Erreur:', error)
         } finally {
             setLoading(false)
@@ -60,7 +72,7 @@ const RegisterForm = ({ onSuccess }) => {
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="display_name">Nom / Prénom</label>
+                        <label htmlFor="display_name">{translations.register.displayName}</label>
                         <InputText
                             type="text"
                             id="display_name"
@@ -72,7 +84,7 @@ const RegisterForm = ({ onSuccess }) => {
                         />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email">{translations.register.email}</label>
                         <InputText
                             type="email"
                             id="email"
@@ -84,7 +96,7 @@ const RegisterForm = ({ onSuccess }) => {
                         />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="password">Mot de passe</label>
+                        <label htmlFor="password">{translations.register.password}</label>
                         <InputText
                             type="password"
                             id="password"
@@ -97,7 +109,7 @@ const RegisterForm = ({ onSuccess }) => {
                     </div>
                     <div className="flex flex-col md:flex-row md:justify-between gap-2">
                         <div className="flex flex-col gap-2 md:w-3/4">
-                            <label htmlFor="address">Adresse</label>
+                            <label htmlFor="address">{translations.register.address}</label>
                             <InputText
                                 type="text"
                                 id="address"
@@ -108,7 +120,7 @@ const RegisterForm = ({ onSuccess }) => {
                             />
                         </div>
                         <div className="flex flex-col gap-2 md:w-1/4">
-                            <label htmlFor="postal_code">Code postal</label>
+                            <label htmlFor="postal_code">{translations.register.postalCode}</label>
                             <InputText
                                 type="number"
                                 id="postal_code"
@@ -121,7 +133,7 @@ const RegisterForm = ({ onSuccess }) => {
                     </div>
                     <div className="flex flex-col md:flex-row md:justify-between gap-2">
                         <div className="flex flex-col gap-2 md:w-1/3">
-                            <label htmlFor="city">Ville</label>
+                            <label htmlFor="city">{translations.register.city}</label>
                             <InputText
                                 type="text"
                                 id="city"
@@ -132,7 +144,7 @@ const RegisterForm = ({ onSuccess }) => {
                             />
                         </div>
                         <div className="flex flex-col gap-2 md:w-1/3">
-                            <label htmlFor="country">Pays</label>
+                            <label htmlFor="country">{translations.register.country}</label>
                             <InputText
                                 type="text"
                                 id="country"
@@ -143,7 +155,7 @@ const RegisterForm = ({ onSuccess }) => {
                             />
                         </div>
                         <div className="flex flex-col gap-2 md:w-1/3">
-                            <label htmlFor="phone">Téléphone</label>
+                            <label htmlFor="phone">{translations.register.phone}</label>
                             <InputText
                                 type="text"
                                 id="phone"
@@ -155,7 +167,7 @@ const RegisterForm = ({ onSuccess }) => {
                         </div>
                     </div>
                     <Button type="submit" className="flex justify-center mt-4" loading={loading}>
-                        S'inscrire
+                        {translations.register.registerButton}
                     </Button>
                 </div>
             </form>

@@ -1,4 +1,9 @@
 export const translations = {
+  header: {
+    registerDialogTitle: "Inscription",
+    registerSuccessMessage: "Inscription réussie, vérifiez votre boîte mail pour activer votre compte.",
+    closeButton: "Fermer",
+  },
   nav: {
     account: "Mon compte",
     addProduct: "Ajouter un produit",
@@ -32,4 +37,20 @@ export const translations = {
     logIn: "Se connecter",
     createAccount: "Créer un compte",
   },
-}
+  register: {
+    displayName: "Nom / Prénom",
+    email: "Email",
+    password: "Mot de passe",
+    address: "Adresse",
+    postalCode: "Code postal",
+    city: "Ville",
+    country: "Pays",
+    phone: "Téléphone",
+    registerButton: "S'inscrire",
+    successMessage: "Inscription réussie, vérifiez votre boîte mail pour activer votre compte.",
+    errorMessage: "Erreur lors de l'inscription",
+    networkError: "Une erreur est survenue lors de l'inscription",
+    successSummary: 'Succès',
+    errorSummary: 'Erreur',
+  },
+};
