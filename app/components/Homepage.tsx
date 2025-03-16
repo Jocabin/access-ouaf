@@ -12,14 +12,14 @@ export default async function Homepage() {
   return (
     <>
     <div className="desktop-homepage">
-      <Link href="/" className="relative flex justify-center mt-20">
-        <Image src={logoUrl} alt="Image d'un chat " width={1170} height={395} className="cat-picture"/>
+      <div className="relative flex justify-center mt-20">
+        <Image src={logoUrl} alt="Image d'un chat" width={1170} height={395} className="cat-picture"/>
         <div className="absolute top-1/2 left-0 bg-white -translate-y-1/2 ml-40 p-5 rounded-lg">
           <h1 className="title-home-card mb-2">{translations.homeCard.bold}</h1>
           <p className="mb-5">{translations.homeCard.text}</p>
           <Button children={translations.button.addItem}/>
         </div>
-      </Link>
+      </div>
       <div className="grid-content">
       <h2 className="product-grid-title">{translations.gridCard.title}</h2>
         <div className="products-grid-home">
