@@ -53,6 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
 
             return res.status(201).json({ message: 'Inscription réussie' })
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
             return res.status(500).json({ error: 'Erreur serveur interne' })
         }
