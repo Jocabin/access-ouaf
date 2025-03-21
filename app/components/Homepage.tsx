@@ -1,5 +1,4 @@
 import Image from "next/image"
-import Link from "next/link"
 import { translations } from "../translations"
 import Button from "./Button"
 import { getAllProducts } from "@/supabase"
