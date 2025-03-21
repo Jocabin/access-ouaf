@@ -1,7 +1,8 @@
 export const translations = {
   header: {
     registerDialogTitle: "Inscription",
-    registerSuccessMessage: "Inscription réussie, vérifiez votre boîte mail pour activer votre compte.",
+    registerSuccessMessage:
+      "Inscription réussie, vérifiez votre boîte mail pour activer votre compte.",
     closeButton: "Fermer",
   },
   nav: {
@@ -29,6 +30,13 @@ export const translations = {
     food: "Alimentaire",
     sales: "Promotions",
   },
+  homeCard: {
+    bold: "Vendez vos produits dès maintenant",
+    text: "lorem ipsum pas le time frero",
+  },
+  gridCard: {
+    title: "Pour votre animal",
+  },
   footer: {
     privacyPolicy: "Politique de confidentialité",
     termsAndConditions: "Termes et conditions",
@@ -47,10 +55,11 @@ export const translations = {
     country: "Pays",
     phone: "Téléphone",
     registerButton: "S'inscrire",
-    successMessage: "Inscription réussie, vérifiez votre boîte mail pour activer votre compte.",
+    successMessage:
+      "Inscription réussie, vérifiez votre boîte mail pour activer votre compte.",
     errorMessage: "Erreur lors de l'inscription",
     networkError: "Une erreur est survenue lors de l'inscription",
-    successSummary: 'Succès',
-    errorSummary: 'Erreur',
+    successSummary: "Succès",
+    errorSummary: "Erreur",
   },
 };
