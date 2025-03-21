@@ -143,6 +143,18 @@ h2 {
   }
 }
 
+@media (max-width: 395px) {
+  .card {
+    width: 140px;
+    height: 278px;
+  }
+
+  .card-div {
+    width: 140px;
+    height: 196px;
+  }
+}
+
 @media (max-width: 768px) {}
 .main--content {
     flex: 1;
