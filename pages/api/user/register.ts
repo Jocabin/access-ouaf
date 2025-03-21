@@ -57,18 +57,49 @@ export default async function handler(
         ...(city ? { city } : {}),
       };
 
-      try {
-        const { data, error } = await supabase
-          .from("addresses")
-          .insert([addressData]);
-        if (error) {
-          console.error("Supabase insert error :", error);
-          return res
-            .status(500)
-            .json({
-              error: "Erreur lors de l'insertion dans la base de données",
-              supabaseError: error,
-            });
+        try {
+            const user = await supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: {
+                        display_name: display_name,
+                        phone: phone || null,
+                    },
+                },
+            })
+
+            if (user.error) {
+                return res.status(400).json({ error: user.error.message || 'Erreur lors de l\'inscription' })
+            }
+
+            const userId = user.data?.user?.id
+
+            const addressData = {
+                auth_id: userId,
+                ...(address ? { address } : {}),
+                ...(postal_code ? { postal_code } : {}),
+                ...(country ? { country } : {}),
+                ...(city ? { city } : {}),
+            }
+
+            try {
+                const { data, error } = await supabase.from('addresses').insert([addressData])
+                if (error) {
+                    console.error("Supabase insert error :", error);
+                    return res.status(500).json({ error: "Erreur lors de l'insertion dans la base de données", supabaseError: error })
+                }
+                console.log("Supabase insert success :", data)
+                return res.status(201).json({ message: 'Adresse enregistrée avec succès' })
+            } catch (err) {
+                console.error("Error during address insertion :", err)
+                return res.status(500).json({ error: "Erreur serveur interne" })
+            }
+
+            return res.status(201).json({ message: 'Inscription réussie' })
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+            return res.status(500).json({ error: 'Erreur serveur interne' })
         }
         console.log("Supabase insert success :", data);
         return res
