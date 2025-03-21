@@ -7,10 +7,10 @@ footer {
 }
 .footer__link {
     font-size: 1.125rem;
-    font-family: Urbanist-SemiBold, sans-serif;
+    font-family: var(--font-urbanist);
     color: var(--black);
     text-decoration: none;
-    font-weight: var(--bold600);
+    font-weight: var(--bold-600);
 }
 
 .footer__link:hover {
