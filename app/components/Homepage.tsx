@@ -16,7 +16,7 @@ export default async function Homepage() {
         <div className="absolute top-1/2 left-0 bg-white -translate-y-1/2 ml-40 p-5 rounded-lg">
           <h1 className="title-home-card mb-2">{translations.homeCard.bold}</h1>
           <p className="mb-5">{translations.homeCard.text}</p>
-          <Button children={translations.button.addItem}/>
+          <Button>{translations.button.addItem}</Button>
         </div>
       </div>
       <div className="grid-content">
@@ -38,7 +38,7 @@ export default async function Homepage() {
       </div>
     <div className="phone-homepage">
 
-        <Button children={translations.button.addItem}/>
+    <Button>{translations.button.addItem}</Button>
       <div className="grid-content">
       <h2 className="product-grid-title">{translations.gridCard.title}</h2>
         <div className="products-grid-home">
