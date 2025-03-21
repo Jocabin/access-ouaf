@@ -51,7 +51,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 console.error("Error during address insertion :", err)
                                 return res.status(500).json({ error: "Erreur serveur interne" });
                         }
-                } catch (_) {
+                } catch (err) {
+                        console.log(err)
                         return res.status(500).json({ error: 'Erreur serveur interne' });
                 }
         } else {
