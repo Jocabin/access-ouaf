@@ -8,8 +8,6 @@ export default function Footer() {
       <Link href="/" className="footer__link">{translations.footer.termsAndConditions}</Link>
       <Link href="/" className="footer__link">{translations.footer.aboutUs}</Link>
       <Link href="/" className="footer__link">{translations.footer.contactUs}</Link>
-      <Link href="/login" className="footer__link">{translations.footer.logIn}</Link>
-      <Link href="/" className="footer__link">{translations.footer.createAccount}</Link>
     </footer>
   )
 }
