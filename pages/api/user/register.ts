@@ -48,11 +48,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 console.log("Supabase insert success :", data);
                                 return res.status(201).json({ message: 'Adresse enregistrée avec succès' });
                         } catch (err) {
-                                console.error("Error during address insertion :", err)
+                                console.error("Error during address insertion :", err);
                                 return res.status(500).json({ error: "Erreur serveur interne" });
                         }
                 } catch (err) {
-                        console.log(err)
                         return res.status(500).json({ error: 'Erreur serveur interne' });
                 }
         } else {
