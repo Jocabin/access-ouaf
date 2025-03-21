@@ -7,12 +7,12 @@ import { Toast } from "primereact/toast"
 import { useRef } from "react"
 import { translations } from "../translations"
 
-const LoginForm = ({ onSuccess }) => {
+const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   })
-  const [loading, setLoading] = useState(false)
+  const [loading] = useState(false)
   const toast = useRef(null)
 
   const handleChange = (e) => {
