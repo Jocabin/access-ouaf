@@ -2,16 +2,22 @@
 import React, { useState } from 'react'
 import Logo from "./Logo"
 import RegisterForm from './RegisterForm'
+import LoginForm from './LoginForm'
 import { translations } from '../translations'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 
 export default function Header() {
   const [visible, setVisible] = useState(false)
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false)
+  const [isLogin, setIsLogin] = useState(false)
 
   const handleSuccess = () => {
     setIsRegistered(true)
+  }
+
+  const handleToggleForm = () => {
+    setIsLogin(!isLogin)
   }
 
   return (
@@ -26,7 +32,7 @@ export default function Header() {
           <Dialog
               className="responsive-dialog"
               visible={visible}
-              header={ translations.header.registerDialogTitle }
+              header={ isLogin ? translations.header.loginDialogTitle : translations.header.registerDialogTitle }
               draggable={false}
               style={{
                 height: 'auto',
@@ -43,7 +49,19 @@ export default function Header() {
                   }} />
                 </div>
             ) : (
-                <RegisterForm onSuccess={ handleSuccess } />
+              <div>
+                {isLogin ? (
+                  <LoginForm onSuccess={ handleSuccess } />
+                ) : (
+                  <RegisterForm onSuccess={ handleSuccess } />
+                )}
+                <span
+                  className="cursor-pointer mt-4 block text-center text-xs"
+                  onClick={ handleToggleForm }
+                >
+                  { isLogin ? translations.login.register : translations.register.login }
+                </span>
+              </div>
             )}
           </Dialog>
         </div>

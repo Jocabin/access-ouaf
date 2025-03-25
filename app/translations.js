@@ -1,6 +1,7 @@
 export const translations = {
   header: {
     registerDialogTitle: "Inscription",
+    loginDialogTitle: "Connexion",
     registerSuccessMessage:
       "Inscription réussie, vérifiez votre boîte mail pour activer votre compte.",
     closeButton: "Fermer",
@@ -46,14 +47,12 @@ export const translations = {
     logIn: "Se connecter",
     createAccount: "Créer un compte",
   },
-  pages: {
-    loginPage: {
-      title: "Se connecter",
-      email: "E-mail",
-      password: "Mot de passe",
-      signUp: "Ou inscrivez-vous",
-      placeholder: "exemple@mail.fr"
-    },
+  login: {
+    loginButton: "Se connecter",
+    email: "E-mail",
+    password: "Mot de passe",
+    register: "Pas encore de compte ? Inscrivez-vous !",
+    placeholder: "exemple@mail.fr"
   },
   register: {
     displayName: "Nom / Prénom",
@@ -71,5 +70,6 @@ export const translations = {
     networkError: "Une erreur est survenue lors de l'inscription",
     successSummary: "Succès",
     errorSummary: "Erreur",
+    login: "Déjà un compte ? Connectez-vous !",
   },
 }

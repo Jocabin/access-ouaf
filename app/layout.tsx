@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import "./globals.css"
+import { supabase } from '@/utils/supabaseClient'
 import Script from "next/script"
 import Header from "./components/Header"
 import Searchbar from "./components/Searchbar"
@@ -13,6 +14,13 @@ export const metadata: Metadata = {
   title: "Access-Ouaf",
   description: "A school project",
 }
+
+async function checkSession() {
+  const { data: { session } } = await supabase.auth.getSession()
+  console.log(session)
+}
+
+checkSession()
 
 export default function RootLayout({
   children,
