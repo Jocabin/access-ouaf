@@ -13,6 +13,7 @@ export default function Header() {
   const [isRegistered, setIsRegistered] = useState(false)
   const [isLogin, setIsLogin] = useState(false)
   const { user, loading } = useAuth()
+  console.log(user)
 
   const handleSuccess = () => {
     setIsRegistered(true)

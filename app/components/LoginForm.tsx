@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import Cookies from 'js-cookie'
+import validator from 'validator'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
@@ -25,12 +26,17 @@ const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
         e.preventDefault()
         setLoading(true)
         try {
+            const validData = {
+                email: validator.normalizeEmail(formData.email, { gmail_remove_dots: false }),
+                password: formData.password,
+            }
+
             const response = await fetch('/api/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(validData),
             })
 
             const data = await response.json()
@@ -41,7 +47,6 @@ const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
                     Cookies.set('access_token', accessToken, {
                         expires: 1 / 24,
                         secure: process.env.NODE_ENV === 'production',
-                        httpOnly: true,
                         sameSite: 'strict',
                         path: '/',
                     })
