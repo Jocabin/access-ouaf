@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
+import { cookies } from "next/headers"
 import "./globals.css"
-import { supabase } from '@/utils/supabaseClient'
+import AuthProvider from './components/AuthProvider'
 import Script from "next/script"
 import Header from "./components/Header"
 import Searchbar from "./components/Searchbar"
@@ -15,35 +16,30 @@ export const metadata: Metadata = {
   description: "A school project",
 }
 
-async function checkSession() {
-  const { data: { session } } = await supabase.auth.getSession()
-  console.log(session)
-}
+export default async function RootLayout({children}: Readonly<{ children: React.ReactNode }>) {
+  const jwt = await cookies().get('jwt')?.value || null
 
-checkSession()
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
   return (
-    <html lang="en">
+      <html lang="en">
       <Script
-        src="https://kit.fontawesome.com/123bd410f9.js"
-        crossOrigin="anonymous"
+          src="https://kit.fontawesome.com/123bd410f9.js"
+          crossOrigin="anonymous"
       />
       <body>
-        <PrimeReactProvider>
+      <PrimeReactProvider>
+        <AuthProvider jwt={jwt}>
           <div className="main--container">
-            <Header />
-            <Searchbar />
-            <HeaderMenu />
-            <div className="main--content">{children}</div>
-            <Footer />
+            <Header/>
+            <Searchbar/>
+            <HeaderMenu/>
+            <div className="main--content">
+              {children}
+            </div>
+            <Footer/>
           </div>
-        </PrimeReactProvider>
+        </AuthProvider>
+      </PrimeReactProvider>
       </body>
-    </html>
+      </html>
   )
 }

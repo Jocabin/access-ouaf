@@ -6,11 +6,13 @@ import LoginForm from './LoginForm'
 import { translations } from '../translations'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
+import { useAuth } from './AuthProvider'
 
 export default function Header() {
   const [visible, setVisible] = useState(false)
   const [isRegistered, setIsRegistered] = useState(false)
   const [isLogin, setIsLogin] = useState(false)
+  const { user, loading } = useAuth()
 
   const handleSuccess = () => {
     setIsRegistered(true)

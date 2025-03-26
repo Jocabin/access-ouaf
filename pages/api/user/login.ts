@@ -21,9 +21,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (error) {
         return res.status(401).json({ error: error.message || 'Identifiants invalides' })
       }
+
+      const jwt = data?.session?.access_token
+      if (jwt) {
+        res.setHeader('Set-Cookie', `jwt=${jwt} HttpOnly Path=/ Max-Age=3600`)
+      }
+
       return res.status(200).json({
         data: {
-          access_token: data?.session?.access_token,
           user: data?.user,
         },
         message: 'Connexion réussie',
