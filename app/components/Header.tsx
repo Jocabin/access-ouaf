@@ -16,6 +16,31 @@ export default function Header() {
   const { user } = useAuth()
   const menu = useRef(null)
 
+  const handleSuccess = () => {
+    setIsRegistered(true)
+  }
+
+  const handleToggleForm = () => {
+    setIsLogin(!isLogin)
+  }
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/user/logout', {
+        method: 'POST',
+        credentials: 'include',
+      })
+
+      if (!response.ok) {
+        throw new Error('Échec de la déconnexion')
+      }
+
+      window.location.reload()
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion:', error)
+    }
+  }
+
   const items = [
     {
       label: 'Dashboard',
@@ -25,17 +50,9 @@ export default function Header() {
     {
       label: 'Déconnexion',
       icon: 'pi pi-sign-out',
-      url: '/'
+      command: handleLogout
     }
   ]
-
-  const handleSuccess = () => {
-    setIsRegistered(true)
-  }
-
-  const handleToggleForm = () => {
-    setIsLogin(!isLogin)
-  }
 
   return (
     <>
