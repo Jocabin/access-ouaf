@@ -18,23 +18,28 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children, jwt }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        async function checkSession() {
-            if (jwt) {
-                const { data: { user }, error } = await supabase.auth.getUser(jwt)
-                if (error) {
-                    console.error("Erreur lors de la récupération de l'utilisateur :", error)
-                }
-                setUser(user ?? null)
+    const fetchUser = async (jwt) => {
+        if (jwt) {
+            const { data: { user }, error } = await supabase.auth.getUser(jwt)
+            if (error) {
+                console.error("Erreur lors de la récupération de l'utilisateur :", error)
             }
-            setLoading(false)
+            setUser(user ?? null)
         }
+        setLoading(false)
+    }
 
-        checkSession()
+    useEffect(() => {
+        fetchUser(jwt)
     }, [jwt])
 
+    const refreshUser = async (jwt) => {
+        console.log(jwt)
+        await fetchUser(jwt)
+    }
+
     return (
-        <AuthContext.Provider value={{ user, loading }}>
+        <AuthContext.Provider value={{ user, loading, refreshUser }}>
             {children}
         </AuthContext.Provider>
     )

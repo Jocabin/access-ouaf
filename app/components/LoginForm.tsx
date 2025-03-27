@@ -5,7 +5,7 @@ import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import { translations } from '../translations'
 
-const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
+const LoginForm = ({ onSuccess }: { onSuccess }) => {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -38,10 +38,10 @@ const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
                 body: JSON.stringify(validData),
             })
 
-            const data = await response.json()
+            const { data } = await response.json()
 
             if (response.ok) {
-                onSuccess()
+                onSuccess(data.jwt)
                 toast.current?.show({
                     severity: 'success',
                     summary: translations.register.successSummary,

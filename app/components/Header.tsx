@@ -13,12 +13,13 @@ export default function Header() {
   const [visible, setVisible] = useState(false)
   const [isRegistered, setIsRegistered] = useState(false)
   const [isLogin, setIsLogin] = useState(true)
-  const { user } = useAuth()
+  const { user, refreshUser } = useAuth()
   const menu = useRef(null)
 
-  const handleSuccessLogin = () => {
+  const handleSuccessLogin = async (jwt) => {
     setIsRegistered(true)
     setVisible(false)
+    await refreshUser(jwt)
   }
 
   const handleSuccessRegister = () => {

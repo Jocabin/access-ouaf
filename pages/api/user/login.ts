@@ -30,6 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json({
         data: {
           user: data?.user,
+          jwt: jwt
         },
         message: 'Connexion réussie',
       })
