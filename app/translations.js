@@ -11,6 +11,7 @@ export const translations = {
     addProduct: "Ajouter un produit",
     messages: "Messagerie",
     favorites: "Favoris",
+    logout: "Déconnexion",
   },
   search: {
     placeholder: "Rechercher",

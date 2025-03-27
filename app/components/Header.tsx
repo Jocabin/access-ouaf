@@ -16,7 +16,12 @@ export default function Header() {
   const { user } = useAuth()
   const menu = useRef(null)
 
-  const handleSuccess = () => {
+  const handleSuccessLogin = () => {
+    setIsRegistered(true)
+    setVisible(false)
+  }
+
+  const handleSuccessRegister = () => {
     setIsRegistered(true)
   }
 
@@ -43,12 +48,12 @@ export default function Header() {
 
   const items = [
     {
-      label: 'Dashboard',
+      label: translations.nav.account,
       icon: 'pi pi-home',
       url: '/'
     },
     {
-      label: 'Déconnexion',
+      label: translations.nav.logout,
       icon: 'pi pi-sign-out',
       command: handleLogout
     }
@@ -75,20 +80,20 @@ export default function Header() {
               }}
               onHide={() => setVisible(false)}
           >
-            {isRegistered ? (
+            {isRegistered && !isLogin ? (
                 <div>
                     <p>{translations.header.registerSuccessMessage}</p>
                     <Button label={ translations.header.closeButton } className="w-full mt-4" onClick={() => {
-                    setVisible(false);
-                    setIsRegistered(false);
-                  }} />
+                      setVisible(false);
+                      setIsRegistered(false);}}
+                    />
                 </div>
             ) : (
               <div>
                 {isLogin ? (
-                  <LoginForm onSuccess={ handleSuccess } />
+                  <LoginForm onSuccess={ handleSuccessLogin } />
                 ) : (
-                  <RegisterForm onSuccess={ handleSuccess } />
+                  <RegisterForm onSuccess={ handleSuccessRegister } />
                 )}
                 <span
                   className="cursor-pointer mt-4 block text-center text-xs"
