@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const jwt = data?.session?.access_token
       if (jwt) {
-        res.setHeader('Set-Cookie', `jwt=${jwt} HttpOnly Path=/ Max-Age=3600`)
+        res.setHeader('Set-Cookie', `jwt=${jwt}; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=${new Date(Date.now() + 3600000).toUTCString()}`)
       }
 
       return res.status(200).json({

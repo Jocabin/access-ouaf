@@ -1,19 +1,33 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Logo from "./Logo"
 import RegisterForm from './RegisterForm'
 import LoginForm from './LoginForm'
 import { translations } from '../translations'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
+import { TieredMenu } from 'primereact/tieredmenu'
 import { useAuth } from './AuthProvider'
 
 export default function Header() {
   const [visible, setVisible] = useState(false)
   const [isRegistered, setIsRegistered] = useState(false)
-  const [isLogin, setIsLogin] = useState(false)
-  const { user, loading } = useAuth()
-  console.log(user)
+  const [isLogin, setIsLogin] = useState(true)
+  const { user } = useAuth()
+  const menu = useRef(null)
+
+  const items = [
+    {
+      label: 'Dashboard',
+      icon: 'pi pi-home',
+      url: '/'
+    },
+    {
+      label: 'Déconnexion',
+      icon: 'pi pi-sign-out',
+      url: '/'
+    }
+  ]
 
   const handleSuccess = () => {
     setIsRegistered(true)
@@ -31,7 +45,8 @@ export default function Header() {
         <div className="header--icons">
           <Button icon="fa-regular fa-heart" text onClick={() => null} />
           <Button icon="fa-regular fa-paper-plane" text onClick={() => null} />
-          <Button icon="pi pi-user" text onClick={() => setVisible(true)} />
+          <TieredMenu model={ items } popup ref={ menu } breakpoint="767px" />
+          <Button icon="pi pi-user" text onClick={ (e) => user === null ? setVisible(true) :  menu.current.toggle(e) } />
           <Dialog
               className="responsive-dialog"
               visible={visible}

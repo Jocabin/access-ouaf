@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react'
-import Cookies from 'js-cookie'
 import validator from 'validator'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
@@ -42,15 +41,6 @@ const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
             const data = await response.json()
 
             if (response.ok) {
-                const accessToken = data.data.access_token
-                if (accessToken) {
-                    Cookies.set('access_token', accessToken, {
-                        expires: 1 / 24,
-                        secure: process.env.NODE_ENV === 'production',
-                        sameSite: 'strict',
-                        path: '/',
-                    })
-                }
                 onSuccess()
                 toast.current?.show({
                     severity: 'success',
