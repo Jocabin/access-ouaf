@@ -16,8 +16,9 @@ export const metadata: Metadata = {
   description: "A school project",
 }
 
-export default async function RootLayout({children}: Readonly<{ children: React.ReactNode }>) {
-  const jwt = await cookies().get('jwt')?.value || null
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+    const cookieStore = cookies()
+    const jwt = (await cookieStore).get('jwt')?.value || undefined
 
   return (
       <html lang="en">

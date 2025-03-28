@@ -290,6 +290,11 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
+"@types/validator@^13.12.3":
+  version "13.12.3"
+  resolved "https://registry.npmjs.org/@types/validator/-/validator-13.12.3.tgz"
+  integrity sha512-2ipwZ2NydGQJImne+FhNdhgRM37e9lCev99KnqkbFHd94Xn/mErARWI1RSLem1QA19ch5kOhzIZd7e8CA2FI8g==
+
 "@types/ws@^8.5.10":
   version "8.5.13"
   resolved "https://registry.npmjs.org/@types/ws/-/ws-8.5.13.tgz"

@@ -1,10 +1,12 @@
 'use client'
 import React, { useState, useEffect, ReactNode, createContext, useContext } from 'react'
 import { supabase } from '@/utils/supabaseClient'
+import { User } from '@supabase/supabase-js'
 
 interface AuthContextType {
-    user: never
+    user: User | null
     loading: boolean
+    refreshUser?: (jwt: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -15,10 +17,10 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children, jwt }) => {
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
 
-    const fetchUser = async (jwt) => {
+    const fetchUser = async (jwt: string) => {
         if (jwt) {
             const { data: { user }, error } = await supabase.auth.getUser(jwt)
             if (error) {
@@ -30,10 +32,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children, jwt }) => {
     }
 
     useEffect(() => {
-        fetchUser(jwt)
+        fetchUser(jwt ?? '')
     }, [jwt])
 
-    const refreshUser = async (jwt) => {
+    const refreshUser = async (jwt: string) => {
         console.log(jwt)
         await fetchUser(jwt)
     }

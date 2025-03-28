@@ -5,7 +5,7 @@ import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import { translations } from '../translations'
 
-const LoginForm = ({ onSuccess }: { onSuccess }) => {
+const LoginForm = ({ onSuccess }: { onSuccess: (jwt: string) => void }) => {
     const [formData, setFormData] = useState({
         email: '',
         password: ''

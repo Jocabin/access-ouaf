@@ -14,12 +14,14 @@ export default function Header() {
   const [isRegistered, setIsRegistered] = useState(false)
   const [isLogin, setIsLogin] = useState(true)
   const { user, refreshUser } = useAuth()
-  const menu = useRef(null)
+  const menu = useRef<TieredMenu>(null)
 
-  const handleSuccessLogin = async (jwt) => {
+  const handleSuccessLogin = async (jwt: string) => {
     setIsRegistered(true)
     setVisible(false)
-    await refreshUser(jwt)
+    if (refreshUser) {
+      await refreshUser(jwt)
+    }
   }
 
   const handleSuccessRegister = () => {
@@ -69,7 +71,7 @@ export default function Header() {
           <Button icon="fa-regular fa-heart" text onClick={() => null} />
           <Button icon="fa-regular fa-paper-plane" text onClick={() => null} />
           <TieredMenu model={ items } popup ref={ menu } breakpoint="767px" />
-          <Button icon="pi pi-user" text onClick={ (e) => user === null ? setVisible(true) :  menu.current.toggle(e) } />
+          <Button icon="pi pi-user" text onClick={(e) => user === null ? setVisible(true) : menu.current?.toggle(e)} />
           <Dialog
               className="responsive-dialog"
               visible={visible}
