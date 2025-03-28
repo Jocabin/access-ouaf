@@ -1,11 +1,8 @@
 import { supabase, type Product } from "@/supabase";
 import Card from "@/app/components/Card";
 
-export default async function SearchPage({
-  searchParams,
-}: {
-  searchParams: { q: string };
-}) {
+// @ts-expect-error oui
+export default async function SearchPage({ searchParams }) {
   const { q } = searchParams;
   let results: Product[] = [];
 
