@@ -30,7 +30,13 @@ export default function Searchbar() {
   );
 
   return (
-    <form className="searchbar__form">
+    <form
+      className="searchbar__form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        router.push(`/search?q=${encodeURIComponent(query)}`);
+      }}
+    >
       <input
         className="searchbar__input"
         type="text"
