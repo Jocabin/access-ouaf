@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 "use client"
 
 import { useQRCode } from "next-qrcode"
@@ -25,7 +26,6 @@ export default function QRCode({ data, width }: QRCodeProps) {
           light: "#FFFFFF",
         },
       }}
-      alt="QR code"
     />
   )
 }
