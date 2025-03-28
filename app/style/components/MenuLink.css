@@ -3,7 +3,7 @@
     padding: 10px 15px;
     color: var(--black);
     text-decoration: none;
-    font-weight: var(--bold700);
+    font-weight: var(--bold-700);
 }
 
 .menu__link:hover {
