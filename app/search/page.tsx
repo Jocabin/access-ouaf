@@ -4,19 +4,19 @@ import Card from "@/app/components/Card";
 
 // @ts-expect-error oui
 export default async function SearchPage({ searchParams }) {
-  const { q } = searchParams;
-  let results: Product[] = [];
+  const { q } = searchParams
+  let results: Product[] = []
 
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("products")
     .select("*")
-    .textSearch("name", q);
+    .textSearch("name", q)
 
   if (error) {
-    console.error("Error performing search:", error);
+    console.error("Error performing search:", error)
   } else {
-    results = data;
+    results = data
   }
 
   return (
@@ -38,5 +38,5 @@ export default async function SearchPage({ searchParams }) {
         ))}
       </div>
     </>
-  );
+  )
 }
