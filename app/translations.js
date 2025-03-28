@@ -73,6 +73,12 @@ export const translations = {
     errorSummary: "Erreur",
     login: "Déjà un compte ? Connectez-vous !",
   },
+  titles: {
+    categorie: "Catégorie",
+  },
+  text: {
+    results: "résultats",
+  },
   petProfile: {
     loginErrorMessage: "Vous devez être connecté pour créer un profil d'animal",
     errorMessage: "Une erreur est survenue lors de la création de la fiche",

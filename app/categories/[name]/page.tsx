@@ -1,6 +1,8 @@
-import { supabase } from "@/supabase"
-import { redirect } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
+import { getCategoryByName } from "@/services/categories.service"
+import { getProductsByCategory } from "@/services/products.service"
+import Card from "@/app/components/Card"
+import { translations } from "@/app/translations"
 
 export default async function CategoryPage({
   params,
@@ -8,25 +10,41 @@ export default async function CategoryPage({
   params: Promise<{ name: string }>
 }) {
   const { name } = await params
-  const { data, error } = await supabase
-    .from("categories")
-    .select()
-    .eq("name", name)
 
-  if (!data?.length || error) {
-    redirect("/")
-  }
+  const category = await getCategoryByName(name)
 
-  const categoryName = capitalizeFirstLetter(data[0].name)
-  const description = capitalizeFirstLetter(data[0].description)
+  const categoryName = capitalizeFirstLetter(category.name)
+  const description = capitalizeFirstLetter(category.description)
 
-  //   const { products } = await supabase.from("products").select().eq()
+  const products = await getProductsByCategory(category.id)
 
   return (
     <>
       <>
-        <h1>{categoryName}</h1>
+        <h1>
+          {translations.titles.categorie} &quot;{categoryName}&quot;
+        </h1>
         <p>{description}.</p>
+        <p>
+          {products.length} {translations.text.results}
+        </p>
+
+        <div className="products-grid-home">
+          {products.map(({ products }) => {
+            const product = Array.isArray(products) ? products[0] : products
+            return (
+              <Card
+                href={`/items/${product.slug}`}
+                key={product.id}
+                imageUrl={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${product.img}`}
+                title={product.name}
+                price={`${product.price} €`}
+                width={139}
+                height={241}
+              />
+            )
+          })}
+        </div>
       </>
     </>
   )
