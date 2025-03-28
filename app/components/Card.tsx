@@ -19,7 +19,7 @@ export default function Card({
   href,
 }: CardProps) {
   return (
-    <Link href={href} className="card">
+    <Link href={href} className="card text-black no-underline">
       <div className="card-div">
         <Image
           src={imageUrl}
