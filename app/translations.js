@@ -1,6 +1,7 @@
 export const translations = {
   header: {
     registerDialogTitle: "Inscription",
+    loginDialogTitle: "Connexion",
     registerSuccessMessage:
       "Inscription réussie, vérifiez votre boîte mail pour activer votre compte.",
     closeButton: "Fermer",
@@ -10,12 +11,14 @@ export const translations = {
     addProduct: "Ajouter un produit",
     messages: "Messagerie",
     favorites: "Favoris",
+    logout: "Déconnexion",
   },
   search: {
     placeholder: "Rechercher",
   },
   button: {
     addItem: "Créer une annonce",
+    login: "Se connecter",
   },
   categories: {
     dog: "Chien",
@@ -45,6 +48,13 @@ export const translations = {
     logIn: "Se connecter",
     createAccount: "Créer un compte",
   },
+  login: {
+    loginButton: "Se connecter",
+    email: "E-mail",
+    password: "Mot de passe",
+    register: "Pas encore de compte ? Inscrivez-vous !",
+    placeholder: "exemple@mail.fr"
+  },
   register: {
     displayName: "Nom / Prénom",
     email: "Email",
@@ -61,5 +71,6 @@ export const translations = {
     networkError: "Une erreur est survenue lors de l'inscription",
     successSummary: "Succès",
     errorSummary: "Erreur",
+    login: "Déjà un compte ? Connectez-vous !",
   },
-};
+}

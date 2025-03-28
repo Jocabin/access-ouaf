@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import validator from 'validator'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
@@ -29,13 +30,44 @@ const RegisterForm = ({ onSuccess }: { onSuccess: () => void }) => {
         const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 e.preventDefault()
                 setLoading(true)
+                if (!validator.isEmail(formData.email)) {
+                    toast.current?.show({
+                        severity: 'error',
+                        summary: translations.register.errorSummary,
+                        detail: 'Email invalide.',
+                    })
+                    setLoading(false)
+                    return
+                }
+
+                if (!validator.isStrongPassword(formData.password, { minLength: 6, minNumbers: 1 })) {
+                    toast.current?.show({
+                        severity: 'error',
+                        summary: translations.register.errorSummary,
+                        detail: 'Le mot de passe doit contenir au moins 6 caractères et un chiffre.',
+                    })
+                    setLoading(false)
+                    return
+                }
+
+                const sanitizedData = {
+                    email: validator.normalizeEmail(formData.email, { gmail_remove_dots: false }),
+                    password: formData.password,
+                    display_name: validator.escape(formData.display_name),
+                    phone: validator.escape(formData.phone),
+                    address: validator.escape(formData.address),
+                    postal_code: validator.escape(formData.postal_code),
+                    country: validator.escape(formData.country),
+                    city: validator.escape(formData.city),
+                }
+
                 try {
                         const response = await fetch('/api/user/register', {
                                 method: 'POST',
                                 headers: {
                                         'Content-Type': 'application/json',
                                 },
-                                body: JSON.stringify(formData),
+                                body: JSON.stringify(sanitizedData),
                         })
 
                         const data = await response.json()
