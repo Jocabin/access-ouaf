@@ -1,10 +1,9 @@
-import { PrimeReactProvider } from 'primereact/api'
-import Homepage from "./components/Homepage"
-import 'primereact/resources/themes/saga-orange/theme.css'
-import 'primeicons/primeicons.css'
+import { PrimeReactProvider } from "primereact/api";
+import Homepage from "./components/Homepage";
+import "primereact/resources/themes/saga-orange/theme.css";
+import "primeicons/primeicons.css";
 
 export default async function Home() {
-
   return (
     <>
       <PrimeReactProvider>
@@ -15,5 +14,5 @@ export default async function Home() {
         </div>
       </PrimeReactProvider>
     </>
-  )
+  );
 }
