@@ -1,6 +1,6 @@
 import { supabase } from "@/supabase"
 import { redirect } from "next/navigation"
-import { capitalizeFirstLetter } from "@/app/utils/helpers"
+import { capitalizeFirstLetter } from "@/utils/helpers"
 
 export default async function CategoryPage({
   params,
