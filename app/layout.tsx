@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import "./globals.css";
-import AuthProvider from "./components/AuthProvider";
 import Script from "next/script";
 import Header from "./components/Header";
 import Searchbar from "./components/Searchbar";
@@ -23,11 +21,8 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const cookieStore = cookies();
-  const jwt = (await cookieStore).get("jwt")?.value || undefined;
-
   return (
-    <html lang="en">
+    <html lang="fr">
       <Script
         src="https://kit.fontawesome.com/123bd410f9.js"
         crossOrigin="anonymous"
@@ -42,15 +37,13 @@ export default async function RootLayout({
         }
       >
         <PrimeReactProvider>
-          <AuthProvider jwt={jwt}>
-            <div className="main--container">
-              <Header />
-              <Searchbar />
-              <HeaderMenu />
-              <div className="main--content">{children}</div>
-              <Footer />
-            </div>
-          </AuthProvider>
+          <div className="main--container">
+            <Header />
+            <Searchbar />
+            <HeaderMenu />
+            <div className="main--content">{children}</div>
+            <Footer />
+          </div>
         </PrimeReactProvider>
       </body>
     </html>
