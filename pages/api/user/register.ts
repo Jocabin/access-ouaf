@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
-export const supabase = createClient(supabaseUrl, supabaseKey)
+import { createClient } from "@/utils/supabase/server";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+        const supabase = await createClient()
+
         if (req.method === 'POST') {
                 const { display_name, email, password, phone, address, postal_code, country, city } = req.body
 
