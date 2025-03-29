@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { translations } from "../translations";
 import Button from "./Button";
-import { getAllProducts } from "@/supabase";
+import { createClient } from "@/utils/supabase/server";
 import Card from "./Card";
 
 export default async function Homepage() {
   const logoUrl = "/assets/chat-homepage.jpg";
-  const products = await getAllProducts();
+  const supabase = await createClient();
+  const products = await supabase.from("products").select();
 
   return (
     <>
