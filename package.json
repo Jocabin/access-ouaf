@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@supabase/ssr": "github:supabase/ssr",
-    "@supabase/supabase-js": "^2.46.2",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.3",
     "js-cookie": "^3.0.5",
     "next": "15.0.3",
     "next-qrcode": "^2.5.1",
