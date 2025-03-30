@@ -4,7 +4,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { translations } from "../translations";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/src/utils/supabase/client";
 
 const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const supabase = createClient();

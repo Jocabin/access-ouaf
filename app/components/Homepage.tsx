@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { translations } from "../translations";
 import Button from "./Button";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/src/utils/supabase/server";
 import Card from "./Card";
 
 export default async function Homepage() {

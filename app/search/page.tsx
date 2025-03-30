@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/src/utils/supabase/server";
 import type { Product } from "@/types";
 import Card from "@/app/components/Card";
 

@@ -9,6 +9,7 @@ import { PrimeReactProvider } from "primereact/api";
 import "primereact/resources/themes/saga-orange/theme.css";
 import "primeicons/primeicons.css";
 import { Urbanist, Quicksand } from "next/font/google";
+import { Suspense } from "react";
 
 const urbanist = Urbanist({ weight: "600", subsets: ["latin"] });
 const quicksand = Quicksand({ subsets: ["latin"] });
@@ -39,7 +40,9 @@ export default async function RootLayout({
         <PrimeReactProvider>
           <div className="main--container">
             <Header />
-            <Searchbar />
+            <Suspense>
+              <Searchbar />
+            </Suspense>
             <HeaderMenu />
             <div className="main--content">{children}</div>
             <Footer />
