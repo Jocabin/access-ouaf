@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import validator from "validator";
+import { createClient } from "@/utils/supabase/client";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
@@ -40,12 +41,8 @@ const RegisterForm = ({ onSuccess }: { onSuccess: () => void }) => {
       return;
     }
 
-    if (
-      !validator.isStrongPassword(formData.password, {
-        minLength: 6,
-        minNumbers: 1,
-      })
-    ) {
+    const password = formData.password.trim();
+    if (password.length < 6) {
       toast.current?.show({
         severity: "error",
         summary: translations.register.errorSummary,
@@ -70,28 +67,45 @@ const RegisterForm = ({ onSuccess }: { onSuccess: () => void }) => {
     };
 
     try {
-      const response = await fetch("/api/user/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      if (sanitizedData.email === false) {
+        return;
+      }
+      const supabase = await createClient();
+      const user = await supabase.auth.signUp({
+        email: sanitizedData.email,
+        password: sanitizedData.password,
+        options: {
+          data: {
+            display_name: sanitizedData.display_name,
+            phone: sanitizedData.phone || null,
+          },
         },
-        body: JSON.stringify(sanitizedData),
       });
 
-      const data = await response.json();
+      const userId = user.data?.user?.id;
 
-      if (response.ok) {
+      const addressData = {
+        auth_id: userId,
+        address: sanitizedData.address ?? {},
+        postal_code: sanitizedData.postal_code ?? {},
+        country: sanitizedData.country ?? {},
+        city: sanitizedData.city ?? {},
+      };
+
+      const { error } = await supabase.from("addresses").insert([addressData]);
+
+      if (error) {
+        toast.current?.show({
+          severity: "error",
+          summary: translations.register.errorSummary,
+          detail: error.message || translations.register.errorMessage,
+        });
+      } else {
         onSuccess();
         toast.current?.show({
           severity: "success",
           summary: translations.register.successSummary,
-          detail: data.message || translations.register.successMessage,
-        });
-      } else {
-        toast.current?.show({
-          severity: "error",
-          summary: translations.register.errorSummary,
-          detail: data.error || translations.register.errorMessage,
+          detail: translations.register.successMessage,
         });
       }
     } catch (error) {
