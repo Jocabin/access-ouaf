@@ -3,6 +3,8 @@
 import { translations } from "../translations";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
+import { Suspense } from "react";
+
 export default function Searchbar() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -30,26 +32,28 @@ export default function Searchbar() {
   );
 
   return (
-    <form
-      className="searchbar__form"
-      onSubmit={(e) => {
-        e.preventDefault();
-        router.push(`/search?q=${encodeURIComponent(query)}`);
-      }}
-    >
-      <input
-        className="searchbar__input"
-        type="text"
-        id="textInput"
-        required
-        value={query}
-        placeholder={translations.search.placeholder}
-        onChange={handleKeyPress}
-      />
+    <Suspense>
+      <form
+        className="searchbar__form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          router.push(`/search?q=${encodeURIComponent(query)}`);
+        }}
+      >
+        <input
+          className="searchbar__input"
+          type="text"
+          id="textInput"
+          required
+          value={query}
+          placeholder={translations.search.placeholder}
+          onChange={handleKeyPress}
+        />
 
-      <button type="submit" className="searchbar__button">
-        <i className="fa fa-search"></i>
-      </button>
-    </form>
+        <button type="submit" className="searchbar__button">
+          <i className="fa fa-search"></i>
+        </button>
+      </form>
+    </Suspense>
   );
 }
