@@ -1,4 +1,5 @@
-import { supabase, type Product } from "@/supabase";
+import { createClient } from "@/src/utils/supabase/server";
+import type { Product } from "@/types";
 import Card from "@/app/components/Card";
 
 // @ts-expect-error oui
@@ -6,6 +7,7 @@ export default async function SearchPage({ searchParams }) {
   const { q } = searchParams;
   let results: Product[] = [];
 
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("products")
     .select("*")

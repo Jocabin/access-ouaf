@@ -3,6 +3,7 @@
 import { translations } from "../translations";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
+
 export default function Searchbar() {
   const router = useRouter();
   const searchParams = useSearchParams();
