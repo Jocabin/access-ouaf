@@ -36,7 +36,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children, jwt }) => {
     }, [jwt])
 
     const refreshUser = async (jwt: string) => {
-        console.log(jwt)
         await fetchUser(jwt)
     }
 

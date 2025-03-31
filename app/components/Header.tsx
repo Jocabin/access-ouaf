@@ -51,9 +51,15 @@ export default function Header() {
 
   const items = [
     {
+      label: `Bonjour ${ user?.user_metadata.display_name }`
+    },
+    {
+      separator: true
+    },
+    {
       label: translations.nav.account,
       icon: 'pi pi-home',
-      url: '/'
+      url: '/dashboard'
     },
     {
       label: translations.nav.logout,
