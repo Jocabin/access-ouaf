@@ -12,7 +12,7 @@ const footerInfo = (
 
 const footerCommandes = (
     <>
-        <a href="/dashboard/account" rel="noopener noreferrer" className="p-button">
+        <a href="" rel="noopener noreferrer" className="p-button">
             Accéder
         </a>
     </>
@@ -20,15 +20,15 @@ const footerCommandes = (
 
 const footerAnimaux = (
     <>
-        <a href="/dashboard/account" rel="noopener noreferrer" className="p-button">
+        <a href="" rel="noopener noreferrer" className="p-button">
             Accéder
         </a>
     </>
 )
 
-const footerJSP = (
+const footerAnnonces = (
     <>
-        <a href="/dashboard/account" rel="noopener noreferrer" className="p-button">
+        <a href="" rel="noopener noreferrer" className="p-button">
             Accéder
         </a>
     </>
@@ -44,12 +44,12 @@ export default async function DashboardPage() {
                         <div className="flex flex-wrap gap-4">
                             <div className="flex space-x-4">
                                 <Card title="Vos informations" footer={ footerInfo } className="flex-1">
-                                    <p className="m-0">
-                                        Consultez ou modifiez vos données personnelles
+                                    <p>
+                                        Consultez ou modifiez vos données personnelles.
                                     </p>
                                 </Card>
                                 <Card title="Vos commandes" footer={ footerCommandes } className="flex-1">
-                                    <p className="m-0">
+                                    <p>
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
                                         consequuntur error repudiandae
                                         numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa
@@ -59,15 +59,15 @@ export default async function DashboardPage() {
                             </div>
                             <div className="flex space-x-4">
                                 <Card title="Vos animaux" footer={ footerAnimaux } className="flex-1">
-                                    <p className="m-0">
+                                    <p>
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
                                         consequuntur error repudiandae
                                         numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa
                                         ratione quam perferendis esse, cupiditate neque quas!
                                     </p>
                                 </Card>
-                                <Card title="Vos je sais pas" footer={ footerJSP } className="flex-1">
-                                    <p className="m-0">
+                                <Card title="Vos annonces" footer={ footerAnnonces } className="flex-1">
+                                    <p>
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
                                         consequuntur error repudiandae
                                         numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa
