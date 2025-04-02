@@ -22,6 +22,7 @@ export default async function AccountPage() {
                                 <UserAccount
                                     name={user.user_metadata.display_name}
                                     email={user.user_metadata.email}
+                                    phone={user.user_metadata.phone}
                                 />
                             ) : (
                                 <p>Utilisateur non connecté</p>
