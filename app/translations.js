@@ -73,4 +73,34 @@ export const translations = {
     errorSummary: "Erreur",
     login: "Déjà un compte ? Connectez-vous !",
   },
+  dashboard: {
+    title: "Votre espace client",
+    cardInformationsContent: "Consultez ou modifiez vos données personnelles.",
+    cardCommandesContent: "Lorem ipsum dolor sit amet, consectetur adipisicing elit." +
+        "Inventore sed consequuntur errorrepudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis," +
+        "culpa ratione quam perferendis esse, cupiditate neque quas!",
+    cardAnimauxContent: "Lorem ipsum dolor sit amet, consectetur adipisicing elit." +
+        "Inventore sed consequuntur errorrepudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis," +
+        "culpa ratione quam perferendis esse, cupiditate neque quas!",
+    cardAnnoncesContent: "Lorem ipsum dolor sit amet, consectetur adipisicing elit." +
+        "Inventore sed consequuntur errorrepudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis," +
+        "culpa ratione quam perferendis esse, cupiditate neque quas!",
+    btnCardFooter: "Accéder",
+    accountPage: {
+      titlePage: "Votre compte",
+      userNotLogin: "Utilisateur non connecté",
+      userAccountComponent: {
+        cardTitle: "Informations personnelles",
+        nameLabel: "Nom",
+        emailLabel: "Email",
+        phoneLabel: "Téléphone",
+        saveButton: "Enregistrer"
+      },
+      resetPassword: {
+        cardTitle: "Mot de passe",
+        passwordLabel: "Nouveau mot de passe",
+        saveButton: "Modifier"
+      }
+    }
+  }
 }

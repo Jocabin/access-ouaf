@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
+import { translations } from '../translations'
 
 interface UserAccountProps {
     name: string
@@ -36,7 +37,6 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
             const result = await response.json()
     
             if (response.ok) {
-                console.log('Informations mises à jour avec succès')
                 setUserData((prev) => ({
                     ...prev,
                     name: result.data.user.user_metadata.display_name,
@@ -53,7 +53,7 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
     }
 
     return (
-        <Card title='Informations personnelles' className='flex-1'>
+        <Card title={ translations.dashboard.accountPage.userAccountComponent.cardTitle } className='flex-1'>
             <div className='flex justify-end mb-2'>
                 <Button
                     icon={isEditing ? 'pi pi-check' : 'pi pi-pencil'}
@@ -64,7 +64,7 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
             {isEditing ? (
                 <div className='p-fluid flex flex-col gap-4'>
                     <div className='p-field flex flex-col gap-2'>
-                        <label htmlFor='name'>Nom</label>
+                        <label htmlFor='name'>{ translations.dashboard.accountPage.userAccountComponent.nameLabel }</label>
                         <InputText
                             id='name'
                             name='name'
@@ -73,7 +73,7 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
                         />
                     </div>
                     <div className='p-field flex flex-col gap-2'>
-                        <label htmlFor='email'>Email</label>
+                        <label htmlFor='email'>{ translations.dashboard.accountPage.userAccountComponent.emailLabel }</label>
                         <InputText
                             id='email'
                             name='email'
@@ -82,7 +82,7 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
                         />
                     </div>
                     <div className='p-field flex flex-col gap-2'>
-                        <label htmlFor='phone'>Téléphone</label>
+                        <label htmlFor='phone'>{ translations.dashboard.accountPage.userAccountComponent.phoneLabel }</label>
                         <InputText
                             id='phone'
                             name='phone'
@@ -91,16 +91,16 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
                         />
                     </div>
                     <Button
-                        label='Enregistrer'
+                        label={ translations.dashboard.accountPage.userAccountComponent.saveButton }
                         className='p-button-primary mt-4'
                         onClick={updateUser}
                     />
                 </div>
             ) : (
                 <>
-                    <p>Nom: {userData.name}</p>
-                    <p>Email: {userData.email}</p>
-                    <p>Téléphone: {userData.phone}</p>
+                    <p>{ translations.dashboard.accountPage.userAccountComponent.nameLabel }: {userData.name}</p>
+                    <p>{ translations.dashboard.accountPage.userAccountComponent.emailLabel }: {userData.email}</p>
+                    <p>{ translations.dashboard.accountPage.userAccountComponent.phoneLabel }: {userData.phone}</p>
                 </>
             )}
         </Card>

@@ -5,6 +5,7 @@ import UserAccount from '@/app/components/UserAccount'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
+import { translations } from '../../translations'
 
 export default async function AccountPage() {
     const supabase = await createClient()
@@ -15,7 +16,7 @@ export default async function AccountPage() {
             <PrimeReactProvider>
                 <div className="main--container">
                     <div className="main--content">
-                        <h1 className="flex justify-center">Votre compte</h1>
+                        <h1 className="flex justify-center">{ translations.dashboard.accountPage.titlePage }</h1>
 
                         <div className="flex gap-4 flex-wrap">
                             {user ? (
@@ -25,16 +26,16 @@ export default async function AccountPage() {
                                     phone={user.user_metadata.phone}
                                 />
                             ) : (
-                                <p>Utilisateur non connecté</p>
+                                <p>{ translations.dashboard.accountPage.userNotLogin }</p>
                             )}
 
-                            <Card title="Mot de passe" className="flex-1">
+                            <Card title={ translations.dashboard.accountPage.resetPassword.cardTitle } className="flex-1">
                                 <div className="p-fluid">
                                     <div className="p-field flex flex-col gap-2">
-                                        <label htmlFor="password">Nouveau mot de passe</label>
+                                        <label htmlFor="password">{ translations.dashboard.accountPage.resetPassword.passwordLabel }</label>
                                         <InputText id="password" name="password" type="password" />
                                     </div>
-                                    <Button label="Modifier" className="p-button-warning mt-4" />
+                                    <Button label={ translations.dashboard.accountPage.resetPassword.saveButton } className="p-button-warning mt-4" />
                                 </div>
                             </Card>
                         </div>

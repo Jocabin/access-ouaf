@@ -1,11 +1,12 @@
 import { PrimeReactProvider } from 'primereact/api'
 import { Card } from 'primereact/card'
 import React from 'react'
+import { translations } from '../translations'
 
 const footerInfo = (
     <>
         <a href="/dashboard/account" rel="noopener noreferrer" className="p-button">
-            Accéder
+            { translations.dashboard.btnCardFooter }
         </a>
     </>
 )
@@ -13,7 +14,7 @@ const footerInfo = (
 const footerCommandes = (
     <>
         <a href="" rel="noopener noreferrer" className="p-button">
-            Accéder
+            { translations.dashboard.btnCardFooter }
         </a>
     </>
 )
@@ -21,7 +22,7 @@ const footerCommandes = (
 const footerAnimaux = (
     <>
         <a href="" rel="noopener noreferrer" className="p-button">
-            Accéder
+            { translations.dashboard.btnCardFooter }
         </a>
     </>
 )
@@ -29,7 +30,7 @@ const footerAnimaux = (
 const footerAnnonces = (
     <>
         <a href="" rel="noopener noreferrer" className="p-button">
-            Accéder
+            { translations.dashboard.btnCardFooter }
         </a>
     </>
 )
@@ -40,39 +41,22 @@ export default async function DashboardPage() {
             <PrimeReactProvider>
                 <div className="main--container">
                     <div className="main--content">
-                        <h1 className="flex justify-center">Votre espace client</h1>
+                        <h1 className="flex justify-center">{ translations.dashboard.title }</h1>
                         <div className="flex flex-wrap gap-4">
                             <div className="flex space-x-4">
                                 <Card title="Vos informations" footer={ footerInfo } className="flex-1">
-                                    <p>
-                                        Consultez ou modifiez vos données personnelles.
-                                    </p>
+                                    <p>{ translations.dashboard.cardInformationsContent }</p>
                                 </Card>
                                 <Card title="Vos commandes" footer={ footerCommandes } className="flex-1">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
-                                        consequuntur error repudiandae
-                                        numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa
-                                        ratione quam perferendis esse, cupiditate neque quas!
-                                    </p>
+                                    <p>{ translations.dashboard.cardCommandesContent }</p>
                                 </Card>
                             </div>
                             <div className="flex space-x-4">
                                 <Card title="Vos animaux" footer={ footerAnimaux } className="flex-1">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
-                                        consequuntur error repudiandae
-                                        numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa
-                                        ratione quam perferendis esse, cupiditate neque quas!
-                                    </p>
+                                    <p>{ translations.dashboard.cardAnimauxContent }</p>
                                 </Card>
                                 <Card title="Vos annonces" footer={ footerAnnonces } className="flex-1">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
-                                        consequuntur error repudiandae
-                                        numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa
-                                        ratione quam perferendis esse, cupiditate neque quas!
-                                    </p>
+                                    <p>{ translations.dashboard.cardAnnoncesContent }</p>
                                 </Card>
                             </div>
                         </div>
