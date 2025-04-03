@@ -5,7 +5,7 @@ import { Dropdown } from 'primereact/dropdown'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import { InputNumber } from 'primereact/inputnumber'
-import { supabase } from '@/utils/supabaseClient'
+import { createClient } from "@/src/utils/supabase/client";
 import { translations } from '../translations'
 
 interface PetProfileData {
@@ -23,6 +23,7 @@ interface PetProfileData {
     value: string;
   }
 const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData) => void }) => {
+    const supabase = createClient();
     const [formData, setFormData] = useState({
         name: '',
         species: '',
@@ -109,11 +110,11 @@ const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData
                     detail: translations.petProfile.successMessage,
                 })
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast.current?.show({
                 severity: 'error',
                 summary: translations.register.errorSummary,
-                detail: error.message || translations.petProfile.errorMessage,
+                detail: error instanceof Error ? error.message : translations.petProfile.errorMessage,
             })
             console.error('Erreur:', error)
         } finally {
