@@ -8,8 +8,21 @@ import { InputNumber } from 'primereact/inputnumber'
 import { supabase } from '@/utils/supabaseClient'
 import { translations } from '../translations'
 
-
-const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: any) => void }) => {
+interface PetProfileData {
+    name: string;
+    species: string;
+    breed: string;
+    age: number | null;
+    gender: string;
+    size: string;
+    description: string;
+  }
+  
+  interface DropdownOption {
+    label: string;
+    value: string;
+  }
+const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData) => void }) => {
     const [formData, setFormData] = useState({
         name: '',
         species: '',
@@ -49,7 +62,7 @@ const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: any) => void }
         })
     }
     
-    const handleDropdownChange = (name: string, value: any) => {
+    const handleDropdownChange = (name: string, value: DropdownOption) => {
         setFormData({
             ...formData,
             [name]: value,
