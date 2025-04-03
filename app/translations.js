@@ -96,10 +96,14 @@ export const translations = {
         phoneLabel: "Téléphone",
         saveButton: "Enregistrer"
       },
-      resetPassword: {
+      resetPasswordComponent: {
         cardTitle: "Mot de passe",
         passwordLabel: "Nouveau mot de passe",
-        saveButton: "Modifier"
+        saveButton: "Modifier",
+        successSummary: "Succès",
+        successContent: "Votre mot de passe a bien été modifié",
+        errorSummary: "Erreur",
+        errorContent: "Une erreur est survenue lors de la modification de votre mot de passe"
       }
     }
   }

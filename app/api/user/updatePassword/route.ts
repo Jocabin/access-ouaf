@@ -3,18 +3,14 @@ import { createClient } from '@/src/utils/supabase/server'
 
 export async function POST(req: Request) {
     try {
-        const { name, email, phone } = await req.json()
+        const { password } = await req.json()
         const supabase = await createClient()
         const { data, error } = await supabase.auth.updateUser({
-            email,
-            phone,
-            data: {
-                display_name: name
-            }
+            password
         })
 
         if (error) {
-            return NextResponse.json({ error: error.message }, { status: 500 })
+            return NextResponse.json({ error: error.message }, { status: 400 })
         }
 
         return NextResponse.json({ message: 'Mise à jour réussie', data })
