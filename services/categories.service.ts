@@ -1,5 +1,5 @@
 import { supabase } from "@/supabase"
-import { capitalizeFirstLetter } from "@/utils/helpers"
+import { capitalizeFirstLetter } from "@/src/utils/helpers/helpers"
 import { redirect } from "next/navigation"
 
 export async function getCategoryByName(categoryName: string) {

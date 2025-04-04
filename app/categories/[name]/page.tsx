@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter } from "@/utils/helpers"
+import { capitalizeFirstLetter } from "@/src/utils/helpers/helpers"
 import { getCategoryByName } from "@/services/categories.service"
 import { getProductsByCategory } from "@/services/products.service"
 import Card from "@/app/components/Card"
