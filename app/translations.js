@@ -94,7 +94,11 @@ export const translations = {
         nameLabel: "Nom",
         emailLabel: "Email",
         phoneLabel: "Téléphone",
-        saveButton: "Enregistrer"
+        saveButton: "Enregistrer",
+        successSummary: "Succès",
+        successContent: "Vos informations ont bien été modifiées",
+        errorSummary: "Erreur",
+        errorContent: "Une erreur est survenue lors de la modification de vos informations"
       },
       resetPasswordComponent: {
         cardTitle: "Mot de passe",

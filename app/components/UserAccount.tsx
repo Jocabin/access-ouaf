@@ -1,8 +1,9 @@
 'use client'
-import React, { useState } from 'react'
+import React, {useRef, useState} from 'react'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
+import { Toast } from 'primereact/toast'
 import { translations } from '../translations'
 
 interface UserAccountProps {
@@ -13,7 +14,11 @@ interface UserAccountProps {
 
 export function UserAccount({ name, email, phone }: UserAccountProps) {
     const [isEditing, setIsEditing] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [userData, setUserData] = useState({ name, email, phone })
+    const [initialData] = useState({ name, email, phone })
+    const hasChanges = JSON.stringify(userData) !== JSON.stringify(initialData)
+    const toast = useRef<Toast | null>(null)
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -25,6 +30,7 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
     }
 
     const updateUser = async () => {
+        setLoading(true)
         try {
             const response = await fetch('/api/user/update', {
                 method: 'POST',
@@ -43,17 +49,34 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
                     email: result.data.user.new_email,
                     phone: result.data.user.phone
                 }))
+                toast.current?.show({
+                    severity: "success",
+                    summary: translations.dashboard.accountPage.userAccountComponent.successSummary,
+                    detail: translations.dashboard.accountPage.userAccountComponent.successContent,
+                })
                 toggleEdit()
             } else {
+                toast.current?.show({
+                    severity: "error",
+                    summary: translations.dashboard.accountPage.userAccountComponent.errorSummary,
+                    detail: translations.dashboard.accountPage.userAccountComponent.errorContent,
+                })
                 console.error('Erreur de mise à jour:', result.error)
             }
         } catch (err) {
+            toast.current?.show({
+                severity: "error",
+                summary: translations.dashboard.accountPage.userAccountComponent.errorSummary,
+                detail: translations.dashboard.accountPage.userAccountComponent.errorContent,
+            })
             console.error('Erreur lors de la mise à jour:', err)
         }
+        setLoading(false)
     }
 
     return (
         <Card title={ translations.dashboard.accountPage.userAccountComponent.cardTitle } className='flex-1'>
+            <Toast ref={ toast } />
             <div className='flex justify-end mb-2'>
                 <Button
                     icon={isEditing ? 'pi pi-check' : 'pi pi-pencil'}
@@ -91,8 +114,11 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
                         />
                     </div>
                     <Button
+                        type="submit"
                         label={ translations.dashboard.accountPage.userAccountComponent.saveButton }
                         className='p-button-primary mt-4'
+                        loading={loading}
+                        disabled={!hasChanges}
                         onClick={updateUser}
                     />
                 </div>

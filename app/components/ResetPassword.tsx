@@ -8,9 +8,11 @@ import { Toast } from 'primereact/toast'
 
 export function ResetPassword() {
     const [password, setPassword] = useState<string>('')
+    const [loading, setLoading] = useState(false)
     const toast = useRef<Toast | null>(null)
 
     const updatePassword = async () => {
+        setLoading(true)
         if (password.trim().length < 6) {
             toast.current?.show({
                 severity: "error",
@@ -22,7 +24,6 @@ export function ResetPassword() {
         }
 
         try {
-            console.log(password.trim())
             const response = await fetch('/api/user/updatePassword', {
                 method: 'POST',
                 headers: {
@@ -55,6 +56,7 @@ export function ResetPassword() {
             })
             console.error('Erreur lors de la mise à jour:', err)
         }
+        setLoading(false)
     }
 
     return (
@@ -72,8 +74,11 @@ export function ResetPassword() {
                     />
                 </div>
                 <Button
+                    type="submit"
                     label={ translations.dashboard.accountPage.resetPasswordComponent.saveButton }
                     className="p-button-warning mt-4"
+                    disabled={!password.trim()}
+                    loading={loading}
                     onClick={ updatePassword }
                 />
             </div>
