@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../style/globals.css";
 import Script from "next/script";
-import Header from "./components/Header";
-import Searchbar from "./components/Searchbar";
-import HeaderMenu from "./components/HeaderMenu";
-import Footer from "./components/Footer";
+import Header from "../components/Header";
+import Searchbar from "../components/Searchbar";
+import HeaderMenu from "../components/HeaderMenu";
+import Footer from "../components/Footer";
 import { PrimeReactProvider } from "primereact/api";
 import "primereact/resources/themes/saga-orange/theme.css";
 import "primeicons/primeicons.css";

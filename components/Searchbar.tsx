@@ -1,6 +1,6 @@
 "use client";
 
-import { translations } from "../translations";
+import { translations } from "../lib/translations";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { translations } from "../translations"
+import { translations } from "../lib/translations"
 
 export default function Footer() {
   return (

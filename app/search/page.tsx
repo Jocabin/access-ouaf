@@ -1,6 +1,6 @@
-import { createClient } from "@/src/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import type { Product } from "@/types";
-import Card from "@/app/components/Card";
+import Card from "@/components/Card";
 
 // @ts-expect-error oui
 export default async function SearchPage({ searchParams }) {

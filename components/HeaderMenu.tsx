@@ -1,4 +1,4 @@
-import { translations } from "../translations"
+import { translations } from "../lib/translations"
 import MenuLink from "./MenuLink"
 
 export default function HeaderMenu() {

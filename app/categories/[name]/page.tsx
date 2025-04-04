@@ -1,8 +1,8 @@
-import { capitalizeFirstLetter } from "@/src/utils/helpers/helpers"
+import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
 import { getCategoryByName } from "@/services/categories.service"
 import { getProductsByCategory } from "@/services/products.service"
-import Card from "@/app/components/Card"
-import { translations } from "@/app/translations"
+import Card from "@/components/Card"
+import { translations } from "@/lib/translations"
 
 export default async function CategoryPage({
   params,
