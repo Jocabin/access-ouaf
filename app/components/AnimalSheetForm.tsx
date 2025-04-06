@@ -8,7 +8,7 @@ import { InputNumber } from 'primereact/inputnumber'
 import { createClient } from "@/src/utils/supabase/client";
 import { translations } from '../translations'
 
-interface PetProfileData {
+export interface PetProfileData {
     name: string;
     species: string;
     breed: string;
@@ -83,6 +83,20 @@ const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData
         setLoading(true)
         
         try {
+
+            const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+            if (userError || !user) {
+                toast.current?.show({
+                    severity: 'error',
+                    summary: translations.register.errorSummary,
+                    detail: translations.petProfile.loginErrorMessage,
+                })
+                setLoading(false)
+                return
+            }
+
+
             const petProfileData = {
                 name: formData.name,
                 species: formData.species,
@@ -90,7 +104,8 @@ const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData
                 age: formData.age,
                 gender: formData.gender,
                 size: formData.size,
-                description: formData.description
+                description: formData.description,
+                user_uuid: user.id
             }
             
             const { data, error } = await supabase
@@ -134,7 +149,7 @@ const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData
                             id="name"
                             name="name"
                             className="p-inputtext-sm"
-                            placeholder={translations.petProfile.placeholdername}
+                            placeholder={translations.petProfile.placeholderName}
                             value={formData.name}
                             onChange={handleChange}
                             required
@@ -142,13 +157,13 @@ const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData
                     </div>
                     
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="species">{translations.petProfile.specie}</label>
+                        <label htmlFor="species">{translations.petProfile.species}</label>
                         <Dropdown
                             id="species"
                             value={formData.species}
                             options={speciesOptions}
                             onChange={(e) => handleDropdownChange('species', e.value)}
-                            placeholder={translations.petProfile.placeholderSpecie}
+                            placeholder={translations.petProfile.placeholderSpecies}
                             className="w-full"
                             required
                         />
