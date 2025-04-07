@@ -31,10 +31,10 @@ export async function getProductsByCategoryName(categoryName: string) {
       `
         product_id,
         products ( id, name, price, img, slug ),
-        categories ( name )
+        categories!inner ( name )
       `
     )
-    .eq("categories.name", categoryName)
+    .filter("categories.name", "eq", categoryName)
 
   if (error) {
     console.error("Erreur lors de la récupération des produits :", error)

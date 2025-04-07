@@ -1,44 +1,48 @@
-import { createClient } from "@/utils/supabase/server"
 import type { Product } from "@/types"
 import Card from "@/components/Card"
 import { translations } from "@/lib/translations"
 import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
+import {
+  getProductsByCategoryName,
+  getProductsByWordSearch,
+} from "@/services/products.service"
+import { redirect } from "next/navigation"
 
 // @ts-expect-error oui
 export default async function SearchPage({ searchParams }) {
-  const { q } = searchParams
-  let results: Product[] = []
+  const { q: query } = searchParams
 
-  const supabase = await createClient()
-  const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .textSearch("name", q)
+  if (!query) redirect("/")
 
-  if (error) {
-    console.error("Error performing search:", error)
-  } else {
-    results = data
-  }
+  const resultsBySearchbar = await getProductsByWordSearch(query)
+  const resultsByCategory = await getProductsByCategoryName(query)
+
+  const categoryProducts = resultsByCategory
+    .flatMap((cat) => cat.products)
+    .filter((p): p is Product => Boolean(p))
+
+  const allProducts = [...resultsBySearchbar, ...categoryProducts]
+
+  const uniqueProducts: Product[] = Array.from(
+    new Map(allProducts.map((p) => [p.id, p])).values()
+  )
 
   return (
     <>
       <h1>{translations.titles.searchProducts}</h1>
 
-      {results.length <= 1 ? (
-        <p>
-          {results.length} {translations.text.result}
-        </p>
+      {uniqueProducts.length === 0 ? (
+        <p>{translations.text.noResults}</p>
+      ) : uniqueProducts.length === 1 ? (
+        <p>1 {translations.text.result}</p>
       ) : (
-        <>
-          <p>
-            {results.length} {translations.text.results}
-          </p>
-        </>
+        <p>
+          {uniqueProducts.length} {translations.text.results}
+        </p>
       )}
 
       <div className="products-grid-home">
-        {results.map((product) => (
+        {uniqueProducts.map((product) => (
           <Card
             href={"/items/" + product.slug}
             key={product.id}
@@ -48,7 +52,7 @@ export default async function SearchPage({ searchParams }) {
             width={139}
             height={241}
           />
-        ))}
+        ))}{" "}
       </div>
     </>
   )
