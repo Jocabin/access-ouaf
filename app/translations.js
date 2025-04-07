@@ -53,7 +53,7 @@ export const translations = {
     email: "E-mail",
     password: "Mot de passe",
     register: "Pas encore de compte ? Inscrivez-vous !",
-    placeholder: "exemple@mail.fr"
+    placeholder: "exemple@mail.fr",
   },
   register: {
     displayName: "Nom / Prénom",
@@ -104,5 +104,38 @@ export const translations = {
         errorContent: "Une erreur est survenue lors de la modification de votre mot de passe"
       }
     }
+  },
+  petProfile: {
+    loginErrorMessage: "Vous devez être connecté pour créer un profil d'animal",
+    errorMessage: "Une erreur est survenue lors de la création de la fiche",
+    successMessage: "Fiche animal créée avec succès",
+    genderMale: "Mâle",
+    genderFemale: "Femelle",
+    sizeSmall: "Petit",
+    sizeMedium: "Moyen",
+    sizeBig: "Grand",
+    speciesDog: "Chien",
+    speciesCat: "Chat",
+    speciesBird: "Oiseau",
+    speciesRodent: "Rongeur",
+    speciesReptile: "Reptile",
+    speciesHorse: "Cheval",
+    speciesOther: "Autre",
+    submitButton: "Créer la fiche",
+    name: "Nom de l'animal",
+    species: "Espèce",
+    breed: "Race",
+    age: "Âge",
+    gender: "Genre",
+    size: "Taille",
+    description: "Description",
+    placeholderName: "Entrez le nom de l'animal",
+    placeholderSpecies: "Sélectionnez l'espèce",
+    placeholderBreed: "Entrez la race",
+    placeholderAge: "Entrez l'âge",
+    placeholderGender: "Sélectionnez le genre",
+    placeholderSize: "Sélectionnez la taille",
+    placeholderDescription:
+      "Décrivez l'animal (personnalité, besoins, histoire...)",
   }
 }
