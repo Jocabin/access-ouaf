@@ -47,12 +47,13 @@ const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData
     ]
     
     const speciesOptions = [
-        { label: translations.petProfile.specieDog, value: 'chien' },
-        { label: translations.petProfile.specieCat, value: 'chat' },
-        { label: translations.petProfile.specieBird, value: 'oiseau' },
-        { label: translations.petProfile.specieRodent, value: 'rongeur' },
-        { label: translations.petProfile.specieReptile, value: 'reptile' },
-        { label: translations.petProfile.specieOther, value: 'autre' }
+        { label: translations.petProfile.speciesDog, value: 'chien' },
+        { label: translations.petProfile.speciesCat, value: 'chat' },
+        { label: translations.petProfile.speciesBird, value: 'oiseau' },
+        { label: translations.petProfile.speciesRodent, value: 'rongeur' },
+        { label: translations.petProfile.speciesReptile, value: 'reptile' },
+        { label: translations.petProfile.speciesHorse, value: 'cheval' },
+        { label: translations.petProfile.speciesOther, value: 'autre' }
     ]
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
