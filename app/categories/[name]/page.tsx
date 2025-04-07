@@ -12,17 +12,17 @@ export default async function CategoryPage({
   const { name } = await params
 
   const category = await getCategoryByName(name)
-
-  const categoryName = capitalizeFirstLetter(category.name)
-  const description = capitalizeFirstLetter(category.description)
-
   const products = await getProductsByCategory(category.id)
+
+  const categoryName = capitalizeFirstLetter((category.name).trim())
+  const description = capitalizeFirstLetter((category.description).trim())
+
 
   return (
     <>
       <>
         <h1>
-          {translations.titles.categorie} &quot;{categoryName}&quot;
+          {translations.titles.category} &quot;{categoryName}&quot;
         </h1>
         <p>{description}.</p>
         <p>

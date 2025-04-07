@@ -1,21 +1,23 @@
-import { translations } from "../lib/translations"
+import { getAllCategories } from "@/services/categories.service"
 import MenuLink from "./MenuLink"
+import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
+import { slugify } from "@/utils/helpers/slugify"
 
-export default function HeaderMenu() {
+export default async function HeaderMenu() {
+  const categories = await getAllCategories()
+
+  const categoriesList = categories.slice(0, 10)
+
   return (
     <>
       <nav className="header__menu">
-        <MenuLink label={translations.categories.dog} link="/" />
-        <MenuLink label={translations.categories.cat} link="/" />
-        <MenuLink label={translations.categories.bird} link="/" />
-        <MenuLink label={translations.categories.rodent} link="/" />
-        <MenuLink label={translations.categories.reptile} link="/" />
-        <MenuLink label={translations.categories.horse} link="/" />
-        <MenuLink label={translations.categories.clothing} link="/" />
-        <MenuLink label={translations.categories.toys} link="/" />
-        <MenuLink label={translations.categories.accessories} link="/" />
-        <MenuLink label={translations.categories.food} link="/" />
-        <MenuLink label={translations.categories.sales} link="/" isHighlighted={true}/>
+        {categoriesList.map((category) => (
+          <MenuLink
+            label={capitalizeFirstLetter(category.name)}
+            key={category.name}
+            link={`/categories/${slugify(category.name)}`}
+          />
+        ))}
       </nav>
     </>
   )
