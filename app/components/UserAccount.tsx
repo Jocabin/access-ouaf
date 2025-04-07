@@ -16,7 +16,7 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [loading, setLoading] = useState(false)
     const [userData, setUserData] = useState({ name, email, phone })
-    const [initialData] = useState({ name, email, phone })
+    const [initialData, setInitialData] = useState({ name, email, phone })
     const hasChanges = JSON.stringify(userData) !== JSON.stringify(initialData)
     const toast = useRef<Toast | null>(null)
 
@@ -27,6 +27,7 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
 
     const toggleEdit = () => {
         setIsEditing(!isEditing)
+        setUserData(initialData)
     }
 
     const updateUser = async () => {
@@ -44,6 +45,12 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
     
             if (response.ok) {
                 setUserData((prev) => ({
+                    ...prev,
+                    name: result.data.user.user_metadata.display_name,
+                    email: result.data.user.new_email,
+                    phone: result.data.user.phone
+                }))
+                setInitialData((prev) => ({
                     ...prev,
                     name: result.data.user.user_metadata.display_name,
                     email: result.data.user.new_email,
@@ -79,7 +86,7 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
             <Toast ref={ toast } />
             <div className='flex justify-end mb-2'>
                 <Button
-                    icon={isEditing ? 'pi pi-check' : 'pi pi-pencil'}
+                    icon={isEditing ? 'pi pi-times' : 'pi pi-pencil'}
                     className='p-button-rounded p-button-text'
                     onClick={toggleEdit}
                 />
@@ -106,12 +113,16 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
                     </div>
                     <div className='p-field flex flex-col gap-2'>
                         <label htmlFor='phone'>{ translations.dashboard.accountPage.userAccountComponent.phoneLabel }</label>
-                        <InputText
-                            id='phone'
-                            name='phone'
-                            value={userData.phone}
-                            onChange={handleInputChange}
-                        />
+                        <div className="flex flex-row items-center gap-2">
+                            <label>+33</label>
+                            <InputText
+                                id='phone'
+                                name='phone'
+                                type='tel'
+                                value={userData.phone}
+                                onChange={handleInputChange}
+                            />
+                        </div>
                     </div>
                     <Button
                         type="submit"

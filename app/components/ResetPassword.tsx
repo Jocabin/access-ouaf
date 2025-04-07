@@ -20,6 +20,7 @@ export function ResetPassword() {
                 detail:
                     "Le mot de passe doit contenir au moins 6 caractères et un chiffre.",
             })
+            setLoading(false)
             return
         }
 
@@ -56,6 +57,7 @@ export function ResetPassword() {
             })
             console.error('Erreur lors de la mise à jour:', err)
         }
+        setPassword('')
         setLoading(false)
     }
 
