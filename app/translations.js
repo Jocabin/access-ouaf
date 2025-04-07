@@ -76,15 +76,9 @@ export const translations = {
   dashboard: {
     title: "Votre espace client",
     cardInformationsContent: "Consultez ou modifiez vos données personnelles.",
-    cardCommandesContent: "Lorem ipsum dolor sit amet, consectetur adipisicing elit." +
-        "Inventore sed consequuntur errorrepudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis," +
-        "culpa ratione quam perferendis esse, cupiditate neque quas!",
-    cardAnimauxContent: "Lorem ipsum dolor sit amet, consectetur adipisicing elit." +
-        "Inventore sed consequuntur errorrepudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis," +
-        "culpa ratione quam perferendis esse, cupiditate neque quas!",
-    cardAnnoncesContent: "Lorem ipsum dolor sit amet, consectetur adipisicing elit." +
-        "Inventore sed consequuntur errorrepudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis," +
-        "culpa ratione quam perferendis esse, cupiditate neque quas!",
+    cardCommandesContent: "Consultez vos commandes récentes.",
+    cardAnimauxContent: "Consultez ou modifiez vos animaux enregistrés.",
+    cardAnnoncesContent: "Consultez ou modifiez vos annonces postées sur le site.",
     btnCardFooter: "Accéder",
     accountPage: {
       titlePage: "Votre compte",

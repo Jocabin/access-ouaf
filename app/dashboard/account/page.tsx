@@ -16,7 +16,7 @@ export default async function AccountPage() {
                     <div className="main--content">
                         <h1 className="flex justify-center">{ translations.dashboard.accountPage.titlePage }</h1>
 
-                        <div className="flex gap-4 justify-center flex-wrap">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:space-x-4 w-full">
                             {user ? (
                                 <>
                                     <UserAccount
@@ -24,10 +24,10 @@ export default async function AccountPage() {
                                         email={user.user_metadata.email}
                                         phone={user.user_metadata.phone}
                                     />
-                                    <ResetPassword />
+                                    <ResetPassword/>
                                 </>
                             ) : (
-                                <p className="text-xl mt-40">{ translations.dashboard.accountPage.userNotLogin }</p>
+                                <p className="text-xl mt-40">{translations.dashboard.accountPage.userNotLogin}</p>
                             )}
                         </div>
                     </div>
