@@ -114,7 +114,7 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
                     <div className='p-field flex flex-col gap-2'>
                         <label htmlFor='phone'>{ translations.dashboard.accountPage.userAccountComponent.phoneLabel }</label>
                         <div className="flex flex-row items-center gap-2">
-                            <label>+33</label>
+                            <label>{ translations.dashboard.accountPage.userAccountComponent.phonePrefix }</label>
                             <InputText
                                 id='phone'
                                 name='phone'
@@ -137,7 +137,8 @@ export function UserAccount({ name, email, phone }: UserAccountProps) {
                 <>
                     <p>{ translations.dashboard.accountPage.userAccountComponent.nameLabel }: {userData.name}</p>
                     <p>{ translations.dashboard.accountPage.userAccountComponent.emailLabel }: {userData.email}</p>
-                    <p>{ translations.dashboard.accountPage.userAccountComponent.phoneLabel }: {userData.phone}</p>
+                    <p>{ translations.dashboard.accountPage.userAccountComponent.phoneLabel }: { translations.dashboard.accountPage.userAccountComponent.phonePrefix } {userData.phone}
+                    </p>
                 </>
             )}
         </Card>

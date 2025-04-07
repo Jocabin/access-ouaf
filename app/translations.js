@@ -88,6 +88,7 @@ export const translations = {
         nameLabel: "Nom",
         emailLabel: "Email",
         phoneLabel: "Téléphone",
+        phonePrefix: "+33",
         saveButton: "Enregistrer",
         successSummary: "Succès",
         successContent: "Vos informations ont bien été modifiées",
