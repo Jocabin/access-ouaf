@@ -59,8 +59,7 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
             const resultAddress = await responseAddress.json()
     
             if (responseUser.ok && responseAddress.ok) {
-                setUserData((prev) => ({
-                    ...prev,
+                const updatedData = {
                     name: resultUser.data.user.user_metadata.display_name,
                     email: resultUser.data.user.user_metadata.email,
                     // phone: resultUser.data.user.phone,
@@ -68,17 +67,9 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                     postal_code: resultAddress.data[0].postal_code,
                     city: resultAddress.data[0].city,
                     country: resultAddress.data[0].country
-                }))
-                setInitialData((prev) => ({
-                    ...prev,
-                    name: resultUser.data.user.user_metadata.display_name,
-                    email: resultUser.data.user.user_metadata.email,
-                    // phone: resultUser.data.user.phone,
-                    address: resultAddress.data[0].address,
-                    postal_code: resultAddress.data[0].postal_code,
-                    city: resultAddress.data[0].city,
-                    country: resultAddress.data[0].country
-                }))
+                }
+                setUserData((prev) => ({ ...prev, ...updatedData }))
+                setInitialData((prev) => ({ ...prev, ...updatedData }))
                 toast.current?.show({
                     severity: "success",
                     summary: translations.dashboard.accountPage.userAccountComponent.successSummary,
