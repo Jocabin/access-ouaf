@@ -8,6 +8,7 @@ import { translations } from '../../translations'
 export default async function AccountPage() {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
+    const { data: addressData }  = await supabase.from('addresses').select().eq('auth_id', user.id).single()
 
     return (
         <>
@@ -20,9 +21,14 @@ export default async function AccountPage() {
                             {user ? (
                                 <>
                                     <UserAccount
+                                        id={user.id}
                                         name={user.user_metadata.display_name}
                                         email={user.user_metadata.email}
                                         phone={user.user_metadata.phone}
+                                        address={addressData.address}
+                                        postal_code={addressData.postal_code}
+                                        city={addressData.city}
+                                        country={addressData.country}
                                     />
                                     <ResetPassword/>
                                 </>
