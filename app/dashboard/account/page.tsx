@@ -8,7 +8,7 @@ import { translations } from '../../translations'
 export default async function AccountPage() {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
-    const { data: addressData }  = await supabase.from('addresses').select().eq('auth_id', user.id).single()
+    const { data: addressData }  = await supabase.from('addresses').select().eq('auth_id', user?.id).single()
 
     return (
         <>
