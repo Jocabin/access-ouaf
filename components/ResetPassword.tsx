@@ -1,9 +1,10 @@
 'use client'
 import React, { useRef, useState } from 'react'
+import { updatePasswordAction } from '@/app/actions/user/updateUserPassword'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
-import { translations } from '../translations'
+import { translations } from '@/lib/translations'
 import { Toast } from 'primereact/toast'
 
 export function ResetPassword() {
@@ -25,17 +26,9 @@ export function ResetPassword() {
         }
 
         try {
-            const response = await fetch('/api/user/updatePassword', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ password: password.trim() })
-            })
+            const response = await updatePasswordAction(password.trim())
 
-            const result = await response.json()
-
-            if (response.ok) {
+            if (response?.user) {
                 toast.current?.show({
                     severity: "success",
                     summary: translations.dashboard.accountPage.resetPasswordComponent.successSummary,
@@ -47,7 +40,7 @@ export function ResetPassword() {
                     summary: translations.dashboard.accountPage.resetPasswordComponent.errorSummary,
                     detail: translations.dashboard.accountPage.resetPasswordComponent.errorContent,
                 })
-                console.error('Erreur de mise à jour:', result.error)
+                console.error('Erreur de mise à jour:', response)
             }
         } catch (err) {
             toast.current?.show({

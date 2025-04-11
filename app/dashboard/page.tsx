@@ -1,7 +1,7 @@
 import { PrimeReactProvider } from 'primereact/api'
 import { Card } from 'primereact/card'
 import React from 'react'
-import { translations } from '../translations'
+import { translations } from '@/lib/translations'
 
 const footerInfo = (
     <>

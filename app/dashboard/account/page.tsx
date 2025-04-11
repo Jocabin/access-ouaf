@@ -1,9 +1,9 @@
 import { PrimeReactProvider } from 'primereact/api'
-import { createClient } from '@/src/utils/supabase/server'
+import { createClient } from '@/utils/supabase/server'
 import React from 'react'
-import UserAccount from '@/app/components/UserAccount'
-import ResetPassword from '@/app/components/ResetPassword'
-import { translations } from '../../translations'
+import UserAccount from '@/components/UserAccount'
+import ResetPassword from '@/components/ResetPassword'
+import { translations } from '@/lib/translations'
 
 export default async function AccountPage() {
     const supabase = await createClient()

@@ -1,10 +1,12 @@
 'use client'
 import React, {useRef, useState} from 'react'
+import { updateUserDataAction } from '@/app/actions/user/updateUserData'
+import { updateAddress } from '@/services/addresses.service'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
-import { translations } from '../translations'
+import { translations } from '@/lib/translations'
 
 interface UserAccountProps {
     id: string,
@@ -35,38 +37,21 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
         setIsEditing(!isEditing)
     }
 
-    const updateUser = async () => {
+    const update = async () => {
         setLoading(true)
         try {
-            const responseUser = await fetch('/api/user/update', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            })
+            const responseUser = await updateUserDataAction(userData)
+            const responseAddress = await updateAddress(userData)
     
-            const resultUser = await responseUser.json()
-
-            const responseAddress = await fetch('/api/address/update', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            })
-
-            const resultAddress = await responseAddress.json()
-    
-            if (responseUser.ok && responseAddress.ok) {
+            if (responseUser?.user && responseAddress?.[0]) {
                 const updatedData = {
-                    name: resultUser.data.user.user_metadata.display_name,
-                    email: resultUser.data.user.user_metadata.email,
+                    name: responseUser.user.user_metadata.display_name,
+                    email: responseUser.user.user_metadata.email,
                     // phone: resultUser.data.user.phone,
-                    address: resultAddress.data[0].address,
-                    postal_code: resultAddress.data[0].postal_code,
-                    city: resultAddress.data[0].city,
-                    country: resultAddress.data[0].country
+                    address: responseAddress?.[0].address,
+                    postal_code: responseAddress?.[0].postal_code,
+                    city: responseAddress?.[0].city,
+                    country: responseAddress?.[0].country
                 }
                 setUserData((prev) => ({ ...prev, ...updatedData }))
                 setInitialData((prev) => ({ ...prev, ...updatedData }))
@@ -81,7 +66,7 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                     summary: translations.dashboard.accountPage.userAccountComponent.errorSummary,
                     detail: translations.dashboard.accountPage.userAccountComponent.errorContent,
                 })
-                console.error('Erreur de mise à jour:', resultUser.error)
+                console.error('Erreur de mise à jour:', responseUser)
             }
         } catch (err) {
             toast.current?.show({
@@ -199,7 +184,7 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                         className='p-button-primary mt-4'
                         loading={loading}
                         disabled={!hasChanges}
-                        onClick={updateUser}
+                        onClick={update}
                     />
                 </div>
             ) : (
