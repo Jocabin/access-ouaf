@@ -1,6 +1,6 @@
 'use client'
 import React, {useRef, useState} from 'react'
-import { updateUserDataAction } from '@/app/actions/user/updateUserData'
+import { updateUserDataAction } from '@/actions/user/updateUserData'
 import { updateAddress } from '@/services/addresses.service'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
