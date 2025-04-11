@@ -56,7 +56,7 @@ export default function Header() {
     {
       label: translations.nav.account,
       icon: "pi pi-home",
-      url: "/",
+      url: "/dashboard",
     },
     {
       label: translations.nav.logout,
