@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Button from "../../components/Button";
-import ImageSlider from "@/app/components/ImageSlider";
-import { createClient } from "@/src/utils/supabase/server";
+import Button from "../../../components/Button";
+import ImageSlider from "@/components/ImageSlider";
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import WishlistButton from "../../components/WishlistButton";
+import WishlistButton from "../../../components/WishlistButton";
 
 export default async function ProductPage({
   params,
