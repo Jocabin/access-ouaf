@@ -1,8 +1,8 @@
 "use client";
 
-import HeartIcon from "@/app/components/HeartIcon";
+import HeartIcon from "@/components/HeartIcon";
 import type { Product } from "@/types";
-import { createClient } from "@/src/utils/supabase/client";
+import { createClient } from "@/utils/supabase/client";
 import { Toast } from "primereact/toast";
 import { useEffect, useRef, useState } from "react";
 

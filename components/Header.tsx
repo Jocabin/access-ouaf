@@ -4,11 +4,11 @@ import React, { useState, useRef, useEffect } from "react";
 import Logo from "./Logo";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
-import { translations } from "../translations";
+import { translations } from "../lib/translations";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { TieredMenu } from "primereact/tieredmenu";
-import { createClient } from "@/src/utils/supabase/client";
+import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 

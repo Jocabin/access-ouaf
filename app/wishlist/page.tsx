@@ -1,7 +1,7 @@
 import { Product } from "@/types";
-import { createClient } from "@/src/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import Card from "@/app/components/Card";
+import Card from "@/components/Card";
 
 export default async function WishlistPage() {
   const supabase = await createClient();

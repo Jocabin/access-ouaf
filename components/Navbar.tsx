@@ -1,4 +1,4 @@
-import { translations } from "../translations"
+import { translations } from "../lib/translations"
 import Link from "next/link"
 
 export default async function Navbar() {

@@ -5,8 +5,8 @@ import { Dropdown } from 'primereact/dropdown'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import { InputNumber } from 'primereact/inputnumber'
-import { createClient } from "@/src/utils/supabase/client";
-import { translations } from '../translations'
+import { createClient } from "@/utils/supabase/client";
+import { translations } from '@/lib/translations'
 
 export interface PetProfileData {
     name: string;

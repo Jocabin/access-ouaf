@@ -1,13 +1,12 @@
-import Image from "next/image";
-import { translations } from "../translations";
-import Button from "./Button";
-import { createClient } from "@/src/utils/supabase/server";
-import Card from "./Card";
+import Image from "next/image"
+import { translations } from "../lib/translations"
+import Button from "./Button"
+import Card from "./Card"
+import { getAllProducts } from "@/services/products.service"
 
 export default async function Homepage() {
-  const logoUrl = "/assets/chat-homepage.jpg";
-  const supabase = await createClient();
-  const products = await supabase.from("products").select();
+  const logoUrl = "/assets/chat-homepage.jpg"
+  const products = await getAllProducts()
 
   return (
     <>
@@ -65,5 +64,5 @@ export default async function Homepage() {
         </div>
       </div>
     </>
-  );
+  )
 }

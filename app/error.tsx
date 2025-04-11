@@ -1,5 +1,6 @@
 "use client";
 
+import { translations } from "@/lib/translations";
 import { useEffect } from "react";
 
 export default function Error({
@@ -15,8 +16,8 @@ export default function Error({
 
   return (
     <div>
-      <h2>Something went wrong!</h2>
-      <button onClick={() => reset()}>Try again</button>
+      <h2>{translations.error.message}</h2>
+      <button onClick={() => reset()}>{translations.error.button}</button>
     </div>
   );
 }
