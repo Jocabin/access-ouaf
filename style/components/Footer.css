@@ -3,8 +3,9 @@ footer {
     display: flex;
     justify-content: space-between;
     padding: 3rem 2.5rem;
-    border-top: 1px solid var(--light-grey);
+    border-top: 1px solid var(--medium-grey);
 }
+
 .footer__link {
     font-size: 1.125rem;
     font-family: var(--font-urbanist);

@@ -3,14 +3,14 @@ import MenuLink from "./MenuLink"
 import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
 import { slugify } from "@/utils/helpers/slugify"
 
-export default async function HeaderMenu() {
+export default async function CategoriesList() {
   const categories = await getAllCategories()
 
   const categoriesList = categories.slice(0, 10)
 
   return (
     <>
-      <nav className="header__menu">
+      <nav className="categories__list">
         {categoriesList.map((category) => (
           <MenuLink
             label={capitalizeFirstLetter(category.name)}

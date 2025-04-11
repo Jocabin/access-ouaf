@@ -1,43 +1,46 @@
-"use client";
+"use client"
 
-import React, { useState, useRef, useEffect } from "react";
-import Logo from "./Logo";
-import RegisterForm from "./RegisterForm";
-import LoginForm from "./LoginForm";
-import { translations } from "@/lib/translations";
-import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
-import { TieredMenu } from "primereact/tieredmenu";
-import { createClient } from "@/utils/supabase/client";
-import { User } from "@supabase/supabase-js";
-import {redirect, useRouter} from "next/navigation";
+import React, { useState, useRef, useEffect } from "react"
+import Logo from "./Logo"
+import RegisterForm from "./RegisterForm"
+import LoginForm from "./LoginForm"
+import { translations } from "@/lib/translations"
+import { Button } from "primereact/button"
+import { Dialog } from "primereact/dialog"
+import { TieredMenu } from "primereact/tieredmenu"
+import { createClient } from "@/utils/supabase/client"
+import { User } from "@supabase/supabase-js"
+import { redirect, useRouter } from "next/navigation"
+import Searchbar from "./Searchbar"
 
 export default function Header() {
-  const router = useRouter();
-  const supabase = createClient();
+  const router = useRouter()
+  const supabase = createClient()
 
   const [loading, setLoading] = useState(true)
-  const [visible, setVisible] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
-  const [hideToggle, setHideToggle] = useState(false);
-  const menu = useRef<TieredMenu>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [visible, setVisible] = useState(false)
+  const [isRegistered, setIsRegistered] = useState(false)
+  const [isLogin, setIsLogin] = useState(true)
+  const [hideToggle, setHideToggle] = useState(false)
+  const menu = useRef<TieredMenu>(null)
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
     const loadUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
       setUser(user)
       setLoading(false)
     }
 
     loadUser()
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setUser(session?.user ?? null)
-      }
-    )
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setUser(session?.user ?? null)
+    })
 
     return () => {
       subscription.unsubscribe()
@@ -45,21 +48,22 @@ export default function Header() {
   }, [])
 
   const handleSuccessLogin = async () => {
-    setIsRegistered(true);
-    setVisible(false);
-  };
+    setIsRegistered(true)
+    setVisible(false)
+    window.location.reload()
+  }
 
   const handleSuccessRegister = () => {
-    setIsRegistered(true);
-  };
+    setIsRegistered(true)
+  }
 
   const handleToggleForm = () => {
-    setIsLogin(!isLogin);
-  };
+    setIsLogin(!isLogin)
+  }
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
-    redirect('/')
+    redirect("/")
   }
 
   const items = [
@@ -71,7 +75,7 @@ export default function Header() {
             {translations.nav.bonjour} {user?.user_metadata.display_name}
           </span>
         </div>
-      )
+      ),
     },
     {
       label: translations.nav.account,
@@ -83,30 +87,37 @@ export default function Header() {
       icon: "pi pi-sign-out",
       command: handleLogout,
     },
-  ];
+  ]
 
   return (
     <>
       <header>
-        <i className="header--burger-icon fa-solid fa-burger"></i>
         <Logo />
+        <Searchbar />
         <div className="header--icons">
           <Button
             icon="fa-regular fa-heart"
             text
             onClick={() => {
-              router.push("/wishlist");
+              router.push("/wishlist")
             }}
           />
           <Button icon="fa-regular fa-paper-plane" text onClick={() => null} />
           <TieredMenu model={items} popup ref={menu} breakpoint="767px" />
-          {!loading && (
-              user ? (
-                  <Button icon="pi pi-user" text onClick={(e) => menu.current?.toggle(e)} />
-              ) : (
-                  <Button icon="pi pi-sign-in" text onClick={() => setVisible(true)} />
-              )
-          )}
+          {!loading &&
+            (user ? (
+              <Button
+                icon="pi pi-user"
+                text
+                onClick={(e) => menu.current?.toggle(e)}
+              />
+            ) : (
+              <Button
+                icon="pi pi-sign-in"
+                text
+                onClick={() => setVisible(true)}
+              />
+            ))}
           <Dialog
             className="responsive-dialog"
             visible={visible}
@@ -129,15 +140,18 @@ export default function Header() {
                   label={translations.header.closeButton}
                   className="w-full mt-4"
                   onClick={() => {
-                    setVisible(false);
-                    setIsRegistered(false);
+                    setVisible(false)
+                    setIsRegistered(false)
                   }}
                 />
               </div>
             ) : (
               <div>
                 {isLogin ? (
-                  <LoginForm onSuccess={handleSuccessLogin} setHideToggle={setHideToggle} />
+                  <LoginForm
+                    onSuccess={handleSuccessLogin}
+                    setHideToggle={setHideToggle}
+                  />
                 ) : (
                   <RegisterForm onSuccess={handleSuccessRegister} />
                 )}
@@ -157,5 +171,5 @@ export default function Header() {
         </div>
       </header>
     </>
-  );
+  )
 }

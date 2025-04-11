@@ -11,7 +11,7 @@ export default async function Homepage() {
   return (
     <>
       <div className="desktop-homepage">
-        <div className="relative flex justify-center mt-20">
+        <div className="relative flex justify-center">
           <Image
             src={logoUrl}
             alt="Image d'un chat"
