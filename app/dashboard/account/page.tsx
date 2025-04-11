@@ -25,10 +25,10 @@ export default async function AccountPage() {
                                         name={user.user_metadata.display_name}
                                         email={user.user_metadata.email}
                                         phone={user.user_metadata.phone}
-                                        address={addressData.address}
-                                        postal_code={addressData.postal_code}
-                                        city={addressData.city}
-                                        country={addressData.country}
+                                        address={addressData?.address}
+                                        postal_code={addressData?.postal_code}
+                                        city={addressData?.city}
+                                        country={addressData?.country}
                                     />
                                     <ResetPassword/>
                                 </>

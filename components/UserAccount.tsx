@@ -191,8 +191,16 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                 <>
                     <p>{translations.dashboard.accountPage.userAccountComponent.nameLabel}: {userData.name}</p>
                     <p>{translations.dashboard.accountPage.userAccountComponent.emailLabel}: {userData.email}</p>
-                    <p>{translations.dashboard.accountPage.userAccountComponent.phoneLabel}: {translations.dashboard.accountPage.userAccountComponent.phonePrefix} {userData.phone}</p>
-                    <p>{translations.dashboard.accountPage.userAccountComponent.addressLabel}: {userData.address}, {userData.postal_code} {userData.city}, {userData.country}</p>
+                    <p>
+                        {translations.dashboard.accountPage.userAccountComponent.phoneLabel}:
+                        {userData.phone ? `${translations.dashboard.accountPage.userAccountComponent.phonePrefix} ${userData.phone}` : ''}
+                    </p>
+                    <p>{translations.dashboard.accountPage.userAccountComponent.addressLabel}:
+                        {userData.address && `${userData.address}, `}
+                        {userData.postal_code && `${userData.postal_code} `}
+                        {userData.city && `${userData.city}, `}
+                        {userData.country && `${userData.country}`}
+                    </p>
                 </>
             )}
         </Card>
