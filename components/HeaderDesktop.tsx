@@ -13,7 +13,7 @@ import { User } from "@supabase/supabase-js"
 import { redirect, useRouter } from "next/navigation"
 import Searchbar from "./Searchbar"
 
-export default function Header() {
+export default function HeaderDesktop() {
   const router = useRouter()
   const supabase = createClient()
 

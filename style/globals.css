@@ -79,9 +79,6 @@ h2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  justify-items: center;
   margin-bottom: 5rem;
   margin-top: 4rem;
 }
@@ -122,22 +119,15 @@ h2 {
 }
 
 @media (max-width: 768px) {
-  footer {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 2rem 2rem 1rem 2rem;
-    margin-top: 2rem;
+  body {
+    padding: 1rem;
+  }
+
+  .products-grid-home {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .responsive-dialog {
     width: 90vw;
   }
-
-  .footer__link {
-    font-size: 1rem;
-  }
-}
-
-.footer__link {
-  font-size: 1rem;
 }
