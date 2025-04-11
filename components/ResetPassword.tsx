@@ -1,6 +1,6 @@
 'use client'
 import React, { useRef, useState } from 'react'
-import { updatePasswordAction } from '@/actiongits/user/updateUserPassword'
+import { updatePasswordAction } from '@/actions/user/updateUserPassword'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
