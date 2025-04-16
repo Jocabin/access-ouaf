@@ -11,7 +11,7 @@ export default async function AccountPage() {
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
-        redirect('/login')
+        redirect(`/login?redirect=${encodeURIComponent('/dashboard/account')}`)
     }
 
     const { data: addressData }  = await supabase.from('addresses').select().eq('auth_id', user?.id).single()
