@@ -1,12 +1,25 @@
 'use client'
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { translations } from '@/lib/translations'
 import { redirect } from 'next/navigation'
 import LoginForm from "@/components/LoginForm"
 import RegisterForm from "@/components/RegisterForm"
+import { createClient } from "@/utils/supabase/client"
 
 export default function LoginPage() {
     const [isLogin, setIsLogin] = useState(true)
+    async function checkAuthentication() {
+        const supabase = await createClient()
+        const { data: { user } } = await supabase.auth.getUser()
+
+        if (user) {
+            redirect('/')
+        }
+    }
+
+    useEffect(() => {
+        checkAuthentication()
+    })
 
     const handleToggleForm = () => {
         setIsLogin(!isLogin)
