@@ -49,11 +49,6 @@ const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
       if (!error) {
         onSuccess();
-        toast.current?.show({
-          severity: "success",
-          summary: translations.register.successSummary,
-          detail: translations.register.successMessage,
-        });
       } else {
         toast.current?.show({
           severity: "error",
