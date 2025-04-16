@@ -10,7 +10,7 @@ import { Dialog } from "primereact/dialog";
 import { TieredMenu } from "primereact/tieredmenu";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { useRouter } from "next/navigation";
+import {redirect, useRouter} from "next/navigation";
 
 export default function Header() {
   const router = useRouter();
@@ -20,22 +20,26 @@ export default function Header() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const menu = useRef<TieredMenu>(null);
-  const [user, set_user] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    async function fetchUser() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      set_user(user);
+    const {data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        setUser(session.user)
+      } else {
+        setUser(null)
+      }
+    })
+
+    return () => {
+      subscription.unsubscribe()
     }
-    fetchUser();
-  }, [supabase.auth]);
+  }, [supabase.auth])
 
   const handleSuccessLogin = async () => {
     setIsRegistered(true);
     setVisible(false);
-    window.location.reload();
   };
 
   const handleSuccessRegister = () => {
@@ -47,10 +51,9 @@ export default function Header() {
   };
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    console.log(error);
-    window.location.reload();
-  };
+    await supabase.auth.signOut()
+    redirect('/')
+  }
 
   const items = [
     {
