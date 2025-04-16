@@ -4,10 +4,16 @@ import React from 'react'
 import UserAccount from '@/components/UserAccount'
 import ResetPassword from '@/components/ResetPassword'
 import { translations } from '@/lib/translations'
+import { redirect } from 'next/navigation'
 
 export default async function AccountPage() {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+        redirect('/login')
+    }
+
     const { data: addressData }  = await supabase.from('addresses').select().eq('auth_id', user?.id).single()
 
     return (

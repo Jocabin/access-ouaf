@@ -2,6 +2,8 @@ import { PrimeReactProvider } from 'primereact/api'
 import { Card } from 'primereact/card'
 import React from 'react'
 import { translations } from '@/lib/translations'
+import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
 
 const footerInfo = (
     <>
@@ -36,6 +38,13 @@ const footerAnnonces = (
 )
 
 export default async function DashboardPage() {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+        redirect('/login')
+    }
+
     return (
         <>
             <PrimeReactProvider>

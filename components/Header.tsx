@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Logo from "./Logo";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
-import { translations } from "../lib/translations";
+import { translations } from "@/lib/translations";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { TieredMenu } from "primereact/tieredmenu";
