@@ -20,6 +20,7 @@ export default function Header() {
   const [visible, setVisible] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+  const [hideToggle, setHideToggle] = useState(false);
   const menu = useRef<TieredMenu>(null);
   const [user, setUser] = useState<User | null>(null);
 
@@ -136,18 +137,20 @@ export default function Header() {
             ) : (
               <div>
                 {isLogin ? (
-                  <LoginForm onSuccess={handleSuccessLogin} />
+                  <LoginForm onSuccess={handleSuccessLogin} setHideToggle={setHideToggle} />
                 ) : (
                   <RegisterForm onSuccess={handleSuccessRegister} />
                 )}
-                <span
-                  className="cursor-pointer mt-4 block text-center text-xs"
-                  onClick={handleToggleForm}
-                >
-                  {isLogin
-                    ? translations.login.register
-                    : translations.register.login}
-                </span>
+                {!hideToggle && (
+                  <span
+                    className="cursor-pointer mt-4 block text-center text-xs"
+                    onClick={handleToggleForm}
+                  >
+                    {isLogin
+                      ? translations.login.register
+                      : translations.register.login}
+                  </span>
+                )}
               </div>
             )}
           </Dialog>

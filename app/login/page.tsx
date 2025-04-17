@@ -1,5 +1,5 @@
 'use client'
-import { Suspense, useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { translations } from '@/lib/translations'
 import LoginForm from "@/components/LoginForm"
@@ -9,6 +9,7 @@ import { createClient } from "@/utils/supabase/client"
 function LoginPageContent() {
     const [isLogin, setIsLogin] = useState(true)
     const [loading, setLoading] = useState(true)
+    const [hideToggle, setHideToggle] = useState(false);
     const router = useRouter()
     const searchParams = useSearchParams()
     const redirectPath = searchParams.get('redirect') || '/'
@@ -44,21 +45,23 @@ function LoginPageContent() {
         <div className="flex items-center justify-center mt-5">
             <div className="flex flex-col max-w-3xl w-full">
                 <h1 className="text-xl font-bold text-center mb-4">
-                    {isLogin ? 'Connectez-vous' : 'Créez un compte'}
+                    {isLogin ? translations.loginPage.titleLogin : translations.loginPage.titleRegister}
                 </h1>
                 {isLogin ? (
-                    <LoginForm onSuccess={handleSuccess} />
+                    <LoginForm onSuccess={handleSuccess} setHideToggle={setHideToggle} />
                 ) : (
                     <RegisterForm onSuccess={handleSuccess} />
                 )}
-                <span
-                    className="cursor-pointer mt-4 block text-center text-xs"
-                    onClick={handleToggleForm}
-                >
+                {!hideToggle && (
+                    <span
+                        className="cursor-pointer mt-4 block text-center text-xs"
+                        onClick={handleToggleForm}
+                    >
                     {isLogin
                         ? translations.login.register
                         : translations.register.login}
-                </span>
+                  </span>
+                )}
             </div>
         </div>
     )
