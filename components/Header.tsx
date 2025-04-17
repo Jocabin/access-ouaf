@@ -16,6 +16,7 @@ export default function Header() {
   const router = useRouter();
   const supabase = createClient();
 
+  const [loading, setLoading] = useState(true)
   const [visible, setVisible] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -23,19 +24,24 @@ export default function Header() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const {data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        setUser(session.user)
-      } else {
-        setUser(null)
+    const loadUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+      setLoading(false)
+    }
+
+    loadUser()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setUser(session?.user ?? null)
       }
-    })
+    )
 
     return () => {
       subscription.unsubscribe()
     }
-  }, [supabase.auth])
+  }, [])
 
   const handleSuccessLogin = async () => {
     setIsRegistered(true);
@@ -93,14 +99,13 @@ export default function Header() {
           />
           <Button icon="fa-regular fa-paper-plane" text onClick={() => null} />
           <TieredMenu model={items} popup ref={menu} breakpoint="767px" />
-          <Button
-            icon="pi pi-user"
-            className={user ? '' : 'text-gray-400'}
-            text
-            onClick={(e) =>
-              user === null ? setVisible(true) : menu.current?.toggle(e)
-            }
-          />
+          {!loading && (
+              user ? (
+                  <Button icon="pi pi-user" text onClick={(e) => menu.current?.toggle(e)} />
+              ) : (
+                  <Button icon="pi pi-sign-in" text onClick={() => setVisible(true)} />
+              )
+          )}
           <Dialog
             className="responsive-dialog"
             visible={visible}
