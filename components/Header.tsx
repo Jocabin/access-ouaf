@@ -57,6 +57,16 @@ export default function Header() {
 
   const items = [
     {
+      disabled: true,
+      template: () => (
+        <div className="mb-3">
+          <span className="text-base text-black px-2">
+            {translations.nav.bonjour} {user?.user_metadata.display_name}
+          </span>
+        </div>
+      )
+    },
+    {
       label: translations.nav.account,
       icon: "pi pi-home",
       url: "/dashboard",
@@ -85,6 +95,7 @@ export default function Header() {
           <TieredMenu model={items} popup ref={menu} breakpoint="767px" />
           <Button
             icon="pi pi-user"
+            className={user ? '' : 'text-gray-400'}
             text
             onClick={(e) =>
               user === null ? setVisible(true) : menu.current?.toggle(e)
