@@ -1,23 +1,26 @@
 'use client'
-import React, {useEffect, useState} from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { translations } from '@/lib/translations'
-import { redirect } from 'next/navigation'
 import LoginForm from "@/components/LoginForm"
 import RegisterForm from "@/components/RegisterForm"
 import { createClient } from "@/utils/supabase/client"
 
-export default function LoginPage() {
+function LoginPageContent() {
     const [isLogin, setIsLogin] = useState(true)
+    const [loading, setLoading] = useState(true)
     const router = useRouter()
     const searchParams = useSearchParams()
     const redirectPath = searchParams.get('redirect') || '/'
+
     async function checkAuthentication() {
         const supabase = await createClient()
         const { data: { user } } = await supabase.auth.getUser()
 
         if (user) {
-            redirect('/')
+            router.push('/')
+        } else {
+            setLoading(false)
         }
     }
 
@@ -31,6 +34,10 @@ export default function LoginPage() {
 
     const handleSuccess = () => {
         router.push(redirectPath)
+    }
+
+    if (loading) {
+        return <div></div>
     }
 
     return (
@@ -54,5 +61,13 @@ export default function LoginPage() {
                 </span>
             </div>
         </div>
+    )
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div></div>}>
+            <LoginPageContent />
+        </Suspense>
     )
 }
