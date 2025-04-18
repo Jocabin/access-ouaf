@@ -2,7 +2,7 @@ import { PrimeReactProvider } from 'primereact/api'
 import { createClient } from '@/utils/supabase/server'
 import React from 'react'
 import UserAccount from '@/components/UserAccount'
-import ResetPassword from '@/components/ResetPassword'
+import ChangePassword from '@/components/ChangePassword'
 import { translations } from '@/lib/translations'
 import { redirect } from 'next/navigation'
 
@@ -36,7 +36,7 @@ export default async function AccountPage() {
                                         city={addressData?.city}
                                         country={addressData?.country}
                                     />
-                                    <ResetPassword/>
+                                    <ChangePassword resetMode={false}/>
                                 </>
                             ) : (
                                 <p className="text-xl mt-40">{translations.dashboard.accountPage.userNotLogin}</p>
