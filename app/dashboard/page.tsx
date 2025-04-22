@@ -23,7 +23,7 @@ const footerCommandes = (
 
 const footerAnimaux = (
     <>
-        <a href="" rel="noopener noreferrer" className="p-button no-underline">
+        <a href="/dashboard/animal" rel="noopener noreferrer" className="p-button no-underline">
             { translations.dashboard.btnCardFooter }
         </a>
     </>

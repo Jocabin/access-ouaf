@@ -110,7 +110,7 @@ const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData
             }
             
             const { data, error } = await supabase
-                .from('pet_profile')
+                .from('animals')
                 .insert([petProfileData])
                 .select()
                 
