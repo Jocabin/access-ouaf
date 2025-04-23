@@ -156,72 +156,73 @@ const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData
                             required
                         />
                     </div>
-                    
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="species">{translations.petProfile.species}</label>
-                        <Dropdown
-                            id="species"
-                            value={formData.species}
-                            options={speciesOptions}
-                            onChange={(e) => handleDropdownChange('species', e.value)}
-                            placeholder={translations.petProfile.placeholderSpecies}
-                            className="w-full"
-                            required
-                        />
+                    <div className="flex flex-col md:flex-row gap-4">
+                        <div className="flex flex-col gap-2 flex-1">
+                            <label htmlFor="species">{translations.petProfile.species}</label>
+                            <Dropdown
+                                id="species"
+                                value={formData.species}
+                                options={speciesOptions}
+                                onChange={(e) => handleDropdownChange('species', e.value)}
+                                placeholder={translations.petProfile.placeholderSpecies}
+                                className="w-full p-inputtext-sm"
+                                required
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-2 flex-1">
+                            <label htmlFor="breed">{translations.petProfile.breed}</label>
+                            <InputText
+                                id="breed"
+                                name="breed"
+                                className="p-inputtext-sm"
+                                placeholder={translations.petProfile.placeholderBreed}
+                                value={formData.breed}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="breed">{translations.petProfile.breed}</label>
-                        <InputText
-                            id="breed"
-                            name="breed"
-                            className="p-inputtext-sm"
-                            placeholder={translations.petProfile.placeholderBreed}
-                            value={formData.breed}
-                            onChange={handleChange}
-                        />
+                    <div className="flex flex-col md:flex-row gap-4">
+                        <div className="flex flex-col gap-2 flex-1">
+                            <label htmlFor="age">{translations.petProfile.age}</label>
+                            <InputNumber
+                                id="age"
+                                value={formData.age}
+                                onValueChange={(e) => handleNumberChange('age', e.value ?? null)}
+                                min={0}
+                                max={100}
+                                placeholder={translations.petProfile.placeholderAge}
+                                className="w-full p-inputtext-sm"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-2 flex-1">
+                            <label htmlFor="size">{translations.petProfile.size}</label>
+                            <Dropdown
+                                id="size"
+                                value={formData.size}
+                                options={sizeOptions}
+                                onChange={(e) => handleDropdownChange('size', e.value)}
+                                placeholder={translations.petProfile.placeholderSize}
+                                className="w-full p-inputtext-sm"
+                                required
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-2 flex-1">
+                            <label htmlFor="gender">{translations.petProfile.gender}</label>
+                            <Dropdown
+                                id="gender"
+                                value={formData.gender}
+                                options={genderOptions}
+                                onChange={(e) => handleDropdownChange('gender', e.value)}
+                                placeholder={translations.petProfile.placeholderGender}
+                                className="w-full p-inputtext-sm"
+                                required
+                            />
+                        </div>
                     </div>
-                    
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="age">{translations.petProfile.age}</label>
-                        <InputNumber
-                            id="age"
-                            value={formData.age}
-                            onValueChange={(e) => handleNumberChange('age', e.value ?? null)}
-                            min={0}
-                            max={100}
-                            placeholder={translations.petProfile.placeholderAge}
-                            className="w-full"
-                        />
-                    </div>
-                    
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="gender">{translations.petProfile.gender}</label>
-                        <Dropdown
-                            id="gender"
-                            value={formData.gender}
-                            options={genderOptions}
-                            onChange={(e) => handleDropdownChange('gender', e.value)}
-                            placeholder={translations.petProfile.placeholderGender
-                            }
-                            className="w-full"
-                            required
-                        />
-                    </div>
-                    
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="size">{translations.petProfile.size}</label>
-                        <Dropdown
-                            id="size"
-                            value={formData.size}
-                            options={sizeOptions}
-                            onChange={(e) => handleDropdownChange('size', e.value)}
-                            placeholder={translations.petProfile.placeholderSize}
-                            className="w-full"
-                            required
-                        />
-                    </div>
-                    
+
                     <div className="flex flex-col gap-2">
                         <label htmlFor="description">{translations.petProfile.description}</label>
                         <InputTextarea
@@ -231,11 +232,11 @@ const AnimalSheetForm = ({ onSuccess }: { onSuccess: (animalData: PetProfileData
                             placeholder={translations.petProfile.placeholderDescription}
                             value={formData.description}
                             onChange={handleChange}
-                            className="w-full"
+                            className="w-full p-inputtext-sm"
                             required
                         />
                     </div>
-                    
+
                     <Button type="submit" className="flex justify-center mt-4" loading={loading}>
                         {translations.petProfile.submitButton}
                     </Button>
