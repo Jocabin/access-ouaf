@@ -5,13 +5,14 @@ import { Dropdown } from 'primereact/dropdown'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import { InputNumber } from 'primereact/inputnumber'
+import type { Animal } from '@/components/AnimalDashboard'
 import { createClient } from '@/utils/supabase/client'
 import { createAnimal, updateAnimal } from '@/services/animals.service'
 import { translations } from '@/lib/translations'
 
 export interface animalData {
-    animal?: never
-    onSuccess: (updatedAnimal: never) => void
+    animal?: Animal
+    onSuccess: (updatedAnimal: Animal) => void
 }
   
 interface DropdownOption {

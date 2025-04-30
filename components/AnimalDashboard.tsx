@@ -7,10 +7,21 @@ import { translations } from '@/lib/translations'
 import AnimalSheetForm from '@/components/AnimalSheetForm'
 import { deleteAnimal } from '@/services/animals.service'
 
-export default function AnimalDashboard({ animals }: { animals: any[] }) {
+export interface Animal {
+    id: string
+    name: string
+    species: string
+    breed: string
+    age: number
+    gender: string
+    size: string
+    description: string
+}
+
+export default function AnimalDashboard({ animals }: { animals: Animal[] }) {
     const [formVisible, setFormVisible] = useState(false)
     const [animalList, setAnimalList] = useState(animals)
-    const [selectedAnimal, setSelectedAnimal] = useState(null)
+    const [selectedAnimal, setSelectedAnimal] = useState<Animal | null>(null)
 
     const handleDelete = async (id: string) => {
         await deleteAnimal(id)
@@ -81,7 +92,7 @@ export default function AnimalDashboard({ animals }: { animals: any[] }) {
 
             <Dialog visible={formVisible} onHide={() => setFormVisible(false)} header={ selectedAnimal ? translations.dashboard.animalPage.animalSheetForm.headerEdit : translations.dashboard.animalPage.animalSheetForm.headerCreate } style={{ width: '90vw', maxWidth: '800px' }} >
                 <AnimalSheetForm
-                    animal={selectedAnimal}
+                    animal={selectedAnimal ?? undefined}
                     onSuccess={(updatedAnimal) => {
                         if (selectedAnimal) {
                             setAnimalList((prev) =>
