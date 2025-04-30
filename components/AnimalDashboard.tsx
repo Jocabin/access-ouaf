@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { translations } from '@/lib/translations'
 import AnimalSheetForm from '@/components/AnimalSheetForm'
 import { deleteAnimal } from '@/services/animals.service'
@@ -16,8 +17,22 @@ export default function AnimalDashboard({ animals }: { animals: any[] }) {
         setAnimalList((prev) => prev.filter((a) => a.id !== id))
     }
 
+    const confirmDelete = (id: string) => {
+        confirmDialog({
+            header: translations.dashboard.animalPage.dialogTitle,
+            message: translations.dashboard.animalPage.dialogMessage,
+            icon: 'pi pi-exclamation-triangle',
+            defaultFocus: 'accept',
+            acceptLabel: translations.dashboard.animalPage.acceptLabel,
+            rejectLabel: translations.dashboard.animalPage.rejectLabel,
+            accept: () => handleDelete(id),
+            reject: () => null
+        })
+    }
+
     return (
         <>
+            <ConfirmDialog />
             <h1 className="flex justify-center">{translations.dashboard.animalPage.title}</h1>
             <div className="flex flex-col md:flex-row flex-wrap gap-4">
                 {animalList.map((animal) => (
@@ -39,7 +54,7 @@ export default function AnimalDashboard({ animals }: { animals: any[] }) {
                                         label={translations.dashboard.animalPage.deleteButton}
                                         icon="pi pi-trash"
                                         className="p-button-text p-button-sm p-button-danger ml-2"
-                                        onClick={() => handleDelete(animal.id)}
+                                        onClick={() => confirmDelete(animal.id)}
                                     />
                                 </div>
                             </div>
