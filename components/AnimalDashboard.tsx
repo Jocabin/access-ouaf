@@ -13,9 +13,9 @@ export default function AnimalDashboard({ animals }: { animals: any[] }) {
     return (
         <>
             <h1 className="flex justify-center">{translations.dashboard.animalPage.title}</h1>
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col md:flex-row flex-wrap gap-4">
                 {animalList.map((animal) => (
-                    <div key={animal.id} className="w-full md:w-1/2">
+                    <div key={animal.id} className="w-full md:basis-[calc(50%-0.5rem)]">
                         <div className="p-card p-4 border-round surface-card shadow-2">
                             <div className='flex justify-between'>
                                 <h3>{animal.name}</h3>
@@ -54,7 +54,6 @@ export default function AnimalDashboard({ animals }: { animals: any[] }) {
                 <AnimalSheetForm
                     animal={selectedAnimal}
                     onSuccess={(updatedAnimal) => {
-                        console.log(updatedAnimal)
                         if (selectedAnimal) {
                             setAnimalList((prev) =>
                                 prev.map((a) => (a.id === updatedAnimal.id ? updatedAnimal : a))
