@@ -23,10 +23,10 @@ export async function createAnimal(animalData: object) {
 
     if (error) {
         console.error("Erreur lors de la création de l'animal :", error)
-        return []
+        return { data: null, error }
     }
 
-    return data
+    return { data: data?.[0] || null, error: null }
 }
 
 export async function updateAnimal(animalId: string, animalData: object) {
@@ -37,9 +37,9 @@ export async function updateAnimal(animalId: string, animalData: object) {
         .select()
 
     if (error) {
-        console.error("Erreur lors de la récupération des animaux :", error)
-        return []
+        console.error("Erreur lors de la modification de l'animal :", error)
+        return { data: null, error }
     }
 
-    return data
+    return { data: data?.[0] || null, error: null }
 }

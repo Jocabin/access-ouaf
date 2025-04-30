@@ -10,14 +10,15 @@ import { createAnimal, updateAnimal } from '@/services/animals.service'
 import { translations } from '@/lib/translations'
 
 export interface animalData {
-    animal: object
+    animal?: never
+    onSuccess: (updatedAnimal: never) => void
 }
   
 interface DropdownOption {
     label: string
     value: string
 }
-const AnimalSheetForm = ({ animal }: animalData) => {
+const AnimalSheetForm = ({ animal, onSuccess }: animalData) => {
     const supabase = createClient()
     const [formData, setFormData] = useState({
         name: animal?.name || '',
@@ -103,17 +104,17 @@ const AnimalSheetForm = ({ animal }: animalData) => {
 
             let data, error
             if (animal?.id) {
-                await updateAnimal(animal.id, animalData)
+                ({ data, error } = await updateAnimal(animal.id, animalData))
             } else {
-                await createAnimal(animalData)
+                ({ data, error } = await createAnimal(animalData))
             }
 
             if (error) {
                 throw error
             }
-            
-            if (data && data.length > 0) {
-                onSuccess(data[0])
+
+            if (data) {
+                onSuccess(data)
                 toast.current?.show({
                     severity: 'success',
                     summary: translations.register.successSummary,

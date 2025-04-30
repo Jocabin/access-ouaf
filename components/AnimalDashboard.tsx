@@ -7,13 +7,14 @@ import AnimalSheetForm from '@/components/AnimalSheetForm'
 
 export default function AnimalDashboard({ animals }: { animals: any[] }) {
     const [formVisible, setFormVisible] = useState(false)
+    const [animalList, setAnimalList] = useState(animals)
     const [selectedAnimal, setSelectedAnimal] = useState(null)
 
     return (
         <>
             <h1 className="flex justify-center">{translations.dashboard.animalPage.title}</h1>
             <div className="flex flex-col md:flex-row gap-4">
-                {animals.map((animal) => (
+                {animalList.map((animal) => (
                     <div key={animal.id} className="w-full md:w-1/2">
                         <div className="p-card p-4 border-round surface-card shadow-2">
                             <div className='flex justify-between'>
@@ -49,8 +50,21 @@ export default function AnimalDashboard({ animals }: { animals: any[] }) {
                 />
             </div>
 
-            <Dialog visible={formVisible} onHide={() => setFormVisible(false)} header="Nouvel animal" style={{ width: '90vw', maxWidth: '800px' }} >
-                <AnimalSheetForm animal={selectedAnimal} onSuccess={() => setFormVisible(false)} />
+            <Dialog visible={formVisible} onHide={() => setFormVisible(false)} header={ selectedAnimal ? translations.dashboard.animalPage.animalSheetForm.headerEdit : translations.dashboard.animalPage.animalSheetForm.headerCreate } style={{ width: '90vw', maxWidth: '800px' }} >
+                <AnimalSheetForm
+                    animal={selectedAnimal}
+                    onSuccess={(updatedAnimal) => {
+                        console.log(updatedAnimal)
+                        if (selectedAnimal) {
+                            setAnimalList((prev) =>
+                                prev.map((a) => (a.id === updatedAnimal.id ? updatedAnimal : a))
+                            )
+                        } else {
+                            setAnimalList((prev) => [...prev, updatedAnimal])
+                        }
+                        setFormVisible(false)
+                    }}
+                />
             </Dialog>
         </>
     )
