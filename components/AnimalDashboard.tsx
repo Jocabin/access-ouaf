@@ -4,11 +4,17 @@ import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { translations } from '@/lib/translations'
 import AnimalSheetForm from '@/components/AnimalSheetForm'
+import { deleteAnimal } from '@/services/animals.service'
 
 export default function AnimalDashboard({ animals }: { animals: any[] }) {
     const [formVisible, setFormVisible] = useState(false)
     const [animalList, setAnimalList] = useState(animals)
     const [selectedAnimal, setSelectedAnimal] = useState(null)
+
+    const handleDelete = async (id: string) => {
+        await deleteAnimal(id)
+        setAnimalList((prev) => prev.filter((a) => a.id !== id))
+    }
 
     return (
         <>
@@ -19,15 +25,23 @@ export default function AnimalDashboard({ animals }: { animals: any[] }) {
                         <div className="p-card p-4 border-round surface-card shadow-2">
                             <div className='flex justify-between'>
                                 <h3>{animal.name}</h3>
-                                <Button
-                                    label="Modifier"
-                                    icon="pi pi-pencil"
-                                    className="p-button-text p-button-sm"
-                                    onClick={() => {
-                                        setSelectedAnimal(animal)
-                                        setFormVisible(true)
-                                    }}
-                                />
+                                <div>
+                                    <Button
+                                        label={translations.dashboard.animalPage.editButton}
+                                        icon="pi pi-pencil"
+                                        className="p-button-text p-button-sm"
+                                        onClick={() => {
+                                            setSelectedAnimal(animal)
+                                            setFormVisible(true)
+                                        }}
+                                    />
+                                    <Button
+                                        label={translations.dashboard.animalPage.deleteButton}
+                                        icon="pi pi-trash"
+                                        className="p-button-text p-button-sm p-button-danger ml-2"
+                                        onClick={() => handleDelete(animal.id)}
+                                    />
+                                </div>
                             </div>
                             <p><strong>Espèce :</strong> {animal.species}</p>
                             <p><strong>Race :</strong> {animal.breed}</p>

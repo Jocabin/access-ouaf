@@ -43,3 +43,17 @@ export async function updateAnimal(animalId: string, animalData: object) {
 
     return { data: data?.[0] || null, error: null }
 }
+
+export async function deleteAnimal(animalId: string) {
+    const { data, error } = await supabase
+        .from('animals')
+        .delete()
+        .eq('id', animalId)
+
+    if (error) {
+        console.error("Erreur lors de la suppression de l'animal :", error)
+        return { data: null, error }
+    }
+
+    return { data: data?.[0] || null, error: null }
+}
