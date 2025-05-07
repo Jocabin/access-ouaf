@@ -4,6 +4,8 @@ import ImageSlider from "@/components/ImageSlider";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import WishlistButton from "../../../components/WishlistButton";
+import { Card } from 'primereact/card'
+import { Avatar } from 'primereact/avatar'
 
 export default async function ProductPage({
   params,
@@ -23,6 +25,9 @@ export default async function ProductPage({
 
   const product = data[0];
   const images = product.img.split(",");
+
+  const { data: user, error: errorUser } = await supabase
+      .rpc('get_user_by_id', { uid: product.user_id })
 
   for (let i = 0; i < images.length; i += 1) {
     images[
@@ -73,7 +78,16 @@ export default async function ProductPage({
             action="/buy"
             method="post"
           >
-            <Button>Contacter</Button>
+            <Card>
+              <div className='flex flex-row mb-6 items-center gap-4'>
+                <Avatar icon="pi pi-user" size="xlarge" shape="circle" />
+                <div className='flex flex-col'>
+                  <span>Vendu par</span>
+                  <span>{user.raw_meta_data.display_name}</span>
+                </div>
+              </div>
+              <Button>Contacter</Button>
+            </Card>
             <Button>Acheter</Button>
           </form>
         </div>
