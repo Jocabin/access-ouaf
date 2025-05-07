@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import "../style/globals.css"
 import Script from "next/script"
-import HeaderMenu from "../components/CategoriesList"
+import CategoriesList from "../components/CategoriesList"
 import Footer from "../components/Footer"
 import { PrimeReactProvider } from "primereact/api"
 import "primereact/resources/themes/saga-orange/theme.css"
@@ -59,7 +59,7 @@ export default async function RootLayout({
             <Suspense>
               <HeaderResponsive />
             </Suspense>
-            <HeaderMenu />
+            <CategoriesList />
             <div className="main--content">{children}</div>
             <Footer />
           </div>
