@@ -83,7 +83,7 @@ export default async function ProductPage({
                 <Avatar icon="pi pi-user" size="xlarge" shape="circle" />
                 <div className='flex flex-col'>
                   <span>Vendu par</span>
-                  <span>{user.raw_meta_data.display_name}</span>
+                  <span><a href={'/profile/' + user.id}>{user.raw_meta_data.display_name}</a></span>
                 </div>
               </div>
               <Button>Contacter</Button>

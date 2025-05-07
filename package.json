@@ -8,11 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "host": "next dev --hostname 192.168.1.174"
-
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.3",
+    "date-fns": "^4.1.0",
     "js-cookie": "^3.0.5",
     "next": "15.0.3",
     "next-qrcode": "^2.5.1",
