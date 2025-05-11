@@ -3,13 +3,13 @@
 import { RealtimeChat } from '@/components/realtime-chat';
 import { useMessagesQuery } from '@/hooks/use-messages-query';
 import { storeMessages } from '@/lib/store-messages';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, Suspense } from 'react';
 import { ChatMessage as RealtimeChatMessage } from '@/hooks/use-realtime-chat';
 import { ChatMessage as DbChatMessage } from '@/lib/store-messages';
 import { useSearchParams } from 'next/navigation';
 import { decodeRoomName } from '@/utils/helpers/roomNameEncoder';
 
-export default function ChatPage() {
+function ChatContent() {
   const searchParams = useSearchParams();
   const sku = searchParams.get('sku');
   const encodedRoom = searchParams.get('roomName');
@@ -54,7 +54,7 @@ export default function ChatPage() {
       
       const isUserSeller = user.id === product.user_id;
       let buyerId = isUserSeller ? '' : user.id;
-      let sellerId = isUserSeller ? user.id : product.user_id;
+      const sellerId = isUserSeller ? user.id : product.user_id;
       
       if (isUserSeller) {
         if (originalMessages?.length) {
@@ -81,7 +81,7 @@ export default function ChatPage() {
 
   if (isLoading) return <div className="p-8 text-center">Chargement...</div>;
   if (error) return <div className="p-8 text-center text-red-500">{error.message}</div>;
-  if (!user || !computedRoomName) return <div className="p-8 text-center">Impossible d'accéder au chat</div>;
+  if (!user || !computedRoomName) return <div className="p-8 text-center">Impossible d&apos;accéder au chat</div>;
 
   return (
     <div className="flex flex-col max-h-screen">
@@ -116,5 +116,13 @@ export default function ChatPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Chargement...</div>}>
+      <ChatContent />
+    </Suspense>
   );
 }

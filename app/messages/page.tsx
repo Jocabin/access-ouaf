@@ -7,8 +7,26 @@ import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 import { encodeRoomName } from "@/utils/helpers/roomNameEncoder";
 
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  img: string;
+  user_id: string;
+}
+
+interface Conversation {
+  roomName: string;
+  lastMessage: string;
+  lastMessageDate: string;
+  product: Product;
+  otherUserId: string;
+  isUserSeller: boolean;
+  unreadCount: number;
+}
+
 export default function ConversationsPage() {
-  const [conversations, setConversations] = useState<any[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const supabase = createClient();
@@ -46,7 +64,7 @@ export default function ConversationsPage() {
 
         const productIds = [...new Set(messagesData.map((msg) => msg.item_id))];
 
-        let productsData: any[] = [];
+        let productsData: Product[] = [];
         if (productIds.length > 0) {
           const { data: products, error: productsError } = await supabase
             .from("products")
@@ -152,7 +170,7 @@ export default function ConversationsPage() {
       {conversations.length === 0 ? (
         <div className="text-center p-8 bg-white rounded-lg shadow">
           <p className="text-gray-500">
-            Vous n'avez pas encore de conversations
+            Vous n&apos;avez pas encore de conversations
           </p>
         </div>
       ) : (

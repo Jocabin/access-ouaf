@@ -28,15 +28,7 @@ export default async function RootLayout({
         src="https://kit.fontawesome.com/123bd410f9.js"
         crossOrigin="anonymous"
       />
-      <body
-          className={`${quicksand.className} ${urbanist.className}`}
-          style={
-              {
-                  "--font-quicksand": quicksand.style.fontFamily,
-                  "--font-urbanist": urbanist.style.fontFamily,
-              } as React.CSSProperties
-          }
-      >
+      <head>
       <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-icon-57x57.png"/>
       <link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-icon-60x60.png"/>
       <link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-icon-72x72.png"/>
@@ -51,6 +43,16 @@ export default async function RootLayout({
       <link rel="icon" type="image/png" sizes="96x96" href="/favicons/favicon-96x96.png"/>
       <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png"/>
       <link rel="manifest" href="/favicons/manifest.json"/>
+      </head>
+      <body
+          className={`${quicksand.className} ${urbanist.className}`}
+          style={
+              {
+                  "--font-quicksand": quicksand.style.fontFamily,
+                  "--font-urbanist": urbanist.style.fontFamily,
+              } as React.CSSProperties
+          }
+      >
       <meta name="msapplication-TileColor" content="#ffffff"/>
       <meta name="msapplication-TileImage" content="/favicons/ms-icon-144x144.png"/>
       <meta name="theme-color" content="#ffffff"/>
