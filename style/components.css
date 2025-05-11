@@ -2,7 +2,10 @@
 @import "components/Header.css";
 @import "components/Searchbar.css";
 @import "components/MenuLink.css";
-@import "components/HeaderMenu.css";
+@import "components/CategoriesList.css";
 @import "components/Footer.css";
 @import "components/Card.css";
 @import "components/Chat.css";
+@import "components/Homepage.css";
+@import "components/Logo.css";
+@import "components/HeaderMobile.css";

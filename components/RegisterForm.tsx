@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
-import { translations } from "../lib/translations";
+import { translations } from "@/lib/translations";
 
 const RegisterForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const [formData, setFormData] = useState({
