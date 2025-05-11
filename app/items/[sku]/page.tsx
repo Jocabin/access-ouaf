@@ -69,7 +69,7 @@ export default async function ProductPage({
           <p className="flex-1 text-[#1a0b03] p-4">{product.description}</p>
 
           <div className="w-full fixed md:static bottom-0 bg-white border-t border-t-black md:border-none p-4 flex md:flex-col gap-4">
-              <Link href={`/chat`} className="no-underline w-full">
+              <Link href={`/chat?sku=${product.id}`} className="no-underline w-full">
                 <Button>Contacter</Button>
               </Link>
               <Link href={`/buy`} className="no-underline w-full">

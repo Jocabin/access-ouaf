@@ -1,7 +1,8 @@
-@import 'components/Button.css';
-@import 'components/Header.css';
-@import 'components/Searchbar.css';
-@import 'components/MenuLink.css';
-@import 'components/HeaderMenu.css';
-@import 'components/Footer.css';
-@import 'components/Card.css';
+@import "components/Button.css";
+@import "components/Header.css";
+@import "components/Searchbar.css";
+@import "components/MenuLink.css";
+@import "components/HeaderMenu.css";
+@import "components/Footer.css";
+@import "components/Card.css";
+@import "components/Chat.css";

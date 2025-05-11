@@ -15,6 +15,7 @@ export interface ChatMessage {
     name: string
   }
   createdAt: string
+  isDateSeparator?: boolean;
 }
 
 const EVENT_MESSAGE_TYPE = 'message'
