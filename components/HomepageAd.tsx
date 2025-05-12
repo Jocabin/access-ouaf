@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import { translations } from "@/app/translations";
-import ButtonMe from "@/app/components/Button";
+import { translations } from "@/lib/translations";
+import ButtonMe from "@/components/Button";
 import { useRef, useState } from "react";
 import { Toast } from "primereact/toast";
 import { InputText } from "primereact/inputtext";
