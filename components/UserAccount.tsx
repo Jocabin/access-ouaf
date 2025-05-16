@@ -1,6 +1,6 @@
 'use client'
 import React, {useRef, useState} from 'react'
-import { updateUserDataAction } from '@/actions/user/updateUserData'
+import { updateUserDataAction, uploadAvatar } from '@/actions/user/updateUserData'
 import { updateAddress } from '@/services/addresses.service'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
@@ -84,12 +84,12 @@ export function UserAccount({ id, name, email, phone, avatar, address, postal_co
     }
 
     const onAvatarUpload = async (event: any) => {
+        setLoading(true)
         const file = event.files?.[0]
         if (!file) return
-
         try {
-            const publicUrl = await uploadAvatarToSupabase(file)
-            setUserData((prev) => ({ ...prev, avatar: publicUrl }))
+            await uploadAvatar(file, userData.id)
+            setUserData({ ...userData, avatar: `avatar_${userData.id}.${file.name.split('.').pop()}` })
         } catch (err) {
             console.error(err)
             toast.current?.show({
@@ -98,6 +98,8 @@ export function UserAccount({ id, name, email, phone, avatar, address, postal_co
                 detail: 'Échec de l’upload de l’avatar'
             })
         }
+        setIsEditing(false)
+        setLoading(false)
     }
 
     return (
@@ -117,11 +119,13 @@ export function UserAccount({ id, name, email, phone, avatar, address, postal_co
                             htmlFor='avatar'>{translations.dashboard.accountPage.userAccountComponent.avatar}
                         </label>
                         <FileUpload
-                            id='name'
-                            name='name'
                             mode="basic"
-                            value={userData.avatar}
-                            onUpload={handleInputChange}
+                            name="avatar"
+                            accept="image/*"
+                            chooseLabel="Choisir"
+                            maxFileSize={5000000}
+                            customUpload
+                            uploadHandler={onAvatarUpload}
                         />
                     </div>
                     <div className='p-field flex flex-col gap-2'>
@@ -229,7 +233,7 @@ export function UserAccount({ id, name, email, phone, avatar, address, postal_co
             ) : (
                 <>
                     <Avatar
-                        image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${userData.avatar}` || undefined}
+                        image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${userData.avatar}` || undefined}
                         icon={!userData.avatar ? 'pi pi-user' : undefined}
                         size="xlarge"
                         shape="circle"
