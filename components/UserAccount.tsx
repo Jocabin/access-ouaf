@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import { Avatar } from 'primereact/avatar'
-import { FileUpload } from 'primereact/fileupload'
+import { FileUpload, FileUploadHandlerEvent } from 'primereact/fileupload'
 import { translations } from '@/lib/translations'
 
 interface UserAccountProps {
@@ -83,7 +83,7 @@ export function UserAccount({ id, name, email, phone, avatar, address, postal_co
         setLoading(false)
     }
 
-    const onAvatarUpload = async (event: any) => {
+    const onAvatarUpload = async (event: FileUploadHandlerEvent) => {
         setLoading(true)
         try {
             const file = event.files?.[0]
