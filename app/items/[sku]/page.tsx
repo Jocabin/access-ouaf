@@ -27,7 +27,7 @@ export default async function ProductPage({
   const product = data[0];
   const images = product.img.split(",");
 
-  const { data: user, error: errorUser } = await supabase
+  const { data: user } = await supabase
       .rpc('get_user_by_id', { uid: product.user_id })
 
   for (let i = 0; i < images.length; i += 1) {

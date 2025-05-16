@@ -8,12 +8,22 @@ import { Avatar } from 'primereact/avatar'
 import { Card } from 'primereact/card'
 import React from "react";
 
+interface Annonce {
+    id: string
+    slug: string
+    img: string
+    name: string
+    brand: string
+    state: string
+    price: number
+}
+
 export default async function ProductPage({params}: {
     params: Promise<{ id: string }>
 }) {
     const { id } = await params
     const user = await fetchUser(id)
-    const annonces = await getProductsByUser(id)
+    const annonces = await getProductsByUser(id) ?? []
 
     const memberSince = formatDistanceToNow(new Date(user?.created_at), { locale: fr })
 
@@ -40,7 +50,7 @@ export default async function ProductPage({params}: {
                 <div className="mt-4">
                     {annonces.length > 0 ? (
                         <ul className="flex flex-col list-none space-y-4 m-0 p-0">
-                            {annonces.map((annonce: any) => (
+                            {annonces.map((annonce: Annonce) => (
                                 <li key={annonce.id}>
                                     <Link href={`/items/${annonce.slug}`} className="no-underline text-inherit">
                                         <Card className="w-[500px] p-0">
