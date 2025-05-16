@@ -43,3 +43,26 @@ export async function updateUserPassword(password: string) {
 
     return data
 }
+
+export async function uploadAvatarToSupabase (file: File) {
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${userData.id}-${Date.now()}.${fileExt}`
+
+    const { data, error } = await supabase.storage
+        .from('avatars')
+        .upload(fileName, file, {
+            cacheControl: '3600',
+            upsert: true
+        })
+
+    if (error) {
+        throw new Error('Erreur upload avatar : ' + error.message)
+    }
+
+    const { data: publicUrlData } = supabase
+        .storage
+        .from('avatars')
+        .getPublicUrl(fileName)
+
+    return publicUrlData.publicUrl
+}

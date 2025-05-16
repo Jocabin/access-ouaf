@@ -6,6 +6,8 @@ import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
+import { Avatar } from 'primereact/avatar'
+import { FileUpload } from 'primereact/fileupload'
 import { translations } from '@/lib/translations'
 
 interface UserAccountProps {
@@ -13,17 +15,18 @@ interface UserAccountProps {
     name: string
     email: string,
     phone: string,
+    avatar: string,
     address: string,
     postal_code: string,
     city: string,
     country: string,
 }
 
-export function UserAccount({ id, name, email, phone, address, postal_code, city, country }: UserAccountProps) {
+export function UserAccount({ id, name, email, phone, avatar, address, postal_code, city, country }: UserAccountProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [userData, setUserData] = useState({ id, name, email, phone, address, postal_code, city, country })
-    const [initialData, setInitialData] = useState({ id, name, email, phone, address, postal_code, city, country })
+    const [userData, setUserData] = useState({ id, name, email, phone, avatar, address, postal_code, city, country })
+    const [initialData, setInitialData] = useState({ id, name, email, phone, avatar, address, postal_code, city, country })
     const hasChanges = JSON.stringify(userData) !== JSON.stringify(initialData)
     const toast = useRef<Toast | null>(null)
 
@@ -80,6 +83,23 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
         setLoading(false)
     }
 
+    const onAvatarUpload = async (event: any) => {
+        const file = event.files?.[0]
+        if (!file) return
+
+        try {
+            const publicUrl = await uploadAvatarToSupabase(file)
+            setUserData((prev) => ({ ...prev, avatar: publicUrl }))
+        } catch (err) {
+            console.error(err)
+            toast.current?.show({
+                severity: 'error',
+                summary: 'Erreur',
+                detail: 'Échec de l’upload de l’avatar'
+            })
+        }
+    }
+
     return (
         <Card title={ translations.dashboard.accountPage.userAccountComponent.cardTitle } className='flex-1'>
             <Toast ref={ toast } />
@@ -94,7 +114,20 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                 <div className='p-fluid flex flex-col gap-4'>
                     <div className='p-field flex flex-col gap-2'>
                         <label
-                            htmlFor='name'>{translations.dashboard.accountPage.userAccountComponent.nameLabel}</label>
+                            htmlFor='avatar'>{translations.dashboard.accountPage.userAccountComponent.avatar}
+                        </label>
+                        <FileUpload
+                            id='name'
+                            name='name'
+                            mode="basic"
+                            value={userData.avatar}
+                            onUpload={handleInputChange}
+                        />
+                    </div>
+                    <div className='p-field flex flex-col gap-2'>
+                        <label
+                            htmlFor='name'>{translations.dashboard.accountPage.userAccountComponent.nameLabel}
+                        </label>
                         <InputText
                             id='name'
                             name='name'
@@ -104,7 +137,8 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                     </div>
                     <div className='p-field flex flex-col gap-2'>
                         <label
-                            htmlFor='email'>{translations.dashboard.accountPage.userAccountComponent.emailLabel}</label>
+                            htmlFor='email'>{translations.dashboard.accountPage.userAccountComponent.emailLabel}
+                        </label>
                         <InputText
                             id='email'
                             name='email'
@@ -114,7 +148,8 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                     </div>
                     <div className='p-field flex flex-col gap-2'>
                         <label
-                            htmlFor='phone'>{translations.dashboard.accountPage.userAccountComponent.phoneLabel}</label>
+                            htmlFor='phone'>{translations.dashboard.accountPage.userAccountComponent.phoneLabel}
+                        </label>
                         <div className="flex flex-row items-center gap-2">
                             <label>{translations.dashboard.accountPage.userAccountComponent.phonePrefix}</label>
                             <InputText
@@ -129,7 +164,8 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                     </div>
                     <div className='p-field flex flex-col gap-2'>
                         <label
-                            htmlFor='phone'>{translations.dashboard.accountPage.userAccountComponent.addressLabel}</label>
+                            htmlFor='phone'>{translations.dashboard.accountPage.userAccountComponent.addressLabel}
+                        </label>
                         <div className="flex flex-row items-center gap-2">
                             <InputText
                                 id='address'
@@ -142,7 +178,8 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                     <div className='flex flex-col sm:flex-row gap-2'>
                         <div className='p-field flex flex-col gap-2'>
                             <label
-                                htmlFor='postal_code'>{translations.dashboard.accountPage.userAccountComponent.postalCodeLabel}</label>
+                                htmlFor='postal_code'>{translations.dashboard.accountPage.userAccountComponent.postalCodeLabel}
+                            </label>
                             <div className="flex flex-row items-center gap-2">
                                 <InputText
                                     id='postal_code'
@@ -155,7 +192,8 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                         </div>
                         <div className='p-field flex flex-col gap-2'>
                             <label
-                                htmlFor='city'>{translations.dashboard.accountPage.userAccountComponent.cityLabel}</label>
+                                htmlFor='city'>{translations.dashboard.accountPage.userAccountComponent.cityLabel}
+                            </label>
                             <div className="flex flex-row items-center gap-2">
                                 <InputText
                                     id='city'
@@ -167,7 +205,8 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                         </div>
                         <div className='p-field flex flex-col gap-2'>
                             <label
-                                htmlFor='country'>{translations.dashboard.accountPage.userAccountComponent.countryLabel}</label>
+                                htmlFor='country'>{translations.dashboard.accountPage.userAccountComponent.countryLabel}
+                            </label>
                             <div className="flex flex-row items-center gap-2">
                                 <InputText
                                     id='country'
@@ -189,6 +228,12 @@ export function UserAccount({ id, name, email, phone, address, postal_code, city
                 </div>
             ) : (
                 <>
+                    <Avatar
+                        image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${userData.avatar}` || undefined}
+                        icon={!userData.avatar ? 'pi pi-user' : undefined}
+                        size="xlarge"
+                        shape="circle"
+                    />
                     <p>{translations.dashboard.accountPage.userAccountComponent.nameLabel}: {userData.name}</p>
                     <p>{translations.dashboard.accountPage.userAccountComponent.emailLabel}: {userData.email}</p>
                     <p>
