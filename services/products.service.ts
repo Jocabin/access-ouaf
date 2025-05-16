@@ -57,3 +57,17 @@ export async function getProductsByWordSearch(word: string) {
 
   return data
 }
+
+export async function getProductsByUser(id: string) {
+  const { data, error } = await supabase
+      .from("products")
+      .select()
+      .eq('user_id', id)
+
+  if (error) {
+    console.error("Erreur lors de la récupération des annonces :", error)
+    return null
+  }
+
+  return data
+}
