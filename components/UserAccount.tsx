@@ -245,10 +245,12 @@ export function UserAccount({ id, name, email, phone, avatar, address, postal_co
             ) : (
                 <>
                     <Avatar
+                        className="avatar-fixed"
                         image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${userData.avatar}` || undefined}
                         icon={!userData.avatar ? 'pi pi-user' : undefined}
                         size="xlarge"
                         shape="circle"
+                        style={{ width: '64px', height: '64px', overflow: 'hidden' }}
                     />
                     <p>{translations.dashboard.accountPage.userAccountComponent.nameLabel}: {userData.name}</p>
                     <p>{translations.dashboard.accountPage.userAccountComponent.emailLabel}: {userData.email}</p>

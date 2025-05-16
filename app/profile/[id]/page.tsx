@@ -21,10 +21,12 @@ export default async function ProductPage({params}: {
         <div className='flex flex-col items-center gap-10 my-10'>
             <div className='flex flex-col items-center gap-2'>
                 <Avatar
+                    className="avatar-fixed"
                     image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${user.raw_meta_data.avatar_url}` || undefined}
                     icon={!user.raw_meta_data.avatar_url ? 'pi pi-user' : undefined}
                     size="xlarge"
                     shape="circle"
+                    style={{ width: '64px', height: '64px', overflow: 'hidden' }}
                 />
                 <span className='font-bold'>{user.raw_meta_data.display_name}</span>
                 <span className='text-sm'>Membre depuis {memberSince}</span>

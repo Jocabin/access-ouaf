@@ -77,10 +77,12 @@ export default async function ProductPage({
               <Card>
                   <div className='flex flex-row mb-6 items-center gap-4'>
                       <Avatar
+                          className="avatar-fixed"
                           image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${user.raw_meta_data.avatar_url}` || undefined}
                           icon={!user.raw_meta_data.avatar_url ? 'pi pi-user' : undefined}
                           size="xlarge"
                           shape="circle"
+                          style={{ width: '64px', height: '64px', overflow: 'hidden' }}
                       />
                       <div className='flex flex-col'>
                           <span>Vendu par</span>
