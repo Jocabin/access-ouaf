@@ -78,6 +78,7 @@ const RegisterForm = ({ onSuccess }: { onSuccess: () => void }) => {
           data: {
             display_name: sanitizedData.display_name,
             phone: sanitizedData.phone || null,
+            avatar_url: null
           },
         },
       });

@@ -1,6 +1,6 @@
 'use client'
 import React, {useRef, useState} from 'react'
-import { updateUserDataAction, uploadAvatar } from '@/actions/user/updateUserData'
+import { updateUserDataAction, uploadAvatar, deleteAvatar } from '@/actions/user/updateUserData'
 import { updateAddress } from '@/services/addresses.service'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
@@ -85,11 +85,17 @@ export function UserAccount({ id, name, email, phone, avatar, address, postal_co
 
     const onAvatarUpload = async (event: any) => {
         setLoading(true)
-        const file = event.files?.[0]
-        if (!file) return
         try {
-            await uploadAvatar(file, userData.id)
-            setUserData({ ...userData, avatar: `avatar_${userData.id}.${file.name.split('.').pop()}` })
+            const file = event.files?.[0]
+            if (!file) {
+                setLoading(false)
+                return
+            }
+            if (userData.avatar != null) {
+                await deleteAvatar(userData.avatar)
+            }
+            const response = await uploadAvatar(file, userData.id)
+            if (response) setUserData({ ...userData, avatar: response.path })
         } catch (err) {
             console.error(err)
             toast.current?.show({
@@ -119,13 +125,19 @@ export function UserAccount({ id, name, email, phone, avatar, address, postal_co
                             htmlFor='avatar'>{translations.dashboard.accountPage.userAccountComponent.avatar}
                         </label>
                         <FileUpload
-                            mode="basic"
                             name="avatar"
-                            accept="image/*"
-                            chooseLabel="Choisir"
+                            accept=".png,.jpg,.jpeg,image/png,image/jpg,image/jpeg"
+                            multiple={false}
+                            chooseLabel={translations.dashboard.accountPage.userAccountComponent.avatarChooseLabel}
+                            uploadLabel={translations.dashboard.accountPage.userAccountComponent.avatarUploadLabel}
+                            cancelLabel={translations.dashboard.accountPage.userAccountComponent.avatarCancelLabel}
+                            emptyTemplate={<p className="m-0">{translations.dashboard.accountPage.userAccountComponent.avatarEmptyTemplate}</p>}
+                            invalidFileSizeMessageSummary={translations.dashboard.accountPage.userAccountComponent.invalidFileSizeMessageSummary}
+                            invalidFileSizeMessageDetail={translations.dashboard.accountPage.userAccountComponent.invalidFileSizeMessgage}
                             maxFileSize={5000000}
                             customUpload
                             uploadHandler={onAvatarUpload}
+                            disabled={loading}
                         />
                     </div>
                     <div className='p-field flex flex-col gap-2'>

@@ -20,7 +20,7 @@ export async function updateUserDataAction(userData: { email: string; name: stri
 export async function uploadAvatar (file: File, userId: string) {
     const supabase = await createClient()
 
-    const fileName = `avatar_${userId}.${file.name.split('.').pop()}`
+    const fileName = `avatar_${userId}_${Date.now()}.${file.name.split('.').pop()}`
 
     const { data, error } = await supabase.storage
         .from('avatars')
@@ -33,7 +33,26 @@ export async function uploadAvatar (file: File, userId: string) {
         throw new Error('Erreur upload avatar : ' + error.message)
     }
 
-    await updateUserDataAvatar(fileName)
+    try {
+        await updateUserDataAvatar(fileName)
+    } catch (err) {
+        console.error('Erreur updateUserDataAvatar :', err)
+        throw err
+    }
+
+    return data
+}
+
+export async function deleteAvatar (fileName: string) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase.storage
+        .from('avatars')
+        .remove([fileName])
+
+    if (error) {
+        throw new Error('Erreur delete avatar : ' + error.message)
+    }
 
     return data
 }
