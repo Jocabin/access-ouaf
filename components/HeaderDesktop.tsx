@@ -12,10 +12,14 @@ import { createClient } from "@/utils/supabase/client"
 import { User } from "@supabase/supabase-js"
 import { redirect, useRouter } from "next/navigation"
 import Searchbar from "./Searchbar"
+import { usePathname } from "next/navigation";
 
 export default function HeaderDesktop() {
   const router = useRouter()
+  const pathname = usePathname();
   const supabase = createClient()
+    const [unreadConversationsCount, setUnreadConversationsCount] = useState(0);
+  
 
   const [loading, setLoading] = useState(true)
   const [visible, setVisible] = useState(false)
@@ -46,6 +50,43 @@ export default function HeaderDesktop() {
       subscription.unsubscribe()
     }
   }, [])
+
+  useEffect(() => {
+      if (!user) return;      
+      async function fetchUnreadConversations() {
+        const { data: unreadMessages, error } = await supabase
+          .from('messages')
+          .select('room_name')
+          .eq('is_read', false)
+          .neq('sender_id', user?.id);
+        
+        if (error) {
+          console.error('Erreur lors de la récupération des messages non lus:', error);
+          return;
+        }
+        
+        const uniqueRooms = new Set();
+        unreadMessages?.forEach(msg => uniqueRooms.add(msg.room_name));
+        setUnreadConversationsCount(uniqueRooms.size);
+      }
+      
+      fetchUnreadConversations();
+      
+      const channel = supabase
+        .channel('header-unread-messages')
+        .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'messages'
+        }, () => {
+          fetchUnreadConversations();
+        })
+        .subscribe();
+        
+      return () => {
+        channel.unsubscribe();
+      };
+    }, [user, supabase, pathname]);
 
   const handleSuccessLogin = async () => {
     setIsRegistered(true)
@@ -102,7 +143,20 @@ export default function HeaderDesktop() {
               router.push("/wishlist")
             }}
           />
-          <Button icon="fa-regular fa-paper-plane" text onClick={() => null} />
+          <div className="relative">
+                      <Button 
+                        icon="fa-regular fa-paper-plane" 
+                        text 
+                        onClick={() => {
+                          router.push("/messages");
+                        }} 
+                      />
+                      {unreadConversationsCount > 0 && (
+                        <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 bg-[#b3592a] text-white text-xs rounded-full">
+                          {unreadConversationsCount}
+                        </span>
+                      )}
+                    </div>
           <TieredMenu model={items} popup ref={menu} breakpoint="767px" />
           {!loading &&
             (user ? (
