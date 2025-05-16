@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import WishlistButton from "../../../components/WishlistButton";
 import { Card } from 'primereact/card'
 import { Avatar } from 'primereact/avatar'
+import React from "react";
 
 export default async function ProductPage({
   params,
@@ -75,7 +76,12 @@ export default async function ProductPage({
 
               <Card>
                   <div className='flex flex-row mb-6 items-center gap-4'>
-                      <Avatar icon="pi pi-user" size="xlarge" shape="circle"/>
+                      <Avatar
+                          image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${user.raw_meta_data.avatar_url}` || undefined}
+                          icon={!user.raw_meta_data.avatar_url ? 'pi pi-user' : undefined}
+                          size="xlarge"
+                          shape="circle"
+                      />
                       <div className='flex flex-col'>
                           <span>Vendu par</span>
                           <span><a href={'/profile/' + user.id}>{user.raw_meta_data.display_name}</a></span>
