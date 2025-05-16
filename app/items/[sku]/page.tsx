@@ -73,23 +73,24 @@ export default async function ProductPage({
 
           <p className="flex-1 text-[#1a0b03] p-4">{product.description}</p>
 
-          <form
-            className="w-full fixed md:static bottom-0 bg-white border-t border-t-black md:border-none p-4 flex md:flex-col gap-4"
-            action="/buy"
-            method="post"
-          >
             <Card>
-              <div className='flex flex-row mb-6 items-center gap-4'>
-                <Avatar icon="pi pi-user" size="xlarge" shape="circle" />
-                <div className='flex flex-col'>
-                  <span>Vendu par</span>
-                  <span><a href={'/profile/' + user.id}>{user.raw_meta_data.display_name}</a></span>
+                <div className='flex flex-row mb-6 items-center gap-4'>
+                    <Avatar icon="pi pi-user" size="xlarge" shape="circle" />
+                    <div className='flex flex-col'>
+                        <span>Vendu par</span>
+                        <span><a href={'/profile/' + user.id}>{user.raw_meta_data.display_name}</a></span>
+                    </div>
                 </div>
-              </div>
-              <Button>Contacter</Button>
             </Card>
-            <Button>Acheter</Button>
-          </form>
+
+            <div className="w-full fixed md:static bottom-0 bg-white border-t border-t-black md:border-none p-4 flex md:flex-col gap-4">
+                <Link href={`/chat?sku=${product.id}`} className="no-underline w-full">
+                    <Button>Contacter</Button>
+                </Link>
+                <Link href={`/buy`} className="no-underline w-full">
+                    <Button>Acheter</Button>
+                </Link>
+            </div>
         </div>
       </div>
     </main>

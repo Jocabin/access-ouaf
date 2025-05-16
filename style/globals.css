@@ -13,11 +13,16 @@
 }
 
 :root {
+  /* COLORS */
   --white: #ffffff;
   --black: #1a0b03;
   --brown: #b3592a;
   --beige: #fff7f2;
-  --light-grey: #cdcdcd;
+  --light-grey: #f0f2f5;
+  --medium-grey: #cdcdcd;
+  --dark-grey: #aaaaaa;
+
+  /* FONT WEIGHTS */
   --bold-700: 700;
   --bold-600: 600;
 }
@@ -28,12 +33,12 @@
 
 html,
 body {
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 
 body {
   color: var(--black);
-  background: var(--background);
   font-size: 16px;
   margin: 0;
   padding: 0;
@@ -41,7 +46,7 @@ body {
 }
 
 h1 {
-  font-family: var(---font-urbanist);
+  font-family: var(--font-urbanist);
 }
 
 h2 {
@@ -55,7 +60,6 @@ h2 {
 .main--container {
   max-width: 80rem;
   margin: 0 auto;
-  padding: 1.25rem;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
@@ -78,10 +82,8 @@ h2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  justify-items: center;
   margin-bottom: 5rem;
+  margin-top: 4rem;
 }
 
 .phone-homepage {
@@ -93,20 +95,27 @@ h2 {
 }
 
 .main--content {
+  padding-top: 2rem;
   flex: 1;
+  padding-inline: 1rem;
 }
 
 .responsive-dialog {
-  width: 30vw;
+  width: 100%;
+  max-width: 480px;
 }
 
-@media (max-width: 576px) {
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 1024px) {
   .products-grid-home {
     grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  .grid-content {
-    margin-top: 2.5rem;
+@media (max-width: 768px) {
+  body {
+    padding-top: 5rem;
   }
 
   .phone-homepage {
@@ -118,23 +127,8 @@ h2 {
   }
 }
 
-@media (max-width: 768px) {
-  footer {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 2rem 2rem 1rem 2rem;
-    margin-top: 2rem;
+@media (max-width: 576px) {
+  .grid-content {
+    margin-top: 2.5rem;
   }
-
-  .responsive-dialog {
-    width: 90vw;
-  }
-
-  .footer__link {
-    font-size: 1rem;
-  }
-}
-
-.footer__link {
-  font-size: 1rem;
 }

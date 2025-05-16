@@ -1,0 +1,24 @@
+[data-user-id="system_date"] {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  width: 100%;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+[data-user-id="system_date"]::before,
+[data-user-id="system_date"]::after {
+  content: "";
+  flex-grow: 1;
+  height: 1px;
+  background-color: #e5e5e5;
+}
+
+[data-user-id="system_date"] .message-content {
+  padding: 0 10px;
+  color: #666;
+  font-size: 0.85rem;
+  text-align: center;
+}
