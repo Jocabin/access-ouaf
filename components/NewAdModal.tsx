@@ -9,7 +9,8 @@ import { Dialog } from "primereact/dialog";
 import { Category } from "@/types";
 import { InputNumber } from "primereact/inputnumber";
 import { createAd } from "@/services/new-ad.service";
-import { FileUpload } from "primereact/fileupload";
+import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
+import { createClient } from "@/lib/client";
 
 export interface ModalProps {
   visible: boolean;
@@ -45,6 +46,44 @@ export default function NewAdModal({
       state: selected_state,
       img: img,
     });
+    set_loading(false);
+  }
+
+  async function uploadImages(event: FileUploadHandlerEvent) {
+    set_loading(true);
+    const file = event.files[0];
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const fileName = `${Date.now()}_${Math.random()
+      .toString(36)
+      .substring(2, 15)}_${file.name}`;
+
+    const supabase = createClient();
+    const { data, error } = await supabase.storage
+      .from("images")
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    console.log(data);
+
+    if (error) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Erreur",
+        detail: error.message,
+      });
+    } else {
+      toast.current?.show({
+        severity: "info",
+        summary: "Succès",
+        detail: "Image téléchargée",
+      });
+    }
+
     set_loading(false);
   }
 
@@ -119,24 +158,14 @@ export default function NewAdModal({
                   Ajouter des photos
                 </label>
                 <FileUpload
-                  mode="basic"
                   multiple
                   auto
                   name="imgs[]"
-                  url="/api/upload-image"
                   accept="image/*"
                   maxFileSize={1000000}
                   chooseLabel="Selectionner des images"
-                  onUpload={(e) => {
-                    console.log(e.value);
-                    // set_img()
-
-                    toast.current?.show({
-                      severity: "info",
-                      summary: "Success",
-                      detail: "File Uploaded",
-                    });
-                  }}
+                  customUpload
+                  uploadHandler={uploadImages}
                 />
               </div>
 
@@ -145,7 +174,7 @@ export default function NewAdModal({
                   Catégorie
                 </label>
 
-                <Dropdown
+                {/* <Dropdown
                   id="category"
                   name="category"
                   value={selectedKT}
@@ -157,7 +186,7 @@ export default function NewAdModal({
                   optionValue="name"
                   placeholder="Choisir une catégorie"
                   className="w-full md:w-14rem"
-                />
+                /> */}
               </div>
 
               <div className="flex flex-col gap-2">
