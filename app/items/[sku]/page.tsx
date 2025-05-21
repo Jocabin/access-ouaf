@@ -12,6 +12,7 @@ import { Avatar } from "primereact/avatar"
 import { createClient } from "@/utils/supabase/server"
 import ProductGallery from "@/components/ProductGallery"
 import { Divider } from "primereact/divider"
+import { getDaysSinceCreation } from "@/utils/helpers/getDaysSinceCreation"
 
 export default async function ProductPage({
   params,
@@ -22,6 +23,7 @@ export default async function ProductPage({
   const { sku } = await params
 
   const product = await getProductBySlug(sku)
+  console.log(product)
   const category = await getCategoryByProductName(product.name)
 
   if (!product) {
@@ -31,6 +33,8 @@ export default async function ProductPage({
   const productName = capitalizeFirstLetter(product.name.trim())
   const productDescription = capitalizeFirstLetter(product.description.trim())
   const categoryName = capitalizeFirstLetter(category?.name.trim())
+
+  const daysAgo = getDaysSinceCreation(product.created_at)
 
   const breadcrumbItems = [
     {
@@ -61,7 +65,7 @@ export default async function ProductPage({
     <>
       <BreadCrumb model={breadcrumbItems} home={homeBreadcrumbItem} />
 
-      <main className="max-w-screen-lg mx-auto p-4 md:p-8">
+      <main className="max-w-screen-lg mx-auto p-8 md:p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="w-full">
             <ProductGallery
@@ -71,11 +75,11 @@ export default async function ProductPage({
             />
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-md flex flex-col gap-4">
+          <div className="p-6 rounded-xl shadow-md flex flex-col gap-4">
             <div className="flex justify-between items-start w-full">
               <div className="flex flex-col">
                 <h1 className="text-xl font-semibold mt-2">{productName}</h1>
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-[var(--secondary-font)]">
                   {product.size} · {product.state} · {product.brand}
                 </span>
               </div>
@@ -85,19 +89,34 @@ export default async function ProductPage({
             </div>
 
             {/* Prix */}
-            <div className="text-2xl font-bold text-[#b3592a]">
+            <div className="text-2xl font-bold text-[var(--brown)]">
               {product.price} €
             </div>
 
             {/* Infos */}
-            <ul className="text-sm text-gray-700 list-none m-0 p-0">
+            <ul className="text-sm  text-[var(--tertiary-font)] list-none m-0 p-0">
               <li>
                 <strong>{translations.productPage.brand} :</strong>{" "}
                 {product.brand}
               </li>
               <li>
+                <strong>{translations.productPage.size} :</strong>{" "}
+                {product.size}
+              </li>
+              <li>
                 <strong>{translations.productPage.state} :</strong>{" "}
                 {product.state}
+              </li>
+              <li>
+                <strong>{translations.productPage.added} :</strong>{" "}
+                {daysAgo === 0
+                  ? translations.productPage.today
+                  : daysAgo === 1
+                  ? translations.productPage.yesterday
+                  : translations.productPage.daysAgo.replace(
+                      "{{days}}",
+                      daysAgo.toString()
+                    )}
               </li>
             </ul>
 
@@ -118,15 +137,18 @@ export default async function ProductPage({
               </Link>
             </div>
 
-            {/* Vendeur */}
             <Divider />
-            <div className="flex items-center gap-4">
+
+            {/* Vendeur */}
+            <div className="flex items-center gap-4 hover:bg-[var(--hover-color)] p-4 rounded-lg">
               <Avatar icon="pi pi-user" size="large" shape="circle" />
               <div className="flex flex-col">
-                <span className="text-sm text-gray-500">Vendu par</span>
+                <span className="text-sm">
+                  {translations.productPage.soldBy}
+                </span>
                 <Link
                   href={`/profile/${user.id}`}
-                  className="text-base font-medium hover:underline"
+                  className="text-base no-underline font-bold text-[var(--brown)]"
                 >
                   {user.raw_meta_data.display_name}
                 </Link>
