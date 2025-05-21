@@ -17,7 +17,6 @@ export default async function CategoryPage({
   const categoryName = capitalizeFirstLetter((category.name).trim())
   const description = capitalizeFirstLetter((category.description).trim())
 
-
   return (
     <>
       <>
