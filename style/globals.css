@@ -21,6 +21,9 @@
   --light-grey: #f0f2f5;
   --medium-grey: #cdcdcd;
   --dark-grey: #aaaaaa;
+  --secondary-font: #6b7280;
+  --tertiary-font: #374151;
+  --hover-color: #f3f4f6;
 
   /* FONT WEIGHTS */
   --bold-700: 700;

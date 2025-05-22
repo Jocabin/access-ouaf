@@ -58,6 +58,20 @@ export async function getProductsByWordSearch(word: string) {
   return data
 }
 
+export async function getProductBySlug(sku: string) {
+  const { data, error } = await supabase
+    .from("products")
+    .select()
+    .eq("slug", sku)
+
+  if (!data?.length || error) {
+    console.log(error)
+    return null
+  }
+
+  return data[0]
+}
+
 export async function getProductsByUser(id: string) {
   const { data, error } = await supabase
       .from("products")
