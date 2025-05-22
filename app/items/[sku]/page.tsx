@@ -160,6 +160,11 @@ export default async function ProductPage({
                 >
                   {user.raw_meta_data.display_name}
                 </Link>
+                <div className="flex flex-row items-center gap-2">
+                  <i className="pi pi-star-fill" style={{ color: '#FFC107' }} />
+                  <span className="font-bold">4.4</span>
+                  <span className="font-normal">(12)</span>
+                </div>
               </div>
             </div>
           </div>
