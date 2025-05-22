@@ -7,6 +7,7 @@ export async function createAd(userData: {
   brand: string;
   state: string;
   img: string;
+  category: number;
 }) {
   const supabase = createClient();
   const {
@@ -15,11 +16,11 @@ export async function createAd(userData: {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return "Vous n'êtes pas connecté";
+    return { error: true, msg: "Vous n'êtes pas connecté" };
   }
 
   if (userError) {
-    return userError.message;
+    return { error: true, msg: userError.message };
   }
 
   function slugify(text: string): string {
@@ -34,15 +35,34 @@ export async function createAd(userData: {
       .replace(/--+/g, "-");
   }
 
-  const { data, error } = await supabase.from("products").insert({
-    ...userData,
-    slug: slugify(userData.name),
-    user_id: user.id,
-  });
+  const { data, error } = await supabase
+    .from("products")
+    .insert({
+      name: userData.name,
+      description: userData.description,
+      price: userData.price,
+      brand: userData.brand,
+      state: userData.state,
+      img: userData.img,
+      slug: slugify(user.user_metadata.display_name + "-" + userData.name),
+      user_id: user.id,
+    })
+    .select();
 
   if (error) {
-    return error.message;
+    return { error: true, msg: error.message };
   }
 
-  return data;
+  const id = data[0].id;
+
+  const res = await supabase.from("product_categories").insert({
+    product_id: id,
+    category_id: userData.category,
+  });
+
+  if (res.error) {
+    return { error: true, msg: res.error.message };
+  }
+
+  return { error: false, msg: "Produit crée avec succès" };
 }

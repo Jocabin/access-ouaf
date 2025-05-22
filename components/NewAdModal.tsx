@@ -1,6 +1,12 @@
 "use client";
 
-import { useRef, useState, type SetStateAction, type Dispatch } from "react";
+import {
+  useRef,
+  useState,
+  type SetStateAction,
+  type Dispatch,
+  useEffect,
+} from "react";
 import { Toast } from "primereact/toast";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -11,6 +17,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { createAd } from "@/services/new-ad.service";
 import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
 import { createClient } from "@/lib/client";
+import { useRouter } from "next/navigation";
 
 export interface ModalProps {
   visible: boolean;
@@ -23,6 +30,7 @@ export default function NewAdModal({
   set_dialog_visible,
   categories,
 }: ModalProps) {
+  const router = useRouter();
   const toast = useRef<Toast>(null);
   const [loading, set_loading] = useState(false);
   const [states] = useState(["Neuf", "Usé", "Correct"]);
@@ -32,56 +40,91 @@ export default function NewAdModal({
   const [price, set_price] = useState(0);
   const [brand, set_brand] = useState("");
   const [selected_state, set_selected_state] = useState("");
-  const [selectedKT, setSelectedKT] = useState<Category | null>(null);
-  const [img, set_img] = useState("null");
+  const [selectedKT, setSelectedKT] = useState<Category>(categories[0]);
+  const [img, set_img] = useState<string[]>([]);
 
-  function handleSubmit() {
+  useEffect(() => {
+    async function redirect_if_not_connected() {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        router.push("/login");
+      }
+    }
+    redirect_if_not_connected();
+  });
+
+  async function handleSubmit(e) {
+    e.preventDefault();
     set_loading(true);
 
-    createAd({
+    const product_status = await createAd({
       name: title,
       description: description,
       price: price,
       brand: brand,
       state: selected_state,
-      img: img,
+      img: img.join(","),
+      category: selectedKT.id,
     });
     set_loading(false);
+
+    if (product_status.error) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Erreur",
+        detail: product_status.msg,
+      });
+    } else {
+      toast.current?.show({
+        severity: "success",
+        summary: "Succès",
+        detail: product_status.msg,
+      });
+
+      set_dialog_visible(false);
+    }
   }
 
   async function uploadImages(event: FileUploadHandlerEvent) {
     set_loading(true);
-    const file = event.files[0];
 
-    const formData = new FormData();
-    formData.append("file", file);
+    for (let i = 0; i < event.files.length; i += 1) {
+      const file = event.files[i];
 
-    const fileName = `${Date.now()}_${Math.random()
-      .toString(36)
-      .substring(2, 15)}_${file.name}`;
+      const formData = new FormData();
+      formData.append("file-" + i, file);
 
-    const supabase = createClient();
-    const { data, error } = await supabase.storage
-      .from("images")
-      .upload(fileName, file, {
-        cacheControl: "3600",
-        upsert: false,
-      });
+      const fileName = `${Date.now()}_${Math.random()
+        .toString(36)
+        .substring(2, 15)}_${file.name}`;
 
-    console.log(data);
+      const supabase = createClient();
+      const { error } = await supabase.storage
+        .from("images")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
 
-    if (error) {
-      toast.current?.show({
-        severity: "error",
-        summary: "Erreur",
-        detail: error.message,
-      });
-    } else {
-      toast.current?.show({
-        severity: "info",
-        summary: "Succès",
-        detail: "Image téléchargée",
-      });
+      if (error) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Erreur",
+          detail: error.message,
+        });
+      } else {
+        toast.current?.show({
+          severity: "info",
+          summary: "Succès",
+          detail: "Image téléchargée",
+        });
+
+        set_img([...img, fileName]);
+      }
     }
 
     set_loading(false);
@@ -174,7 +217,7 @@ export default function NewAdModal({
                   Catégorie
                 </label>
 
-                {/* <Dropdown
+                <Dropdown
                   id="category"
                   name="category"
                   value={selectedKT}
@@ -183,10 +226,9 @@ export default function NewAdModal({
                   }}
                   options={categories}
                   optionLabel="name"
-                  optionValue="name"
                   placeholder="Choisir une catégorie"
                   className="w-full md:w-14rem"
-                /> */}
+                />
               </div>
 
               <div className="flex flex-col gap-2">
