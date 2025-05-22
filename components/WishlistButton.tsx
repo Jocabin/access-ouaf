@@ -98,7 +98,7 @@ export default function WishlistButton({ product }: { product: Product }) {
       <Toast ref={toast} />
       <button
         onClick={addProductToWishlist}
-        className="bg-white hover:bg-gray-100 border-none cursor-pointer rounded-full aspect-square flex justify-center items-center"
+        className="bg-[var(--white)] hover:bg-[var(--hover-color)] border-none cursor-pointer rounded-full aspect-square flex justify-center items-center"
       >
         <HeartIcon color={isProductInList ? "#b3592a" : "none"} />
       </button>
