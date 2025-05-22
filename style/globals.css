@@ -114,6 +114,12 @@ h2 {
   object-fit: cover;
 }
 
+no-opacity-disabled.p-rating .p-rating-item,
+.no-opacity-disabled.p-rating.p-disabled {
+  opacity: 1 !important;
+  pointer-events: none;
+}
+
 /* ---------- RESPONSIVE ---------- */
 
 @media (max-width: 1024px) {

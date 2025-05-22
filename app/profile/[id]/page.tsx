@@ -1,12 +1,13 @@
+import React from "react";
+import Link from 'next/link'
+import Image from 'next/image'
 import { fetchUser } from '@/services/users.service'
 import { getProductsByUser} from '@/services/products.service'
 import { formatDistanceToNow } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import Link from 'next/link'
-import Image from 'next/image'
 import { Avatar } from 'primereact/avatar'
 import { Card } from 'primereact/card'
-import React from "react";
+import { Rating } from 'primereact/rating'
 
 interface Annonce {
     id: string
@@ -40,6 +41,7 @@ export default async function ProductPage({params}: {
                 />
                 <span className='font-bold'>{user.raw_meta_data.display_name}</span>
                 <span className='text-sm'>Membre depuis {memberSince}</span>
+                <Rating className='no-opacity-disabled' value={5} disabled cancel={false} />
             </div>
             <div className='flex flex-col items-center'>
                 {annonces.length === 1 ? (
