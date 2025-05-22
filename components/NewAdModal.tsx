@@ -57,7 +57,7 @@ export default function NewAdModal({
     redirect_if_not_connected();
   });
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     set_loading(true);
 
@@ -256,7 +256,7 @@ export default function NewAdModal({
                 <InputNumber
                   value={price}
                   min={0}
-                  onValueChange={(e) => set_price(e.value)}
+                  onValueChange={(e) => set_price(e.value ?? 0)}
                   id="price"
                   name="price"
                 />
