@@ -167,7 +167,7 @@ export default function HeaderDesktop() {
               />
             ) : (
               <Button
-                icon="pi pi-sign-in"
+                icon="pi pi-user-plus"
                 text
                 onClick={() => setVisible(true)}
               />
