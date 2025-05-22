@@ -53,7 +53,7 @@ export default async function ProductPage({params}: {
                             {annonces.map((annonce: Annonce) => (
                                 <li key={annonce.id}>
                                     <Link href={`/items/${annonce.slug}`} className="no-underline text-inherit">
-                                        <Card className="w-[500px] p-0">
+                                        <Card className="p-0 md:w-[500px]">
                                             <div className="p-4 flex flex-row items-center gap-4">
                                                 <Image
                                                     src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${annonce.img}`}
