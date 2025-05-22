@@ -4,8 +4,13 @@ import { translations } from "@/lib/translations";
 import ButtonMe from "@/components/Button";
 import NewAdModal from "./NewAdModal";
 import { useState } from "react";
+import { Category } from "@/types";
 
-export default function HomepageAd({ categories }) {
+type HomepageAdType = {
+  categories: Category[];
+};
+
+export default function HomepageAd({ categories }: HomepageAdType) {
   const logoUrl = "/assets/chat-homepage.jpg";
   const [dialog_visible, set_dialog_visible] = useState(false);
 
