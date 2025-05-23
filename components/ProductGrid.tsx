@@ -25,36 +25,37 @@ export default function ProductGrid({ title, products }: ProductGridProps) {
           const subTitle = `${product.price} €`
 
           return (
-            <Link
+            <Card
               key={product.id}
-              href={`/items/${product.slug}`}
-              className="no-underline"
-            >
-              <Card
-                title={
-                  <h3 className="text-base font-semibold leading-tight truncate">
-                    {productTitle}
-                  </h3>
-                }
-                subTitle={subTitle}
-                header={
-                  <div className="relative">
+              title={
+                <h3 className="text-base font-semibold leading-tight truncate">
+                  {productTitle}
+                </h3>
+              }
+              subTitle={subTitle}
+              header={
+                <div className="relative">
+                  <Link
+                    key={product.id}
+                    href={`/items/${product.slug}`}
+                    className="no-underline"
+                  >
                     <Image
                       alt={productTitle}
                       src={getFirstImage(imageUrl)}
                       width={250}
                       height={0}
-                      style={{ height: '200px' }} 
+                      style={{ height: "200px" }}
                       className="object-cover rounded-t-xl"
                     />
-                    <div className="absolute top-2 right-2 z-10">
-                      <WishlistButton product={product} />
-                    </div>
+                  </Link>
+                  <div className="absolute top-2 right-2 z-10">
+                    <WishlistButton product={product} />
                   </div>
-                }
-                className="w-full max-w-[220px] mx-auto shadow-md hover:shadow-lg rounded-xl"
-              />
-            </Link>
+                </div>
+              }
+              className="w-full max-w-[220px] mx-auto shadow-md hover:shadow-lg rounded-xl"
+            />
           )
         })}
       </div>

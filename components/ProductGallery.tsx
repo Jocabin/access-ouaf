@@ -32,13 +32,16 @@ export default function ProductGallery({
   }, [imagesString, altText, titleText])
 
   const itemTemplate = (item: any) => (
-    <div className="aspect-square overflow-hidden rounded-xl">
-      <img
-        src={item.itemImageSrc}
-        alt={item.alt}
-        className="w-full h-full object-cover"
-      />
-    </div>
+    <img
+      src={item.itemImageSrc}
+      alt={item.alt}
+      style={{
+        width: "100%",
+        objectFit: "cover",
+        maxHeight: "500px",
+        borderRadius: "0.75rem",
+      }}
+    />
   )
 
   return (
