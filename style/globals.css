@@ -75,6 +75,7 @@ h2 {
 
 .cat-picture {
   border-radius: 1rem;
+  object-fit: cover;
 }
 
 .title-home-card {
