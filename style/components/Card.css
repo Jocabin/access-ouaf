@@ -5,7 +5,6 @@
     align-items: center;
     width: 100%;
     max-width: 15rem;
-    /* 240px */
 }
 
 .card-div {
@@ -30,13 +29,11 @@
 @media (max-width: 576px) {
     .card {
         max-width: 10.75rem;
-        /* 172px */
     }
 }
 
 @media (max-width: 395px) {
     .card {
         max-width: 8.75rem;
-        /* 140px */
     }
 }

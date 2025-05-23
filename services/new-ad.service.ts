@@ -1,26 +1,27 @@
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/client"
 
 export async function createAd(userData: {
-  name: string;
-  description: string;
-  price: number;
-  brand: string;
-  state: string;
-  img: string;
-  category: number;
+  name: string
+  description: string
+  price: number
+  brand: string
+  state: string
+  img: string
+  category: number
+  size?: string
 }) {
-  const supabase = createClient();
+  const supabase = createClient()
   const {
     data: { user },
     error: userError,
-  } = await supabase.auth.getUser();
+  } = await supabase.auth.getUser()
 
   if (!user) {
-    return { error: true, msg: "Vous n'êtes pas connecté" };
+    return { error: true, msg: "Vous n'êtes pas connecté" }
   }
 
   if (userError) {
-    return { error: true, msg: userError.message };
+    return { error: true, msg: userError.message }
   }
 
   function slugify(text: string): string {
@@ -32,7 +33,7 @@ export async function createAd(userData: {
       .trim()
       .replace(/\s+/g, "-")
       .replace(/[^\w-]+/g, "")
-      .replace(/--+/g, "-");
+      .replace(/--+/g, "-")
   }
 
   const { data, error } = await supabase
@@ -46,23 +47,24 @@ export async function createAd(userData: {
       img: userData.img,
       slug: slugify(user.user_metadata.display_name + "-" + userData.name),
       user_id: user.id,
+      size: userData.size,
     })
-    .select();
+    .select()
 
   if (error) {
-    return { error: true, msg: error.message };
+    return { error: true, msg: error.message }
   }
 
-  const id = data[0].id;
+  const id = data[0].id
 
   const res = await supabase.from("product_categories").insert({
     product_id: id,
     category_id: userData.category,
-  });
+  })
 
   if (res.error) {
-    return { error: true, msg: res.error.message };
+    return { error: true, msg: res.error.message }
   }
 
-  return { error: false, msg: "Produit crée avec succès" };
+  return { error: false, msg: "Produit crée avec succès" }
 }

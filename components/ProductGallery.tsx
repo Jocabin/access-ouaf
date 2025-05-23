@@ -35,7 +35,12 @@ export default function ProductGallery({
     <img
       src={item.itemImageSrc}
       alt={item.alt}
-      style={{ width: "100%", display: "block", objectFit: "cover" }}
+      style={{
+        width: "100%",
+        objectFit: "cover",
+        maxHeight: "500px",
+        borderRadius: "0.75rem",
+      }}
     />
   )
 
