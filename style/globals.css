@@ -73,15 +73,6 @@ h2 {
   margin-bottom: 3.125rem;
 }
 
-.cat-picture {
-  border-radius: 1rem;
-  object-fit: cover;
-}
-
-.title-home-card {
-  font-size: 1.25rem;
-}
-
 .products-grid-home {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

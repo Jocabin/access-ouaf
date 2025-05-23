@@ -24,7 +24,6 @@ export default async function ProductPage({
   const { sku } = await params
 
   const product = await getProductBySlug(sku)
-  console.log(product)
   const category = await getCategoryByProductName(product.name)
 
   if (!product) {
