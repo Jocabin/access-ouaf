@@ -4,9 +4,10 @@ import WishlistButton from "./WishlistButton"
 import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
 import { Card } from "primereact/card"
 import { Product } from "@/types/interfaces/product.interface"
+import { getFirstImage } from "@/utils/helpers/getFirstImage"
 
 interface ProductGridProps {
-  title: string
+  title?: string
   products: Product[]
 }
 
@@ -40,7 +41,7 @@ export default function ProductGrid({ title, products }: ProductGridProps) {
                   <div className="relative">
                     <Image
                       alt={productTitle}
-                      src={imageUrl}
+                      src={getFirstImage(imageUrl)}
                       width={250}
                       height={192}
                       className="object-cover rounded-t-2xl"

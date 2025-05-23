@@ -4,7 +4,7 @@ import { translations } from "@/lib/translations"
 import ButtonMe from "@/components/Button"
 import NewAdModal from "./NewAdModal"
 import { useState } from "react"
-import { Category } from "@/types"
+import { Category } from "@/types/interfaces/category.interface"
 
 type HomepageAdType = {
   categories: Category[]
