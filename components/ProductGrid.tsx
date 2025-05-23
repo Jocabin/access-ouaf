@@ -43,15 +43,16 @@ export default function ProductGrid({ title, products }: ProductGridProps) {
                       alt={productTitle}
                       src={getFirstImage(imageUrl)}
                       width={250}
-                      height={192}
-                      className="object-cover rounded-t-2xl"
+                      height={0}
+                      style={{ height: '200px' }} 
+                      className="object-cover rounded-t-xl"
                     />
                     <div className="absolute top-2 right-2 z-10">
                       <WishlistButton product={product} />
                     </div>
                   </div>
                 }
-                className="w-full max-w-[220px] mx-auto shadow-md hover:shadow-lg rounded-2xl"
+                className="w-full max-w-[220px] mx-auto shadow-md hover:shadow-lg rounded-xl"
               />
             </Link>
           )

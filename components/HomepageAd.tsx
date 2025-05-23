@@ -32,7 +32,8 @@ export default function HomepageAd({ categories }: HomepageAdType) {
           src={imageUrl}
           alt={translations.site.description}
           width={1248}
-          height={395}
+          height={0}
+          style={{ height: "395px" }}
           className="object-cover rounded-2xl"
           priority
         />

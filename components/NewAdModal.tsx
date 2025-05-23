@@ -43,6 +43,7 @@ export default function NewAdModal({
   const [selected_state, set_selected_state] = useState("")
   const [selectedKT, setSelectedKT] = useState<Category>(categories[0])
   const [img, set_img] = useState<string[]>([])
+  const [size, set_size] = useState("")
 
   const capitalizedCategories = categories.map((cat) => ({
     ...cat,
@@ -75,6 +76,7 @@ export default function NewAdModal({
       state: selected_state,
       img: img.join(","),
       category: selectedKT.id,
+      size: size,
     })
     set_loading(false)
 
@@ -183,6 +185,21 @@ export default function NewAdModal({
                   value={description}
                   onChange={(e) => set_description(e.target.value)}
                   required
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label htmlFor="desc" className="font-bold block mb-2">
+                  {translations.newAdModal.size}
+                </label>
+                <InputText
+                  type="text"
+                  id="desc"
+                  name="desc"
+                  className="p-inputtext-sm"
+                  placeholder={translations.newAdModal.sizePlaceholder}
+                  value={size}
+                  onChange={(e) => set_size(e.target.value)}
                 />
               </div>
 

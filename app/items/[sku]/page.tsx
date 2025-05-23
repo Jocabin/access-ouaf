@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { createClient } from "@/utils/supabase/server"
@@ -66,22 +66,13 @@ export default async function ProductPage({
       <BreadCrumb model={breadcrumbItems} home={homeBreadcrumbItem} />
 
       <main className="max-w-screen-lg mx-auto p-8 md:p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="w-full">
-            <ProductGallery
-              imagesString={product.img}
-              altText={product.name}
-              titleText="Photos produit"
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
+          <ProductGallery imagesString={product.img} altText={product.name} />
 
           <div className="p-6 rounded-xl shadow-md flex flex-col gap-4">
             <div className="flex justify-between items-start w-full">
               <div className="flex flex-col">
                 <h1 className="text-xl font-semibold mt-2">{productName}</h1>
-                <span className="text-sm text-[var(--secondary-font)]">
-                  {product.size} · {product.state} · {product.brand}
-                </span>
               </div>
               <div className="mt-2">
                 <WishlistButton product={product} />
@@ -101,7 +92,7 @@ export default async function ProductPage({
               </li>
               <li>
                 <strong>{translations.productPage.size} :</strong>{" "}
-                {product.size}
+                {product.size ? product.size : translations.productPage.noSize}
               </li>
               <li>
                 <strong>{translations.productPage.state} :</strong>{" "}
@@ -142,12 +133,15 @@ export default async function ProductPage({
             {/* Vendeur */}
             <div className="flex items-center gap-4 hover:bg-[var(--hover-color)] p-4 rounded-lg">
               <Avatar
-                  className="avatar-fixed"
-                  image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${user.raw_meta_data.avatar_url}` || undefined}
-                  icon={!user.raw_meta_data.avatar_url ? 'pi pi-user' : undefined}
-                  size="large"
-                  shape="circle"
-                  style={{ width: '64px', height: '64px', overflow: 'hidden' }}
+                className="avatar-fixed"
+                image={
+                  `${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${user.raw_meta_data.avatar_url}` ||
+                  undefined
+                }
+                icon={!user.raw_meta_data.avatar_url ? "pi pi-user" : undefined}
+                size="large"
+                shape="circle"
+                style={{ width: "64px", height: "64px", overflow: "hidden" }}
               />
               <div className="flex flex-col">
                 <span className="text-sm">
