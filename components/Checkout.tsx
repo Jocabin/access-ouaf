@@ -9,10 +9,12 @@ import { useEffect, useState } from "react";
 import { PaymentForm } from "@/types";
 import { convertToSubcurrency } from "@/lib/utils";
 import { Button } from "primereact/button";
+import { createClient } from "@/lib/client";
 
-export default function Checkout({ total }: PaymentForm) {
+export default function Checkout({ total, productId, userId }: PaymentForm) {
   const stripe = useStripe();
   const elements = useElements();
+
   const [error_message, set_error_message] = useState("");
   const [client_secret, set_client_secret] = useState("");
   const [loading, set_loading] = useState(false);
@@ -47,6 +49,33 @@ export default function Checkout({ total }: PaymentForm) {
       return;
     }
 
+    const supabase = createClient();
+    const { error: insertError } = await supabase.from("orders").insert({
+      user_id: userId,
+      product_id: productId,
+    });
+
+    if (insertError) {
+      set_error_message(
+        insertError.message ?? "Erreur lors de la création de la commande"
+      );
+    }
+    console.log("ici3");
+
+    const { error: updateError } = await supabase
+      .from("products")
+      .update({
+        visible: false,
+      })
+      .eq("id", productId);
+
+    if (updateError) {
+      set_error_message(
+        updateError.message ?? "Erreur lors de la mise à jour du produit"
+      );
+    }
+    console.log("ici4");
+
     const { error: confirmError } = await stripe.confirmPayment({
       elements,
       clientSecret: client_secret,
@@ -54,12 +83,14 @@ export default function Checkout({ total }: PaymentForm) {
         return_url: window.location.origin + "/payment-success",
       },
     });
+    console.log("ici");
 
     if (confirmError) {
       set_error_message(
-        confirmError.message ?? "Erreur lors de la valdiation du paiement"
+        confirmError.message ?? "Erreur lors de la validation du paiement"
       );
     }
+    console.log("ici2");
 
     set_loading(false);
   }

@@ -31,15 +31,19 @@ export default async function WishlistPage() {
       <h2 className="product-grid-title">Wishlist</h2>
       <div className="products-grid-home">
         {wishlist.map((product) => (
-          <Card
-            href={"/items/" + product.slug}
-            key={product.id}
-            imageUrl={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${product.img}`}
-            title={product.name}
-            price={`${product.price} €`}
-            width={240}
-            height={352}
-          />
+          <>
+            {product.visible && (
+              <Card
+                href={"/items/" + product.slug}
+                key={product.id}
+                imageUrl={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${product.img}`}
+                title={product.name}
+                price={`${product.price} €`}
+                width={240}
+                height={352}
+              />
+            )}
+          </>
         ))}
       </div>
     </div>
