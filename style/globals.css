@@ -56,10 +56,6 @@ h2 {
   font-family: var(--font-urbanist);
 }
 
-.grid-content {
-  margin-top: 6.25rem;
-}
-
 .main--container {
   max-width: 80rem;
   margin: 0 auto;
@@ -67,10 +63,6 @@ h2 {
   min-height: 100vh;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.product-grid-title {
-  margin-bottom: 3.125rem;
 }
 
 .products-grid-home {
@@ -131,11 +123,5 @@ no-opacity-disabled.p-rating .p-rating-item,
 
   .desktop-homepage {
     display: none;
-  }
-}
-
-@media (max-width: 576px) {
-  .grid-content {
-    margin-top: 2.5rem;
   }
 }
