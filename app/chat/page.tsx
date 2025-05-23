@@ -8,6 +8,8 @@ import { ChatMessage as RealtimeChatMessage } from '@/hooks/use-realtime-chat';
 import { ChatMessage as DbChatMessage } from '@/lib/store-messages';
 import { useSearchParams } from 'next/navigation';
 import { decodeRoomName } from '@/utils/helpers/roomNameEncoder';
+import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
+
 
 function ChatContent() {
   const searchParams = useSearchParams();
@@ -49,6 +51,10 @@ function ChatContent() {
       const latestMessage = messages[messages.length - 1];
       
       if (processedMessageIds.current.has(latestMessage.id)) return;
+
+      if (latestMessage.user.name !== (user.user_metadata?.name || user.email)) {
+        return;
+      }
       
       processedMessageIds.current.add(latestMessage.id);
       
@@ -98,7 +104,7 @@ function ChatContent() {
               </div>
             )}
             
-            <h1 className="text-lg font-semibold text-gray-800">{product.name}</h1>
+            <h1 className="text-lg font-semibold text-gray-800">{capitalizeFirstLetter(product.name)}</h1>
             <span className="text-base font-medium text-[#b3592a]">{product.price}€</span>
           </div>
         </div>
