@@ -34,6 +34,7 @@ export default function HomepageAd({ categories }: HomepageAdType) {
           width={1248}
           height={395}
           className="object-cover rounded-2xl"
+          priority
         />
         <div className="absolute top-1/2 -translate-y-1/2 left-4 sm:left-8 md:left-24 bg-[var(--white)] p-5 rounded-xl w-[450px]">
           <h1 className="text-3xl">{translations.homeCard.title}</h1>
