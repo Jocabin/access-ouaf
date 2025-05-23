@@ -1,11 +1,13 @@
+import React from "react";
+import Link from 'next/link'
+import Image from 'next/image'
 import { fetchUser } from '@/services/users.service'
 import { getProductsByUser} from '@/services/products.service'
 import { formatDistanceToNow } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import Link from 'next/link'
-import Image from 'next/image'
 import { Avatar } from 'primereact/avatar'
 import { Card } from 'primereact/card'
+import { Rating } from 'primereact/rating'
 
 interface Annonce {
     id: string
@@ -29,9 +31,17 @@ export default async function ProductPage({params}: {
     return (
         <div className='flex flex-col items-center gap-10 my-10'>
             <div className='flex flex-col items-center gap-2'>
-                <Avatar icon="pi pi-user" size="xlarge" shape="circle"/>
+                <Avatar
+                    className="avatar-fixed"
+                    image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${user.raw_meta_data.avatar_url}` || undefined}
+                    icon={!user.raw_meta_data.avatar_url ? 'pi pi-user' : undefined}
+                    size="xlarge"
+                    shape="circle"
+                    style={{ width: '64px', height: '64px', overflow: 'hidden' }}
+                />
                 <span className='font-bold'>{user.raw_meta_data.display_name}</span>
                 <span className='text-sm'>Membre depuis {memberSince}</span>
+                <Rating className='no-opacity-disabled' value={5} disabled cancel={false} />
             </div>
             <div className='flex flex-col items-center'>
                 {annonces.length === 1 ? (
@@ -45,7 +55,7 @@ export default async function ProductPage({params}: {
                             {annonces.map((annonce: Annonce) => (
                                 <li key={annonce.id}>
                                     <Link href={`/items/${annonce.slug}`} className="no-underline text-inherit">
-                                        <Card className="w-[500px] p-0">
+                                        <Card className="p-0 md:w-[500px]">
                                             <div className="p-4 flex flex-row items-center gap-4">
                                                 <Image
                                                     src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${annonce.img}`}

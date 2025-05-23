@@ -108,6 +108,18 @@ h2 {
   max-width: 480px;
 }
 
+.avatar-fixed img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+no-opacity-disabled.p-rating .p-rating-item,
+.no-opacity-disabled.p-rating.p-disabled {
+  opacity: 1 !important;
+  pointer-events: none;
+}
+
 /* ---------- RESPONSIVE ---------- */
 
 @media (max-width: 1024px) {

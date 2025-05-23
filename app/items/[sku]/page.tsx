@@ -1,18 +1,19 @@
+import React from "react";
 import Link from "next/link"
 import { redirect } from "next/navigation"
+import { createClient } from "@/utils/supabase/server"
+import { getDaysSinceCreation } from "@/utils/helpers/getDaysSinceCreation"
 import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
+import { getCategoryByProductName } from "@/services/categories.service"
+import { getProductBySlug } from "@/services/products.service"
+import WishlistButton from "@/components/WishlistButton"
+import ProductGallery from "@/components/ProductGallery"
+import { translations } from "@/lib/translations"
+import { Button } from "primereact/button"
+import { Divider } from "primereact/divider"
+import { Avatar } from "primereact/avatar"
 import { BreadCrumb } from "primereact/breadcrumb"
 import { MenuItem } from "primereact/menuitem"
-import { getCategoryByProductName } from "@/services/categories.service"
-import WishlistButton from "@/components/WishlistButton"
-import { getProductBySlug } from "@/services/products.service"
-import { Button } from "primereact/button"
-import { translations } from "@/lib/translations"
-import { Avatar } from "primereact/avatar"
-import { createClient } from "@/utils/supabase/server"
-import ProductGallery from "@/components/ProductGallery"
-import { Divider } from "primereact/divider"
-import { getDaysSinceCreation } from "@/utils/helpers/getDaysSinceCreation"
 
 export default async function ProductPage({
   params,
@@ -141,7 +142,14 @@ export default async function ProductPage({
 
             {/* Vendeur */}
             <div className="flex items-center gap-4 hover:bg-[var(--hover-color)] p-4 rounded-lg">
-              <Avatar icon="pi pi-user" size="large" shape="circle" />
+              <Avatar
+                  className="avatar-fixed"
+                  image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${user.raw_meta_data.avatar_url}` || undefined}
+                  icon={!user.raw_meta_data.avatar_url ? 'pi pi-user' : undefined}
+                  size="large"
+                  shape="circle"
+                  style={{ width: '64px', height: '64px', overflow: 'hidden' }}
+              />
               <div className="flex flex-col">
                 <span className="text-sm">
                   {translations.productPage.soldBy}
