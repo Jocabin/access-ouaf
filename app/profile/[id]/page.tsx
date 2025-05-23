@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { fetchUser } from '@/services/users.service'
 import { getProductsByUser} from '@/services/products.service'
+import { getReviewsByUser } from '@/services/reviews.service'
 import { formatDistanceToNow } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { Avatar } from 'primereact/avatar'
@@ -25,6 +26,7 @@ export default async function ProductPage({params}: {
     const { id } = await params
     const user = await fetchUser(id)
     const annonces = await getProductsByUser(id) ?? []
+    const reviews = await getReviewsByUser(id) ?? []
 
     const memberSince = formatDistanceToNow(new Date(user?.created_at), { locale: fr })
 
@@ -41,7 +43,7 @@ export default async function ProductPage({params}: {
                 />
                 <span className='font-bold'>{user.raw_meta_data.display_name}</span>
                 <span className='text-sm'>Membre depuis {memberSince}</span>
-                <Rating className='no-opacity-disabled' value={5} disabled cancel={false} />
+                <Rating className='no-opacity-disabled' value={reviews.averageRating} disabled cancel={false} />
             </div>
             <div className='flex flex-col items-center'>
                 {annonces.length === 1 ? (
