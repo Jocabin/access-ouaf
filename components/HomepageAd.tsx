@@ -3,8 +3,9 @@ import Image from "next/image";
 import { translations } from "@/lib/translations";
 import ButtonMe from "@/components/Button";
 import NewAdModal from "./NewAdModal";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Category } from "@/types";
+import { Toast } from "primereact/toast";
 
 type HomepageAdType = {
   categories: Category[];
@@ -13,6 +14,7 @@ type HomepageAdType = {
 export default function HomepageAd({ categories }: HomepageAdType) {
   const logoUrl = "/assets/chat-homepage.jpg";
   const [dialog_visible, set_dialog_visible] = useState(false);
+  const toast = useRef<Toast>(null);
 
   function toggleCreateItemDialog() {
     set_dialog_visible(!dialog_visible);
@@ -38,6 +40,7 @@ export default function HomepageAd({ categories }: HomepageAdType) {
       </div>
 
       <NewAdModal
+        toast={toast}
         visible={dialog_visible}
         set_dialog_visible={set_dialog_visible}
         categories={categories}

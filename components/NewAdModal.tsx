@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useRef,
-  useState,
-  type SetStateAction,
-  type Dispatch,
-  useEffect,
-} from "react";
+import { useState, type SetStateAction, type Dispatch, useEffect } from "react";
 import { Toast } from "primereact/toast";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -23,15 +17,16 @@ export interface ModalProps {
   visible: boolean;
   set_dialog_visible: Dispatch<SetStateAction<boolean>>;
   categories: Category[];
+  toast: React.RefObject<Toast>;
 }
 
 export default function NewAdModal({
   visible,
   set_dialog_visible,
   categories,
+  toast,
 }: ModalProps) {
   const router = useRouter();
-  const toast = useRef<Toast>(null);
   const [loading, set_loading] = useState(false);
   const [states] = useState(["Neuf", "Usé", "Correct"]);
 
