@@ -110,28 +110,30 @@ export const RealtimeChat = ({
         </div>
       </div>
 
-      <form onSubmit={handleSendMessage} className="flex w-full gap-2 border-t border-border p-4">
-        <Input
-          className={cn(
-            'rounded-full bg-background text-sm transition-all duration-300',
-            isConnected && newMessage.trim() ? 'w-[calc(100%-36px)]' : 'w-full'
-          )}
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message..."
-          disabled={!isConnected}
-        />
-        {isConnected && newMessage.trim() && (
-          <Button
-            className="aspect-square rounded-full animate-in fade-in slide-in-from-right-4 duration-300"
-            type="submit"
+      <div className="sticky bottom-0 left-0 right-0 z-10 bg-background">
+        <form onSubmit={handleSendMessage} className="flex w-full gap-2 border-t border-border p-4 bg-white">
+          <Input
+            className={cn(
+              'rounded-full bg-background text-sm transition-all duration-300',
+              isConnected && newMessage.trim() ? 'w-[calc(100%-36px)]' : 'w-full'
+            )}
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Type a message..."
             disabled={!isConnected}
-          >
-            <Send className="size-4" />
-          </Button>
+          />
+          {isConnected && newMessage.trim() && (
+            <Button
+              className="aspect-square rounded-full animate-in fade-in slide-in-from-right-4 duration-300"
+              type="submit"
+              disabled={!isConnected}
+            >
+              <Send className="size-4" />
+            </Button>
         )}
       </form>
+      </div>
     </div>
   )
 }

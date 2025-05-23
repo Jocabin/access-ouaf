@@ -52,11 +52,13 @@ export default function HeaderDesktop() {
   }, [])
 
   useEffect(() => {
-      if (!user) return;      
-      async function fetchUnreadConversations() {
+    if (!user) return;
+    
+    async function fetchUnreadConversations() {
+      try {
         const { data: unreadMessages, error } = await supabase
           .from('messages')
-          .select('room_name')
+          .select('room_name, buyer_id, seller_id')
           .eq('is_read', false)
           .neq('sender_id', user?.id);
         
@@ -66,27 +68,53 @@ export default function HeaderDesktop() {
         }
         
         const uniqueRooms = new Set();
-        unreadMessages?.forEach(msg => uniqueRooms.add(msg.room_name));
-        setUnreadConversationsCount(uniqueRooms.size);
-      }
-      
-      fetchUnreadConversations();
-      
-      const channel = supabase
-        .channel('header-unread-messages')
-        .on('postgres_changes', {
-          event: '*',
-          schema: 'public',
-          table: 'messages'
-        }, () => {
-          fetchUnreadConversations();
-        })
-        .subscribe();
+        unreadMessages?.forEach(msg => {
+          if (msg.buyer_id === user?.id || msg.seller_id === user?.id) {
+            uniqueRooms.add(msg.room_name);
+          }
+        });
         
-      return () => {
-        channel.unsubscribe();
-      };
-    }, [user, supabase, pathname]);
+        console.log(`Utilisateur ${user?.id}: ${uniqueRooms.size} conversations non lues`);
+        
+        const newCount = uniqueRooms.size;
+        if (newCount !== unreadConversationsCount) {
+          setUnreadConversationsCount(newCount);
+        }
+      } catch (err) {
+        console.error("Erreur dans fetchUnreadConversations:", err);
+      }
+    }
+    
+    fetchUnreadConversations();
+    
+    const channel = supabase
+      .channel('header-unread-messages')
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'messages',
+        filter: `is_read=eq.false AND sender_id.neq.${user.id}`
+      }, () => {
+        fetchUnreadConversations();
+      })
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'messages',
+        filter: `is_read=eq.true`
+      }, () => {
+        fetchUnreadConversations();
+      })
+      .subscribe();
+      
+    if (pathname === '/messages' || pathname.startsWith('/chat')) {
+      fetchUnreadConversations();
+    }
+    
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [user, pathname, unreadConversationsCount]);
 
   const handleSuccessLogin = async () => {
     setIsRegistered(true)

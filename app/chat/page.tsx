@@ -49,6 +49,10 @@ function ChatContent() {
       const latestMessage = messages[messages.length - 1];
       
       if (processedMessageIds.current.has(latestMessage.id)) return;
+
+      if (latestMessage.user.name !== (user.user_metadata?.name || user.email)) {
+        return;
+      }
       
       processedMessageIds.current.add(latestMessage.id);
       
