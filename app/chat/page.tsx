@@ -1,6 +1,5 @@
 "use client"
 
-import { RealtimeChat } from '@/components/realtime-chat';
 import { useMessagesQuery } from '@/hooks/use-messages-query';
 import { storeMessages } from '@/lib/store-messages';
 import { useEffect, useRef, Suspense } from 'react';
@@ -9,6 +8,7 @@ import { ChatMessage as DbChatMessage } from '@/lib/store-messages';
 import { useSearchParams } from 'next/navigation';
 import { decodeRoomName } from '@/utils/helpers/roomNameEncoder';
 import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
+import { RealtimeChat } from '@/components/RealtimeChat';
 
 
 function ChatContent() {
@@ -116,7 +116,7 @@ function ChatContent() {
               {capitalizeFirstLetter(product.name)}
             </h1>
             <span className="text-base font-medium text-[#b3592a]">
-              {product.price}€
+              {product.price} €
             </span>
           </div>
         </div>
