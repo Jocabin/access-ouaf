@@ -31,7 +31,7 @@ export default function HomepageAd({ categories }: HomepageAdType) {
         <Image
           src={imageUrl}
           alt={translations.site.description}
-          width={1170}
+          width={1248}
           height={395}
           className="object-cover rounded-2xl"
         />
