@@ -61,8 +61,11 @@ export default function NewAdModal({
         router.push("/login")
       }
     }
-    redirect_if_not_connected()
-  })
+
+    if (visible) {
+      redirect_if_not_connected()
+    }
+  }, [visible, router])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
