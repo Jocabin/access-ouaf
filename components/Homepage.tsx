@@ -1,32 +1,20 @@
-import Image from "next/image"
-import { translations } from "../lib/translations"
-import Button from "./Button"
-import Card from "./Card"
-import { getAllProducts } from "@/services/products.service"
+import { translations } from "../lib/translations";
+import Button from "./Button";
+import Card from "./Card";
+import { getAllProducts } from "@/services/products.service";
+import HomepageAd from "./HomepageAd";
+import { getAllCategories } from "@/services/categories.service";
+import { Category } from "@/types";
 
 export default async function Homepage() {
-  const logoUrl = "/assets/chat-homepage.jpg"
-  const products = await getAllProducts()
+  const products = await getAllProducts();
+  const categories: Category[] = await getAllCategories();
 
   return (
     <>
       <div className="desktop-homepage">
-        <div className="relative flex justify-center">
-          <Image
-            src={logoUrl}
-            alt="Image d'un chat"
-            width={1170}
-            height={395}
-            className="cat-picture"
-          />
-          <div className="absolute top-1/2 left-0 bg-white -translate-y-1/2 ml-40 p-5 rounded-lg">
-            <h1 className="title-home-card mb-2">
-              {translations.homeCard.bold}
-            </h1>
-            <p className="mb-5">{translations.homeCard.text}</p>
-            <Button>{translations.button.addItem}</Button>
-          </div>
-        </div>
+        <HomepageAd categories={categories} />
+
         <div className="grid-content">
           <h2 className="product-grid-title">{translations.gridCard.title}</h2>
           <div className="products-grid-home">
@@ -64,5 +52,5 @@ export default async function Homepage() {
         </div>
       </div>
     </>
-  )
+  );
 }

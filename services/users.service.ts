@@ -1,5 +1,18 @@
 import { createClient } from '@/utils/supabase/server'
 
+export async function fetchUser(id: string) {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+        .rpc('get_user_by_id', { uid: id })
+
+    if (error) {
+        console.error("Erreur lors de la récupération du profil :", error)
+        return null
+    }
+
+    return data
+}
+
 export async function updateUser(userData: { email: string; name: string }) {
     const supabase = await createClient()
     const { data, error } = await supabase.auth.updateUser({

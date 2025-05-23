@@ -30,3 +30,27 @@ export async function getAllCategories() {
 
   return data
 }
+
+export async function getCategoryByProductName(productName: string) {
+  const { data, error } = await supabase
+    .from("product_categories")
+    .select(
+      `
+      categories ( id, name ),
+      products!inner ( name )
+    `
+    )
+    .eq("products.name", productName)
+
+  if (error) {
+    console.error("Erreur getCategoryByProductName :", error)
+    return null
+  }
+
+  if (!data?.length || !data[0].categories) {
+    return null
+  }
+
+  const { id, name } = Array.isArray(data[0].categories) ? data[0].categories[0] : data[0].categories
+  return { id, name }
+}

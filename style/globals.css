@@ -21,6 +21,9 @@
   --light-grey: #f0f2f5;
   --medium-grey: #cdcdcd;
   --dark-grey: #aaaaaa;
+  --secondary-font: #6b7280;
+  --tertiary-font: #374151;
+  --hover-color: #f3f4f6;
 
   /* FONT WEIGHTS */
   --bold-700: 700;
@@ -72,6 +75,7 @@ h2 {
 
 .cat-picture {
   border-radius: 1rem;
+  object-fit: cover;
 }
 
 .title-home-card {
@@ -103,6 +107,18 @@ h2 {
 .responsive-dialog {
   width: 100%;
   max-width: 480px;
+}
+
+.avatar-fixed img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+no-opacity-disabled.p-rating .p-rating-item,
+.no-opacity-disabled.p-rating.p-disabled {
+  opacity: 1 !important;
+  pointer-events: none;
 }
 
 /* ---------- RESPONSIVE ---------- */
