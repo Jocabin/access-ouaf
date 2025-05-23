@@ -1,12 +1,11 @@
-import type { Product } from "@/types"
-import Card from "@/components/Card"
 import { translations } from "@/lib/translations"
-import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
 import {
   getProductsByCategoryName,
   getProductsByWordSearch,
 } from "@/services/products.service"
 import { redirect } from "next/navigation"
+import ProductGrid from "@/components/ProductGrid"
+import { Product } from "@/types/interfaces/product.interface"
 
 // @ts-expect-error oui
 export default async function SearchPage({ searchParams }) {
@@ -41,19 +40,7 @@ export default async function SearchPage({ searchParams }) {
         </p>
       )}
 
-      <div className="products-grid-home">
-        {uniqueProducts.map((product) => (
-          <Card
-            href={"/items/" + product.slug}
-            key={product.id}
-            imageUrl={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${product.img}`}
-            title={capitalizeFirstLetter(product.name)}
-            price={`${product.price} €`}
-            width={139}
-            height={241}
-          />
-        ))}{" "}
-      </div>
+      <ProductGrid products={uniqueProducts} />
     </>
   )
 }
