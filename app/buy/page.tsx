@@ -6,7 +6,7 @@ import Checkout from "@/components/Checkout";
 import { convertToSubcurrency } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Product } from "@/types";
 
 export default function BuyPage() {
@@ -57,7 +57,7 @@ export default function BuyPage() {
   });
 
   return (
-    <>
+    <Suspense fallback={<div>Chargement...</div>}>
       {product && product.price > 0 && (
         <Elements
           stripe={stripe_promise}
@@ -74,6 +74,6 @@ export default function BuyPage() {
           />
         </Elements>
       )}
-    </>
+    </Suspense>
   );
 }
