@@ -91,7 +91,10 @@ export default function NewAdModal({
         detail: product_status.msg,
       });
 
-      set_dialog_visible(false);
+      setTimeout(() => {
+        set_dialog_visible(false);
+        router.push("/dashboard");
+      }, 2000);
     }
   }
 
