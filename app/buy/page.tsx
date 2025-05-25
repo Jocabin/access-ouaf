@@ -9,7 +9,7 @@ import { createClient } from "@/lib/client";
 import { Suspense, useEffect, useState } from "react";
 import { Product } from "@/types";
 
-export default function BuyPage() {
+function CheckoutForm() {
   const stripe_promise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY ?? ""
   );
@@ -57,7 +57,7 @@ export default function BuyPage() {
   });
 
   return (
-    <Suspense fallback={<div>Chargement...</div>}>
+    <>
       {product && product.price > 0 && (
         <Elements
           stripe={stripe_promise}
@@ -74,6 +74,14 @@ export default function BuyPage() {
           />
         </Elements>
       )}
+    </>
+  );
+}
+
+export default function BuyPage() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <CheckoutForm />
     </Suspense>
   );
 }
