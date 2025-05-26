@@ -96,3 +96,60 @@ export async function deleteAdvert(advertId: string) {
 
   return { data: data?.[0] || null, error: null }
 }
+
+export async function uploadImages (file: File, advertId: string) {
+  const supabase = await createClient()
+
+  const fileName = `${advertId}_${Date.now()}.${file.name.split('.').pop()}`
+
+  const { data, error } = await supabase.storage
+      .from('avatars')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: true
+      })
+
+  if (error) {
+    throw new Error('Erreur upload avatar : ' + error.message)
+  }
+
+  try {
+    await updateAdvertDataImg(fileName, advertId)
+  } catch (err) {
+    console.error('Erreur updateUserDataAvatar :', err)
+    throw err
+  }
+
+  return data
+}
+
+export async function deleteImages (fileName: string) {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.storage
+      .from('avatars')
+      .remove([fileName])
+
+  if (error) {
+    throw new Error('Erreur delete avatar : ' + error.message)
+  }
+
+  return data
+}
+
+export async function updateAdvertDataImg(fileName: string, advertId: string) {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+      .from('products')
+      .update({ img: fileName })
+      .eq('id', advertId)
+      .select()
+
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+}

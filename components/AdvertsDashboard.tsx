@@ -1,8 +1,8 @@
 'use client'
 import { useState } from 'react'
-import { updateAdvert, deleteAdvert } from '@/services/adverts.service'
+import { deleteAdvert } from '@/services/adverts.service'
 import { Category } from '@/types'
-import NewAdModal from '@/components/NewAdModal'
+import AdvertSheetForm from '@/components/AdvertSheetForm'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
@@ -87,13 +87,30 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                 />
             </div>
 
-            <NewAdModal
+            <Dialog
                 visible={formVisible}
-                set_dialog_visible={setFormVisible}
-                categories={categories}
+                draggable={false}
                 onHide={() => setFormVisible(false)}
-                header={ selectedAdvert ? translations.dashboard.animalPage.animalSheetForm.headerEdit : translations.dashboard.animalPage.animalSheetForm.headerCreate } style={{ width: '90vw', maxWidth: '800px' }}
-            />
+                header={ selectedAdvert ?
+                    translations.dashboard.animalPage.animalSheetForm.headerEdit :
+                    translations.dashboard.animalPage.animalSheetForm.headerCreate }
+                style={{ width: '90vw', maxWidth: '800px' }}
+            >
+                <AdvertSheetForm
+                    advert={selectedAdvert ?? undefined}
+                    categories={categories ?? undefined}
+                    onSuccess={(updatedAdvert) => {
+                        if (selectedAdvert) {
+                            setAdvertList((prev) =>
+                                prev.map((a) => (a.id === updatedAdvert.id ? updatedAdvert : a))
+                            )
+                        } else {
+                            setAdvertList((prev) => [...prev, updatedAdvert])
+                        }
+                        setFormVisible(false)
+                    }}
+                />
+            </Dialog>
         </>
     )
 }

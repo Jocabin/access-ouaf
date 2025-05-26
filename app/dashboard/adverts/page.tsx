@@ -15,6 +15,5 @@ export default async function AccountPage() {
 
     const adverts = await getProductsByUser(user.id)
     const categories = await getAllCategories()
-    console.log(categories)
     return <AdvertsDashboard adverts={adverts} categories={categories} />
 }

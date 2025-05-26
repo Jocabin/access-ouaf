@@ -90,7 +90,14 @@ export default function AnimalDashboard({ animals }: { animals: Animal[] }) {
                 />
             </div>
 
-            <Dialog visible={formVisible} onHide={() => setFormVisible(false)} header={ selectedAnimal ? translations.dashboard.animalPage.animalSheetForm.headerEdit : translations.dashboard.animalPage.animalSheetForm.headerCreate } style={{ width: '90vw', maxWidth: '800px' }} >
+            <Dialog visible={formVisible}
+                    draggable={false}
+                    onHide={() => setFormVisible(false)}
+                    header={ selectedAnimal ?
+                        translations.dashboard.animalPage.animalSheetForm.headerEdit :
+                        translations.dashboard.animalPage.animalSheetForm.headerCreate }
+                    style={{ width: '90vw', maxWidth: '800px' }}
+            >
                 <AnimalSheetForm
                     animal={selectedAnimal ?? undefined}
                     onSuccess={(updatedAnimal) => {
