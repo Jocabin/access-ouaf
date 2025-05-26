@@ -93,7 +93,7 @@ export default function NewAdModal({
 
       setTimeout(() => {
         set_dialog_visible(false);
-        router.push("/dashboard");
+        router.push("/dashboard/adverts");
       }, 2000);
     }
   }
