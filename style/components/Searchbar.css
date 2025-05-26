@@ -33,3 +33,11 @@
 .searchbar__button button i {
     display: inline-block;
 }
+
+@media screen and (max-width: 768px) {
+    .searchbar__form {
+        width: 60%;
+        padding: 0.5rem;
+
+    }
+}
