@@ -1,75 +1,70 @@
-"use client"
+"use client";
 
-import {
-  useRef,
-  useState,
-  type SetStateAction,
-  type Dispatch,
-  useEffect,
-} from "react"
-import { Toast } from "primereact/toast"
-import { InputText } from "primereact/inputtext"
-import { Button } from "primereact/button"
-import { Dropdown } from "primereact/dropdown"
-import { Dialog } from "primereact/dialog"
-import { InputNumber } from "primereact/inputnumber"
-import { createAd } from "@/services/new-ad.service"
-import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload"
-import { createClient } from "@/lib/client"
-import { useRouter } from "next/navigation"
-import { translations } from "@/lib/translations"
-import { Category } from "@/types/interfaces/category.interface"
+import { useState, type SetStateAction, type Dispatch, useEffect } from "react";
+import { Toast } from "primereact/toast";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
+import { Dialog } from "primereact/dialog";
+import { Category } from "@/types";
+import { InputNumber } from "primereact/inputnumber";
+import { createAd } from "@/services/new-ad.service";
+import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
+import { createClient } from "@/lib/client";
+import { useRouter } from "next/navigation";
+import { translations } from "@/lib/translations";
 
 export interface ModalProps {
-  visible: boolean
-  set_dialog_visible: Dispatch<SetStateAction<boolean>>
-  categories: Category[]
+  visible: boolean;
+  set_dialog_visible: Dispatch<SetStateAction<boolean>>;
+  categories: Category[];
+  toast: React.RefObject<Toast>;
 }
 
 export default function NewAdModal({
   visible,
   set_dialog_visible,
   categories,
+  toast,
 }: ModalProps) {
-  const router = useRouter()
-  const toast = useRef<Toast>(null)
-  const [loading, set_loading] = useState(false)
-  const [states] = useState(["Neuf", "Usé", "Correct"])
+  const router = useRouter();
+  const [loading, set_loading] = useState(false);
+  const [states] = useState(["Neuf", "Usé", "Correct"]);
 
-  const [title, set_title] = useState("")
-  const [description, set_description] = useState("")
-  const [price, set_price] = useState(0)
-  const [brand, set_brand] = useState("")
-  const [selected_state, set_selected_state] = useState("")
-  const [selectedKT, setSelectedKT] = useState<Category>(categories[0])
-  const [img, set_img] = useState<string[]>([])
-  const [size, set_size] = useState("")
+  const [title, set_title] = useState("");
+  const [description, set_description] = useState("");
+  const [price, set_price] = useState(0);
+  const [brand, set_brand] = useState("");
+  const [selected_state, set_selected_state] = useState("");
+  const [selectedKT, setSelectedKT] = useState<Category>(categories[0]);
+  const [img, set_img] = useState<string[]>([]);
+  const [size, set_size] = useState("");
 
   const capitalizedCategories = categories.map((cat) => ({
     ...cat,
     name: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
-  }))
+  }));
 
   useEffect(() => {
     async function redirect_if_not_connected() {
-      const supabase = createClient()
+      const supabase = createClient();
       const {
         data: { user },
-      } = await supabase.auth.getUser()
+      } = await supabase.auth.getUser();
 
       if (!user) {
-        router.push("/login")
+        router.push("/login");
       }
     }
 
     if (visible) {
-      redirect_if_not_connected()
+      redirect_if_not_connected();
     }
-  }, [visible, router])
+  }, [visible, router]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    set_loading(true)
+    e.preventDefault();
+    set_loading(true);
 
     const product_status = await createAd({
       name: title,
@@ -80,65 +75,68 @@ export default function NewAdModal({
       img: img.join(","),
       category: selectedKT.id,
       size: size,
-    })
-    set_loading(false)
+    });
+    set_loading(false);
 
     if (product_status.error) {
       toast.current?.show({
         severity: "error",
         summary: "Erreur",
         detail: product_status.msg,
-      })
+      });
     } else {
       toast.current?.show({
         severity: "success",
         summary: "Succès",
         detail: product_status.msg,
-      })
+      });
 
-      set_dialog_visible(false)
+      setTimeout(() => {
+        set_dialog_visible(false);
+        router.push("/dashboard/adverts");
+      }, 2000);
     }
   }
 
   async function uploadImages(event: FileUploadHandlerEvent) {
-    set_loading(true)
+    set_loading(true);
 
     for (let i = 0; i < event.files.length; i += 1) {
-      const file = event.files[i]
+      const file = event.files[i];
 
-      const formData = new FormData()
-      formData.append("file-" + i, file)
+      const formData = new FormData();
+      formData.append("file-" + i, file);
 
       const fileName = `${Date.now()}_${Math.random()
         .toString(36)
-        .substring(2, 15)}_${file.name}`
+        .substring(2, 15)}_${file.name}`;
 
-      const supabase = createClient()
+      const supabase = createClient();
       const { error } = await supabase.storage
         .from("images")
         .upload(fileName, file, {
           cacheControl: "3600",
           upsert: false,
-        })
+        });
 
       if (error) {
         toast.current?.show({
           severity: "error",
           summary: "Erreur",
           detail: error.message,
-        })
+        });
       } else {
         toast.current?.show({
           severity: "info",
           summary: "Succès",
           detail: "Image téléchargée",
-        })
+        });
 
-        set_img([...img, fileName])
+        set_img([...img, fileName]);
       }
     }
 
-    set_loading(false)
+    set_loading(false);
   }
 
   return (
@@ -248,7 +246,7 @@ export default function NewAdModal({
                   name="category"
                   value={selectedKT}
                   onChange={(e) => {
-                    setSelectedKT(e.value)
+                    setSelectedKT(e.value);
                   }}
                   options={capitalizedCategories}
                   optionLabel="name"
@@ -267,7 +265,7 @@ export default function NewAdModal({
                   name="state"
                   value={selected_state}
                   onChange={(e) => {
-                    set_selected_state(e.value)
+                    set_selected_state(e.value);
                   }}
                   options={states}
                   placeholder="L'état de votre produit"
@@ -304,5 +302,5 @@ export default function NewAdModal({
         </div>
       </Dialog>
     </>
-  )
+  );
 }
