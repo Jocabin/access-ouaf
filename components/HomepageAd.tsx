@@ -1,28 +1,29 @@
-"use client"
-import Image from "next/image"
-import { translations } from "@/lib/translations"
-import ButtonMe from "@/components/Button"
-import NewAdModal from "./NewAdModal"
-import { useState } from "react"
-import { Category } from "@/types/interfaces/category.interface"
+import Image from "next/image";
+import { translations } from "@/lib/translations";
+import ButtonMe from "@/components/Button";
+import NewAdModal from "./NewAdModal";
+import { useRef, useState } from "react";
+import { Category } from "@/types";
+import { Toast } from "primereact/toast";
 
 type HomepageAdType = {
-  categories: Category[]
-}
+  categories: Category[];
+};
 
 export default function HomepageAd({ categories }: HomepageAdType) {
-  const imageUrl = "/assets/homepage_banner.jpg"
-  const [dialogVisible, setDialogVisible] = useState(false)
+  const imageUrl = "/assets/homepage_banner.jpg";
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const toast = useRef<Toast>(null);
 
   function toggleCreateItemDialog() {
-    setDialogVisible(!dialogVisible)
+    setDialogVisible(!dialogVisible);
   }
 
   const ButtonAddItem = () => (
     <ButtonMe onClick={toggleCreateItemDialog}>
       {translations.button.addItem}
     </ButtonMe>
-  )
+  );
 
   return (
     <>
@@ -50,10 +51,11 @@ export default function HomepageAd({ categories }: HomepageAdType) {
       </div>
 
       <NewAdModal
+        toast={toast}
         visible={dialogVisible}
         set_dialog_visible={setDialogVisible}
         categories={categories}
       />
     </>
-  )
+  );
 }
