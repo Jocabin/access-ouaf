@@ -1,30 +1,30 @@
-import { translations } from "@/lib/translations"
+import { translations } from "@/lib/translations";
 import {
   getProductsByCategoryName,
   getProductsByWordSearch,
-} from "@/services/products.service"
-import { redirect } from "next/navigation"
-import ProductGrid from "@/components/ProductGrid"
-import { Product } from "@/types/interfaces/product.interface"
+} from "@/services/products.service";
+import { redirect } from "next/navigation";
+import ProductGrid from "@/components/ProductGrid";
+import { Product } from "@/types/interfaces/product.interface";
 
 // @ts-expect-error oui
 export default async function SearchPage({ searchParams }) {
-  const { q: query } = searchParams
+  const { q: query } = searchParams;
 
-  if (!query) redirect("/")
+  if (!query) redirect("/");
 
-  const resultsBySearchbar = await getProductsByWordSearch(query)
-  const resultsByCategory = await getProductsByCategoryName(query)
+  const resultsBySearchbar = await getProductsByWordSearch(query);
+  const resultsByCategory = await getProductsByCategoryName(query);
 
   const categoryProducts = resultsByCategory
     .flatMap((cat) => cat.products)
-    .filter((p): p is Product => Boolean(p))
+    .filter((p): p is Product => Boolean(p));
 
-  const allProducts = [...resultsBySearchbar, ...categoryProducts]
+  const allProducts = [...resultsBySearchbar, ...categoryProducts];
 
   const uniqueProducts: Product[] = Array.from(
     new Map(allProducts.map((p) => [p.id, p])).values()
-  )
+  );
 
   return (
     <>
@@ -42,5 +42,5 @@ export default async function SearchPage({ searchParams }) {
 
       <ProductGrid products={uniqueProducts} />
     </>
-  )
+  );
 }
