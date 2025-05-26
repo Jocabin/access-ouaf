@@ -6,6 +6,7 @@ export async function getReviewsByUser(userId: string) {
         .from('reviews')
         .select()
         .eq('to_user_id', userId)
+        .order('created_at', { ascending: false })
 
     if (error) {
         console.error("Erreur lors de la récupération des reviews :", error)
