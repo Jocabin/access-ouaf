@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { translations } from "@/lib/translations";
 import ButtonMe from "@/components/Button";
