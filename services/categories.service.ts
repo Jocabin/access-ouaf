@@ -28,7 +28,7 @@ export async function getAllCategories() {
     redirect("/")
   }
 
-  return data
+  return data ?? []
 }
 
 export async function getCategoryByProductName(productName: string) {

@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/client";
+import {supabase} from "@/supabase";
 
 export async function createAd(userData: {
   name: string;
@@ -65,4 +66,33 @@ export async function createAd(userData: {
   }
 
   return { error: false, msg: "Produit crée avec succès" };
+}
+
+export async function updateAdvert(advertId: string, advertData: object) {
+  const { data, error } = await supabase
+      .from('products')
+      .update(advertData)
+      .eq('id', advertId)
+      .select()
+
+  if (error) {
+    console.error("Erreur lors de la modification de l'annonce :", error)
+    return { data: null, error }
+  }
+
+  return { data: data?.[0] || null, error: null }
+}
+
+export async function deleteAdvert(advertId: string) {
+  const { data, error } = await supabase
+      .from('products')
+      .delete()
+      .eq('id', advertId)
+
+  if (error) {
+    console.error("Erreur lors de la suppression de l'annonce :", error)
+    return { data: null, error }
+  }
+
+  return { data: data?.[0] || null, error: null }
 }

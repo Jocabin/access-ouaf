@@ -14,7 +14,7 @@ import { Dropdown } from "primereact/dropdown";
 import { Dialog } from "primereact/dialog";
 import { Category } from "@/types";
 import { InputNumber } from "primereact/inputnumber";
-import { createAd } from "@/services/new-ad.service";
+import { createAd } from "@/services/adverts.service";
 import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
 import { createClient } from "@/lib/client";
 import { useRouter } from "next/navigation";

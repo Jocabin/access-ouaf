@@ -80,8 +80,8 @@ export async function getProductsByUser(id: string) {
 
   if (error) {
     console.error("Erreur lors de la récupération des annonces :", error)
-    return null
+    return []
   }
 
-  return data
+  return data ?? []
 }
