@@ -1,4 +1,4 @@
-import { supabase } from "@/supabase"
+import { supabase } from "@/supabase";
 
 export async function getProductsByCategory(categoryId: number) {
   const { data, error } = await supabase
@@ -6,23 +6,23 @@ export async function getProductsByCategory(categoryId: number) {
     .select(
       `
         product_id,
-        products ( id, name, price, img, slug ),
+        products ( id, name, price, img, slug, visible ),
         categories ( name )
       `
     )
     .eq("category_id", categoryId)
-    .order("id", { ascending: false })
+    .order("id", { ascending: false });
 
   if (error) {
-    console.error("Erreur lors de la récupération des produits :", error)
-    return []
+    console.error("Erreur lors de la récupération des produits :", error);
+    return [];
   }
 
-  return data
+  return data;
 }
 
 export async function getAllProducts() {
-  return supabase.from("products").select().order("id", { ascending: false })
+  return supabase.from("products").select().order("id", { ascending: false });
 }
 
 export async function getProductsByCategoryName(categoryName: string) {
@@ -36,14 +36,14 @@ export async function getProductsByCategoryName(categoryName: string) {
       `
     )
     .filter("categories.name", "eq", categoryName)
-    .order("id", { ascending: false })
+    .order("id", { ascending: false });
 
   if (error) {
-    console.error("Erreur lors de la récupération des produits :", error)
-    return []
+    console.error("Erreur lors de la récupération des produits :", error);
+    return [];
   }
 
-  return data
+  return data;
 }
 
 export async function getProductsByWordSearch(word: string) {
@@ -51,14 +51,14 @@ export async function getProductsByWordSearch(word: string) {
     .from("products")
     .select("*")
     .textSearch("name", word)
-    .order("id", { ascending: false })
+    .order("id", { ascending: false });
 
   if (error) {
-    console.error("Error performing search:", error)
-    return []
+    console.error("Error performing search:", error);
+    return [];
   }
 
-  return data
+  return data;
 }
 
 export async function getProductBySlug(sku: string) {
@@ -66,14 +66,14 @@ export async function getProductBySlug(sku: string) {
     .from("products")
     .select()
     .eq("slug", sku)
-    .order("id", { ascending: false })
+    .order("id", { ascending: false });
 
   if (!data?.length || error) {
-    console.log(error)
-    return null
+    console.log(error);
+    return null;
   }
 
-  return data[0]
+  return data[0];
 }
 
 export async function getProductsByUser(id: string) {
@@ -81,12 +81,12 @@ export async function getProductsByUser(id: string) {
     .from("products")
     .select()
     .eq("user_id", id)
-    .order("id", { ascending: false })
+    .order("id", { ascending: false });
 
   if (error) {
-    console.error("Erreur lors de la récupération des annonces :", error)
-    return null
+    console.error("Erreur lors de la récupération des annonces :", error);
+    return null;
   }
 
-  return data
+  return data;
 }

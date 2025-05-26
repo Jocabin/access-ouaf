@@ -7,6 +7,7 @@ export type Product = {
   state?: string;
   img: string;
   slug: string;
+  visible: boolean;
 };
 
 export type Category = {
@@ -17,4 +18,6 @@ export type Category = {
 
 export type PaymentForm = {
   total: number;
+  productId: number;
+  userId: string;
 };
