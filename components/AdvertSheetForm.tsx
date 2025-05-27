@@ -142,7 +142,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
         const uploaded: string[] = []
         try {
             for (const file of selectedFiles) {
-                const data = await uploadImages(file, advertId)
+                const data = await uploadImages(file)
                 if (data?.path) {
                     uploaded.push(data.path)
                 }

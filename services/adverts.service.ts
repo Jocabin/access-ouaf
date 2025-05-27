@@ -97,10 +97,10 @@ export async function deleteAdvert(advertId: string) {
   return { data: data?.[0] || null, error: null }
 }
 
-export async function uploadImages (file: File, advertId: string) {
+export async function uploadImages (file: File) {
   const supabase = await createClient()
 
-  const fileName = `${advertId}_${Date.now()}.${file.name.split('.').pop()}`
+  const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}_${file.name}`;
 
   const { data, error } = await supabase.storage
       .from('images')
