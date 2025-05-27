@@ -1,11 +1,13 @@
 'use client'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { deleteAdvert } from '@/services/adverts.service'
+import { capitalizeFirstLetter } from '@/utils/helpers/capitalizeFirstLetter'
 import { Category } from '@/types'
 import AdvertSheetForm from '@/components/AdvertSheetForm'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
+import Image from 'next/image'
 import { translations } from '@/lib/translations'
 
 export interface Advert {
@@ -49,7 +51,7 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                     <div key={advert.id} className="w-full md:basis-[calc(50%-0.5rem)]">
                         <div className="p-card p-4 border-round surface-card shadow-2">
                             <div className='flex justify-between items-center'>
-                                <h3>{advert.name}</h3>
+                                <h3>{capitalizeFirstLetter(advert.name)}</h3>
                                 <div>
                                     <Button
                                         label={translations.dashboard.animalPage.editButton}
@@ -71,7 +73,19 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                             <p><strong>Marque :</strong> {advert.brand}</p>
                             <p><strong>État :</strong> {advert.state}</p>
                             <p><strong>Prix :</strong> {advert.price}€</p>
-                            <p><strong>Image :</strong> {advert.img}</p>
+                            <p><strong>Image(s) :</strong></p>
+                            <div className="flex flex-wrap gap-2">
+                                {advert.img.split(',').map((img, index) => (
+                                    <Image
+                                        key={index}
+                                        src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}`}
+                                        alt={`Image ${index + 1}`}
+                                        width={100}
+                                        height={100}
+                                        className="object-cover border rounded"
+                                    />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 ))}

@@ -262,9 +262,22 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                             name="photos"
                             accept=".png,.jpg,.jpeg,image/png,image/jpg,image/jpeg"
                             multiple={true}
+                            customUpload
                             chooseLabel={translations.dashboard.accountPage.userAccountComponent.avatarChooseLabel}
-                            uploadLabel={translations.dashboard.accountPage.userAccountComponent.avatarUploadLabel}
-                            cancelLabel={translations.dashboard.accountPage.userAccountComponent.avatarCancelLabel}
+                            invalidFileSizeMessageSummary={translations.dashboard.accountPage.userAccountComponent.invalidFileSizeMessageSummary}
+                            invalidFileSizeMessageDetail={translations.dashboard.accountPage.userAccountComponent.invalidFileSizeMessgage}
+                            maxFileSize={5000000}
+                            disabled={loading}
+                            auto={false}
+                            onSelect={(e) => setSelectedFiles(e.files)}
+                            headerTemplate={(options) => {
+                                const { className, chooseButton } = options
+                                return (
+                                    <div className={className} style={{ backgroundColor: 'transparent' }}>
+                                        {chooseButton}
+                                    </div>
+                                )
+                            }}
                             emptyTemplate={
                                 advert?.img && advert.img.split(',').length > 0 ? (
                                     <div className="flex gap-12 flex-wrap">
@@ -291,12 +304,6 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                                     <p className="m-0">{translations.dashboard.accountPage.userAccountComponent.avatarEmptyTemplate}</p>
                                 )
                             }
-                            invalidFileSizeMessageSummary={translations.dashboard.accountPage.userAccountComponent.invalidFileSizeMessageSummary}
-                            invalidFileSizeMessageDetail={translations.dashboard.accountPage.userAccountComponent.invalidFileSizeMessgage}
-                            maxFileSize={5000000}
-                            disabled={loading}
-                            auto={false}
-                            onSelect={(e) => setSelectedFiles(e.files)}
                         />
                     </div>
 

@@ -100,7 +100,7 @@ export async function deleteAdvert(advertId: string) {
 export async function uploadImages (file: File) {
   const supabase = await createClient()
 
-  const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}_${file.name}`;
+  const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}_${sanitizeFileName(file.name)}`;
 
   const { data, error } = await supabase.storage
       .from('images')
@@ -145,4 +145,12 @@ export async function updateAdvertDataImg(fileName: string, advertId: string) {
   }
 
   return data
+}
+
+export function sanitizeFileName(fileName: string): string {
+  return fileName
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/[^\w.-]/g, '')
 }
