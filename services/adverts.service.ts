@@ -7,7 +7,7 @@ export async function createAd(userData: {
   price: number;
   brand: string;
   state: string;
-  img: string;
+  img: string | null;
   category: number;
 }) {
   const supabase = createClient();
@@ -65,7 +65,7 @@ export async function createAd(userData: {
     return { error: true, msg: res.error.message };
   }
 
-  return { error: false, msg: "Produit crée avec succès" };
+  return { data: data?.[0] ?? null, error: false, msg: "Produit crée avec succès" };
 }
 
 export async function updateAdvert(advertId: string, advertData: object) {
@@ -103,21 +103,14 @@ export async function uploadImages (file: File, advertId: string) {
   const fileName = `${advertId}_${Date.now()}.${file.name.split('.').pop()}`
 
   const { data, error } = await supabase.storage
-      .from('avatars')
+      .from('images')
       .upload(fileName, file, {
         cacheControl: '3600',
         upsert: true
       })
 
   if (error) {
-    throw new Error('Erreur upload avatar : ' + error.message)
-  }
-
-  try {
-    await updateAdvertDataImg(fileName, advertId)
-  } catch (err) {
-    console.error('Erreur updateUserDataAvatar :', err)
-    throw err
+    throw new Error('Erreur upload de l\'image : ' + error.message)
   }
 
   return data
@@ -127,11 +120,11 @@ export async function deleteImages (fileName: string) {
   const supabase = await createClient()
 
   const { data, error } = await supabase.storage
-      .from('avatars')
+      .from('images')
       .remove([fileName])
 
   if (error) {
-    throw new Error('Erreur delete avatar : ' + error.message)
+    throw new Error('Erreur delete image : ' + error.message)
   }
 
   return data

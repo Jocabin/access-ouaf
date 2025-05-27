@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { createClient } from '@/utils/supabase/client'
-import { createAd, updateAdvert } from '@/services/adverts.service'
+import { createAd, updateAdvert, updateAdvertDataImg, uploadImages } from '@/services/adverts.service'
 import { Category } from '@/types'
 import type { Advert } from '@/components/AdvertsDashboard'
 import { InputText } from 'primereact/inputtext'
@@ -9,9 +9,8 @@ import { Dropdown } from 'primereact/dropdown'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import { InputNumber } from 'primereact/inputnumber'
-import {FileUpload, FileUploadHandlerEvent} from 'primereact/fileupload'
+import { FileUpload } from 'primereact/fileupload'
 import { translations } from '@/lib/translations'
-import {deleteAvatar, uploadAvatar} from "@/actions/user/updateUserData";
 
 export interface advertData {
     advert?: Advert
@@ -23,6 +22,7 @@ interface DropdownOption {
     label: string
     value: string
 }
+
 const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
     const supabase = createClient()
     const [formData, setFormData] = useState({
@@ -35,12 +35,18 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
         category: advert?.category || null
     })
     const [loading, setLoading] = useState(false)
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([])
     const toast = useRef<Toast>(null)
 
+    const capitalizedCategories = categories.map((cat) => ({
+        ...cat,
+        name: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
+    }));
+
     const stateOptions = [
-        { value: 'Neuf' },
-        { value: 'Correct' },
-        { value: 'Usé' }
+        { value: 'Neuf', label: 'Neuf' },
+        { value: 'Correct', label: 'Correct' },
+        { value: 'Usé', label: 'Usé' },
     ]
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -65,6 +71,13 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
         })
     }
 
+    const handleRemoveImage = (imgName: string) => {
+        const updatedImgList = formData.img?.split(',').filter(name => name.trim() !== imgName.trim()) ?? []
+        setFormData(prev => ({
+            ...prev,
+            img: updatedImgList.join(','),
+        }))
+    }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -88,7 +101,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                 brand: formData.brand,
                 state: formData.state,
                 img: formData.img,
-                category: formData.category,
+                category: formData.category.id,
             }
 
             let data, error
@@ -103,6 +116,9 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
             }
 
             if (data) {
+                if (selectedFiles.length > 0) {
+                    await uploadSelectedImages(data.id)
+                }
                 onSuccess(data)
                 toast.current?.show({
                     severity: 'success',
@@ -122,29 +138,24 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
         }
     }
 
-    const onImagesUpload = async (event: FileUploadHandlerEvent) => {
-        setLoading(true)
+    const uploadSelectedImages = async (advertId: string) => {
+        const uploaded: string[] = []
         try {
-            const file = event.files?.[0]
-            if (!file) {
-                setLoading(false)
-                return
+            for (const file of selectedFiles) {
+                const data = await uploadImages(file, advertId)
+                if (data?.path) {
+                    uploaded.push(data.path)
+                }
             }
-            if (userData.avatar != null) {
-                await deleteAvatar(userData.avatar)
-            }
-            const response = await uploadAvatar(file, userData.id)
-            if (response) setUserData({ ...userData, avatar: response.path })
         } catch (err) {
-            console.error(err)
+            console.error('Erreur lors de l’upload des images :', err)
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erreur',
-                detail: 'Échec de l’upload de l’avatar'
+                detail: 'Échec de l’upload des images',
             })
         }
-        setIsEditing(false)
-        setLoading(false)
+        await updateAdvertDataImg(uploaded.join(','), advertId)
     }
 
 
@@ -154,12 +165,12 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="title">
-                            Nom de l&apos;annonce
+                        <label htmlFor="name">
+                            Nom de l'annonce
                         </label>
                         <InputText
-                            id="title"
-                            name="title"
+                            id="name"
+                            name="name"
                             className="p-inputtext-sm"
                             placeholder={translations.dashboard.advertsPage.advertSheetForm.placeholderTitle}
                             value={formData.name}
@@ -191,8 +202,8 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                                 id="category"
                                 name="category"
                                 value={formData.category}
-                                onChange={(e) => handleDropdownChange('categories', e.value)}
-                                options={categories}
+                                onChange={(e) => handleDropdownChange('category', e.value)}
+                                options={capitalizedCategories}
                                 optionLabel="name"
                                 placeholder={translations.dashboard.advertsPage.advertSheetForm.placeholderCategory}
                                 className="w-full p-inputtext-sm"
@@ -250,17 +261,42 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                         <FileUpload
                             name="photos"
                             accept=".png,.jpg,.jpeg,image/png,image/jpg,image/jpeg"
-                            multiple={false}
+                            multiple={true}
                             chooseLabel={translations.dashboard.accountPage.userAccountComponent.avatarChooseLabel}
                             uploadLabel={translations.dashboard.accountPage.userAccountComponent.avatarUploadLabel}
                             cancelLabel={translations.dashboard.accountPage.userAccountComponent.avatarCancelLabel}
-                            emptyTemplate={<p className="m-0">{translations.dashboard.accountPage.userAccountComponent.avatarEmptyTemplate}</p>}
+                            emptyTemplate={
+                                advert?.img && advert.img.split(',').length > 0 ? (
+                                    <div className="flex gap-12 flex-wrap">
+                                        {formData.img?.split(',').map((img: string, index: number) => (
+                                            <div key={index} className="relative w-24 h-24">
+                                                <img
+                                                    src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}`}
+                                                    alt={`Image ${index + 1}`}
+                                                    className="w-24 h-24 object-cover border rounded"
+                                                />
+                                                <Button
+                                                    icon="pi pi-times"
+                                                    rounded
+                                                    text
+                                                    severity="danger"
+                                                    aria-label="Supprimer"
+                                                    className="absolute h-5"
+                                                    onClick={() => handleRemoveImage(img)}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="m-0">{translations.dashboard.accountPage.userAccountComponent.avatarEmptyTemplate}</p>
+                                )
+                            }
                             invalidFileSizeMessageSummary={translations.dashboard.accountPage.userAccountComponent.invalidFileSizeMessageSummary}
                             invalidFileSizeMessageDetail={translations.dashboard.accountPage.userAccountComponent.invalidFileSizeMessgage}
                             maxFileSize={5000000}
-                            customUpload
-                            uploadHandler={onImagesUpload}
                             disabled={loading}
+                            auto={false}
+                            onSelect={(e) => setSelectedFiles(e.files)}
                         />
                     </div>
 

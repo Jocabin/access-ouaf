@@ -92,8 +92,8 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                 draggable={false}
                 onHide={() => setFormVisible(false)}
                 header={ selectedAdvert ?
-                    translations.dashboard.animalPage.animalSheetForm.headerEdit :
-                    translations.dashboard.animalPage.animalSheetForm.headerCreate }
+                    translations.dashboard.advertsPage.advertSheetForm.headerEdit :
+                    translations.dashboard.advertsPage.advertSheetForm.headerCreate }
                 style={{ width: '90vw', maxWidth: '800px' }}
             >
                 <AdvertSheetForm
