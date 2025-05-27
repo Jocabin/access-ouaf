@@ -166,7 +166,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
                         <label htmlFor="name">
-                            Nom de l'annonce
+                            {translations.dashboard.advertsPage.advertSheetForm.titleLabel}
                         </label>
                         <InputText
                             id="name"
@@ -180,7 +180,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                     </div>
                     <div className="flex flex-col gap-2">
                         <label htmlFor="description">
-                            Description
+                            {translations.dashboard.advertsPage.advertSheetForm.descriptionLabel}
                         </label>
                         <InputTextarea
                             id="description"
@@ -196,7 +196,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex flex-col gap-2 flex-1">
                             <label htmlFor="category">
-                                Catégorie
+                                {translations.dashboard.advertsPage.advertSheetForm.categoryLabel}
                             </label>
                             <Dropdown
                                 id="category"
@@ -211,7 +211,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                         </div>
                         <div className="flex flex-col gap-2 flex-1">
                             <label htmlFor="brand">
-                                Marque
+                                {translations.dashboard.advertsPage.advertSheetForm.brandLabel}
                             </label>
                             <InputText
                                 type="text"
@@ -228,7 +228,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex flex-col gap-2 flex-1">
                             <label htmlFor="state">
-                                État
+                                {translations.dashboard.advertsPage.advertSheetForm.stateLabel}
                             </label>
                             <Dropdown
                                 id="state"
@@ -242,7 +242,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                         </div>
                         <div className="flex flex-col gap-2 flex-1">
                             <label htmlFor="price">
-                                Prix
+                                {translations.dashboard.advertsPage.advertSheetForm.priceLabel}
                             </label>
                             <InputNumber
                                 id="price"
@@ -256,7 +256,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                     </div>
                     <div className="flex flex-col gap-2 flex-1">
                         <label htmlFor="photos">
-                            Ajouter des photos
+                            {translations.dashboard.advertsPage.advertSheetForm.imagesLabel}
                         </label>
                         <FileUpload
                             name="photos"
