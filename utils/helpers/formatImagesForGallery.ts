@@ -1,10 +1,12 @@
 export function formatImagesForGallery(
-  imageString: string,
-  alt = "",
-  title = ""
+    imageString: string | null | undefined,
+    alt = "",
+    title = ""
 ) {
   const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   if (!baseUrl) throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL")
+
+  if (!imageString?.trim()) return []
 
   return imageString.split(",").map((img, i) => {
     const cleanImg = img.trim()

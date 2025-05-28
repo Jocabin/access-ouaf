@@ -54,12 +54,10 @@ export default async function ProductPage({
     uid: product.user_id,
   })
 
-  const images = product.img.split(",")
+  const images = product.img?.split(",") ?? []
 
   for (let i = 0; i < images.length; i += 1) {
-    images[
-      i
-    ] = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${images[i]}`
+    images[i] = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${images[i]}`
   }
 
   return (
