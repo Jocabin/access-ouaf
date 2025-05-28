@@ -1,6 +1,16 @@
 import { createClient } from "@/utils/supabase/client";
 import {supabase} from "@/supabase";
 
+type AdvertUpdateInput = {
+  name: string
+  description: string
+  price: number
+  brand: string
+  state: string
+  img: string | null
+  category?: number
+}
+
 export async function createAd(userData: {
   name: string;
   description: string;
@@ -68,7 +78,7 @@ export async function createAd(userData: {
   return { data: data?.[0] ?? null, error: false, msg: "Produit crée avec succès" };
 }
 
-export async function updateAdvert(advertId: string, advertData: object) {
+export async function updateAdvert(advertId: string, advertData: AdvertUpdateInput) {
   const { category, ...productWithoutCategory } = advertData
 
   const { data, error } = await supabase

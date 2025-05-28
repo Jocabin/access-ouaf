@@ -11,12 +11,13 @@ import { translations } from '@/lib/translations'
 
 export interface Advert {
     id: string
+    slug: string
     name: string
     description: string
     brand: string
     state: string
     price: number
-    category: object
+    category: Category
     img: string
 }
 

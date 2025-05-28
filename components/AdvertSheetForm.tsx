@@ -131,7 +131,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                 brand: formData.brand,
                 state: formData.state,
                 img: formData.img,
-                category: formData.category?.id,
+                category: formData.category?.id ?? 0,
             }
 
             let data, error
@@ -356,7 +356,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                                                         onClick={(e) => {
                                                             e.preventDefault()
                                                             e.stopPropagation()
-                                                            handleRemoveImage(img, advert?.id)
+                                                            if (advert?.id) handleRemoveImage(img, advert.id)
                                                         }}
                                                     />
                                                 </div>
