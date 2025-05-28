@@ -69,15 +69,30 @@ export async function createAd(userData: {
 }
 
 export async function updateAdvert(advertId: string, advertData: object) {
+  const { category, ...productWithoutCategory } = advertData
+
   const { data, error } = await supabase
       .from('products')
-      .update(advertData)
+      .update(productWithoutCategory)
       .eq('id', advertId)
-      .select()
+      .select();
 
   if (error) {
     console.error("Erreur lors de la modification de l'annonce :", error)
     return { data: null, error }
+  }
+
+  if (category) {
+    const { error: categoryError } = await supabase
+        .from('product_categories')
+        .update({
+          category_id: category,
+        })
+        .eq('product_id', advertId)
+
+    if (categoryError) {
+      return { data: null, error: categoryError }
+    }
   }
 
   return { data: data?.[0] || null, error: null }

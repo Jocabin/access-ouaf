@@ -75,7 +75,16 @@ export async function getProductBySlug(sku: string) {
 export async function getProductsByUser(id: string) {
   const { data, error } = await supabase
       .from("products")
-      .select()
+      .select(`
+        *,
+        product_categories (
+          category:categories (
+            id,
+            name,
+            description
+          )
+        )
+      `)
       .eq('user_id', id)
 
   if (error) {
@@ -83,5 +92,9 @@ export async function getProductsByUser(id: string) {
     return []
   }
 
-  return data ?? []
+  return (data ?? []).map((product) => ({
+    ...product,
+    category: product.product_categories?.[0]?.category ?? null,
+    product_categories: undefined,
+  }))
 }

@@ -13,9 +13,11 @@ import { translations } from '@/lib/translations'
 export interface Advert {
     id: string
     name: string
+    description: string
     brand: string
     state: string
     price: number
+    category: object
     img: string
 }
 
@@ -70,22 +72,25 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                                     />
                                 </div>
                             </div>
+                            <p><strong>Catégorie :</strong> {advert.category?.name ?? 'Non renseignée'}</p>
                             <p><strong>Marque :</strong> {advert.brand}</p>
                             <p><strong>État :</strong> {advert.state}</p>
                             <p><strong>Prix :</strong> {advert.price}€</p>
                             <p><strong>Image(s) :</strong></p>
-                            <div className="flex flex-wrap gap-2">
-                                {advert.img.split(',').map((img, index) => (
-                                    <Image
-                                        key={index}
-                                        src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}`}
-                                        alt={`Image ${index + 1}`}
-                                        width={100}
-                                        height={100}
-                                        className="object-cover border rounded"
-                                    />
-                                ))}
-                            </div>
+                            {advert.img && (
+                                <div className="flex flex-wrap gap-2">
+                                    {advert.img.split(',').map((img, index) => (
+                                        <Image
+                                            key={index}
+                                            src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}`}
+                                            alt={`Image ${index + 1}`}
+                                            width={100}
+                                            height={100}
+                                            className="object-cover border rounded"
+                                        />
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}

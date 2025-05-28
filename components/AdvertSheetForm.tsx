@@ -101,7 +101,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                 brand: formData.brand,
                 state: formData.state,
                 img: formData.img,
-                category: formData.category.id,
+                category: formData.category?.id,
             }
 
             let data, error
@@ -202,9 +202,15 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                                 id="category"
                                 name="category"
                                 value={formData.category}
-                                onChange={(e) => handleDropdownChange('category', e.value)}
+                                onChange={(e) => {
+                                    setFormData(prev => ({
+                                        ...prev,
+                                        category: e.value
+                                    }))
+                                }}
                                 options={capitalizedCategories}
                                 optionLabel="name"
+                                dataKey="id"
                                 placeholder={translations.dashboard.advertsPage.advertSheetForm.placeholderCategory}
                                 className="w-full p-inputtext-sm"
                             />
