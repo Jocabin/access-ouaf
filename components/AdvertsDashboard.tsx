@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { deleteAdvert } from '@/services/adverts.service'
+import { deleteAdvert, deleteImages } from '@/services/adverts.service'
 import { capitalizeFirstLetter } from '@/utils/helpers/capitalizeFirstLetter'
 import { Category } from '@/types'
 import AdvertSheetForm from '@/components/AdvertSheetForm'
@@ -25,20 +25,27 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
     const [advertList, setAdvertList] = useState(adverts)
     const [selectedAdvert, setSelectedAdvert] = useState<Advert | null>(null)
 
-    const handleDelete = async (id: string) => {
-        await deleteAdvert(id)
-        setAdvertList((prev) => prev.filter((a) => a.id !== id))
+    const handleDelete = async (advert: Advert | undefined) => {
+        if (!advert || !advert.id) return
+        if (advert.img) {
+            const imageNames = advert.img.split(',').map((name: string) => name.trim())
+            for (const imgName of imageNames) {
+                await deleteImages(imgName)
+            }
+        }
+        await deleteAdvert(advert.id)
+        setAdvertList((prev) => prev.filter((a) => a.id !== advert.id))
     }
 
-    const confirmDelete = (id: string) => {
+    const confirmDelete = (advert: Advert) => {
         confirmDialog({
-            header: translations.dashboard.animalPage.dialogTitle,
-            message: translations.dashboard.animalPage.dialogMessage,
+            header: translations.dashboard.advertsPage.dialogTitle,
+            message: translations.dashboard.advertsPage.dialogMessage,
             icon: 'pi pi-exclamation-triangle',
             defaultFocus: 'accept',
-            acceptLabel: translations.dashboard.animalPage.acceptLabel,
-            rejectLabel: translations.dashboard.animalPage.rejectLabel,
-            accept: () => handleDelete(id),
+            acceptLabel: translations.dashboard.advertsPage.acceptLabel,
+            rejectLabel: translations.dashboard.advertsPage.rejectLabel,
+            accept: () => handleDelete(advert),
             reject: () => null
         })
     }
@@ -67,7 +74,7 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                                         label={translations.dashboard.animalPage.deleteButton}
                                         icon="pi pi-trash"
                                         className="p-button-text p-button-sm p-button-danger ml-2"
-                                        onClick={() => confirmDelete(advert.id)}
+                                        onClick={() => confirmDelete(advert)}
                                     />
                                 </div>
                             </div>
@@ -76,21 +83,19 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                             <p><strong>État :</strong> {advert.state}</p>
                             <p><strong>Prix :</strong> {advert.price}€</p>
                             <p><strong>Image(s) :</strong></p>
-                            {advert.img && (
-                                <div className="flex flex-wrap gap-2">
-                                    {advert.img.split(',').map((img, index) => {
-                                        console.log(`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}?v=${Date.now()}`)
-                                        return (
-                                            <img
-                                                key={index}
-                                                src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}?v=${Date.now()}`}
-                                                alt={`Image ${index + 1}`}
-                                                className="w-24 h-24 object-cover border rounded"
-                                            />
-                                        )
-                                    })}
-                                </div>
-                            )}
+                            <div className="flex flex-wrap gap-2 min-h-[96px] items-center">
+                                {advert.img?.trim()
+                                    ? advert.img.split(',').filter((img) => img.trim() !== '').map((img, index) => (
+                                        <img
+                                            key={index}
+                                            src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}?v=${Date.now()}`}
+                                            alt={`Image ${index + 1}`}
+                                            className="w-24 h-24 object-cover border rounded"
+                                        />
+                                    ))
+                                    : <span className="text-sm text-gray-500">Aucune image publiée</span>
+                                }
+                            </div>
                         </div>
                     </div>
                 ))}

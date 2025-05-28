@@ -259,6 +259,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                                 dataKey="id"
                                 placeholder={translations.dashboard.advertsPage.advertSheetForm.placeholderCategory}
                                 className="w-full p-inputtext-sm"
+                                required
                             />
                         </div>
                         <div className="flex flex-col gap-2 flex-1">
@@ -290,6 +291,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                                 options={stateOptions}
                                 placeholder={translations.dashboard.animalPage.animalSheetForm.placeholderName}
                                 className="w-full p-inputtext-sm"
+                                required
                             />
                         </div>
                         <div className="flex flex-col gap-2 flex-1">
@@ -303,6 +305,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                                 min={0}
                                 onValueChange={(e) => handleNumberChange('price', e.value ?? null)}
                                 className="w-full p-inputtext-sm"
+                                required
                             />
                         </div>
                     </div>
