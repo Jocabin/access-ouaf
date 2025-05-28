@@ -6,7 +6,7 @@ import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 import { encodeRoomName } from "@/utils/helpers/roomNameEncoder";
-
+import { useRouter } from "next/navigation";
 interface Product {
   id: string;
   name: string;
@@ -29,26 +29,41 @@ export default function ConversationsPage() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [authChecking, setAuthChecking] = useState(true);
   const supabase = createClient();
+  const router = useRouter();
+
+    useEffect(() => {
+    async function checkAuth() {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        router.push('/login');
+        return;
+      }
+      
+      setAuthChecking(false);
+    }
+    
+    checkAuth();
+  }, [router, supabase]);
 
   useEffect(() => {
+    if (authChecking) return;
+
     async function loadConversations() {
       try {
         const {
           data: { user },
-          error: userError,
         } = await supabase.auth.getUser();
-
-        if (userError || !user) {
-          setError("Vous devez être connecté pour accéder à vos conversations");
-          setLoading(false);
-          return;
-        }
 
         const { data: messagesData, error: messagesError } = await supabase
           .from("messages")
           .select("*")
-          .or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`)
+          .or(`buyer_id.eq.${user?.id},seller_id.eq.${user?.id}`)
           .order("created_at", { ascending: false });
 
         if (messagesError) {
@@ -95,11 +110,11 @@ export default function ConversationsPage() {
         const conversationsMap = new Map();
 
         for (const message of messagesData) {
-          const isUnread = !message.is_read && message.sender_id !== user.id;
+          const isUnread = !message.is_read && message.sender_id !== user?.id;
           const product = productsMap[message.item_id];
           if (!product) continue;
 
-          const isUserSeller = product.user_id === user.id;
+          const isUserSeller = product.user_id === user?.id;
           const otherUserId = isUserSeller
             ? message.buyer_id
             : message.seller_id;
@@ -145,7 +160,15 @@ export default function ConversationsPage() {
     }
 
     loadConversations();
-  }, [supabase]);
+  }, [supabase, authChecking]);
+
+  if (authChecking) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh]">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

@@ -1,45 +1,61 @@
 "use client";
+
 import Image from "next/image";
 import { translations } from "@/lib/translations";
 import ButtonMe from "@/components/Button";
 import NewAdModal from "./NewAdModal";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Category } from "@/types";
+import { Toast } from "primereact/toast";
 
 type HomepageAdType = {
   categories: Category[];
 };
 
 export default function HomepageAd({ categories }: HomepageAdType) {
-  const logoUrl = "/assets/chat-homepage.jpg";
-  const [dialog_visible, set_dialog_visible] = useState(false);
+  const imageUrl = "/assets/homepage_banner.jpg";
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const toast = useRef<Toast>(null);
 
   function toggleCreateItemDialog() {
-    set_dialog_visible(!dialog_visible);
+    setDialogVisible(!dialogVisible);
   }
+
+  const ButtonAddItem = () => (
+    <ButtonMe onClick={toggleCreateItemDialog}>
+      {translations.button.addItem}
+    </ButtonMe>
+  );
 
   return (
     <>
-      <div className="relative flex justify-center mt-20">
+      {/* Version desktop */}
+      <div className="hidden md:flex relative justify-center mt-20">
         <Image
-          src={logoUrl}
-          alt="Image d'un chat"
-          width={1170}
-          height={395}
-          className="cat-picture"
+          src={imageUrl}
+          alt={translations.site.description}
+          width={1248}
+          height={0}
+          style={{ height: "395px" }}
+          className="object-cover rounded-2xl"
+          priority
         />
-        <div className="absolute top-1/2 left-0 bg-white -translate-y-1/2 ml-40 p-5 rounded-lg">
-          <h1 className="title-home-card mb-2">{translations.homeCard.bold}</h1>
-          <p className="mb-5 max-w-80">{translations.homeCard.text}</p>
-          <ButtonMe onClick={toggleCreateItemDialog}>
-            {translations.button.addItem}
-          </ButtonMe>
+        <div className="absolute top-1/2 -translate-y-1/2 left-4 sm:left-8 md:left-24 bg-[var(--white)] p-5 rounded-xl w-[450px]">
+          <h1 className="text-3xl">{translations.homeCard.title}</h1>
+          <p className="break-words">{translations.homeCard.text}</p>
+          <ButtonAddItem />
         </div>
       </div>
 
+      {/* Mobile */}
+      <div className="block md:hidden px-4 mt-4">
+        <ButtonAddItem />
+      </div>
+
       <NewAdModal
-        visible={dialog_visible}
-        set_dialog_visible={set_dialog_visible}
+        toast={toast}
+        visible={dialogVisible}
+        set_dialog_visible={setDialogVisible}
         categories={categories}
       />
     </>

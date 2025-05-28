@@ -31,7 +31,7 @@ const footerAnimaux = (
 
 const footerAnnonces = (
     <>
-        <a href="" rel="noopener noreferrer" className="p-button no-underline">
+        <a href="/dashboard/adverts" rel="noopener noreferrer" className="p-button no-underline">
             { translations.dashboard.btnCardFooter }
         </a>
     </>

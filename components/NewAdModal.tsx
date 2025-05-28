@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useRef,
-  useState,
-  type SetStateAction,
-  type Dispatch,
-  useEffect,
-} from "react";
+import { useState, type SetStateAction, type Dispatch, useEffect } from "react";
 import { Toast } from "primereact/toast";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -14,24 +8,26 @@ import { Dropdown } from "primereact/dropdown";
 import { Dialog } from "primereact/dialog";
 import { Category } from "@/types";
 import { InputNumber } from "primereact/inputnumber";
-import { createAd } from "@/services/new-ad.service";
+import { createAd, sanitizeFileName } from "@/services/adverts.service";
 import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
 import { createClient } from "@/lib/client";
 import { useRouter } from "next/navigation";
+import { translations } from "@/lib/translations";
 
 export interface ModalProps {
   visible: boolean;
   set_dialog_visible: Dispatch<SetStateAction<boolean>>;
   categories: Category[];
+  toast: React.RefObject<Toast>;
 }
 
 export default function NewAdModal({
   visible,
   set_dialog_visible,
   categories,
+  toast,
 }: ModalProps) {
   const router = useRouter();
-  const toast = useRef<Toast>(null);
   const [loading, set_loading] = useState(false);
   const [states] = useState(["Neuf", "Usé", "Correct"]);
 
@@ -42,6 +38,12 @@ export default function NewAdModal({
   const [selected_state, set_selected_state] = useState("");
   const [selectedKT, setSelectedKT] = useState<Category>(categories[0]);
   const [img, set_img] = useState<string[]>([]);
+  const [size, set_size] = useState("");
+
+  const capitalizedCategories = categories.map((cat) => ({
+    ...cat,
+    name: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
+  }));
 
   useEffect(() => {
     async function redirect_if_not_connected() {
@@ -54,8 +56,11 @@ export default function NewAdModal({
         router.push("/login");
       }
     }
-    redirect_if_not_connected();
-  });
+
+    if (visible) {
+      redirect_if_not_connected();
+    }
+  }, [visible, router]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -69,6 +74,7 @@ export default function NewAdModal({
       state: selected_state,
       img: img.join(","),
       category: selectedKT.id,
+      size: size,
     });
     set_loading(false);
 
@@ -85,7 +91,10 @@ export default function NewAdModal({
         detail: product_status.msg,
       });
 
-      set_dialog_visible(false);
+      setTimeout(() => {
+        set_dialog_visible(false);
+        router.push("/dashboard/adverts");
+      }, 2000);
     }
   }
 
@@ -98,9 +107,7 @@ export default function NewAdModal({
       const formData = new FormData();
       formData.append("file-" + i, file);
 
-      const fileName = `${Date.now()}_${Math.random()
-        .toString(36)
-        .substring(2, 15)}_${file.name}`;
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}_${sanitizeFileName(file.name)}`;
 
       const supabase = createClient();
       const { error } = await supabase.storage
@@ -150,14 +157,14 @@ export default function NewAdModal({
             <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-2">
                 <label htmlFor="title" className="font-bold block mb-2">
-                  Nom de l&apos;annonce
+                  {translations.newAdModal.title}
                 </label>
                 <InputText
                   type="text"
                   id="title"
                   name="title"
                   className="p-inputtext-sm"
-                  placeholder="Laisse pour chien"
+                  placeholder={translations.newAdModal.titlePlaceholder}
                   onChange={(e) => set_title(e.target.value)}
                   value={title}
                   required
@@ -166,14 +173,14 @@ export default function NewAdModal({
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="desc" className="font-bold block mb-2">
-                  Description
+                  {translations.newAdModal.description}
                 </label>
                 <InputText
                   type="text"
                   id="desc"
                   name="desc"
                   className="p-inputtext-sm"
-                  placeholder="Je vends ma laisse pour grand chiens..."
+                  placeholder={translations.newAdModal.descriptionPlaceholder}
                   value={description}
                   onChange={(e) => set_description(e.target.value)}
                   required
@@ -181,8 +188,23 @@ export default function NewAdModal({
               </div>
 
               <div className="flex flex-col gap-2">
+                <label htmlFor="desc" className="font-bold block mb-2">
+                  {translations.newAdModal.size}
+                </label>
+                <InputText
+                  type="text"
+                  id="desc"
+                  name="desc"
+                  className="p-inputtext-sm"
+                  placeholder={translations.newAdModal.sizePlaceholder}
+                  value={size}
+                  onChange={(e) => set_size(e.target.value)}
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
                 <label htmlFor="brand" className="font-bold block mb-2">
-                  Marque
+                  {translations.newAdModal.brand}
                 </label>
                 <InputText
                   type="text"
@@ -198,7 +220,7 @@ export default function NewAdModal({
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="photos" className="font-bold block mb-2">
-                  Ajouter des photos
+                  {translations.newAdModal.addPhotos}
                 </label>
                 <FileUpload
                   multiple
@@ -206,7 +228,7 @@ export default function NewAdModal({
                   name="imgs[]"
                   accept="image/*"
                   maxFileSize={1000000}
-                  chooseLabel="Selectionner des images"
+                  chooseLabel={translations.newAdModal.imagesPlaceholder}
                   customUpload
                   uploadHandler={uploadImages}
                 />
@@ -214,7 +236,7 @@ export default function NewAdModal({
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="category" className="font-bold block mb-2">
-                  Catégorie
+                  {translations.newAdModal.category}
                 </label>
 
                 <Dropdown
@@ -224,7 +246,7 @@ export default function NewAdModal({
                   onChange={(e) => {
                     setSelectedKT(e.value);
                   }}
-                  options={categories}
+                  options={capitalizedCategories}
                   optionLabel="name"
                   placeholder="Choisir une catégorie"
                   className="w-full md:w-14rem"
@@ -233,7 +255,7 @@ export default function NewAdModal({
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="state" className="font-bold block mb-2">
-                  État
+                  {translations.newAdModal.state}
                 </label>
 
                 <Dropdown
@@ -251,14 +273,18 @@ export default function NewAdModal({
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="price" className="font-bold block mb-2">
-                  Prix
+                  {translations.newAdModal.price}
                 </label>
                 <InputNumber
                   value={price}
                   min={0}
                   onValueChange={(e) => set_price(e.value ?? 0)}
+                  placeholder="10,00"
                   id="price"
                   name="price"
+                  mode="currency"
+                  currency="EUR"
+                  locale="fr-FR"
                 />
               </div>
 
@@ -267,7 +293,7 @@ export default function NewAdModal({
                 className="flex justify-center mt-4"
                 loading={loading}
               >
-                Mettre en vente
+                {translations.newAdModal.submitButton}
               </Button>
             </div>
           </form>

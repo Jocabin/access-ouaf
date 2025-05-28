@@ -6,11 +6,12 @@ export async function getProductsByCategory(categoryId: number) {
     .select(
       `
         product_id,
-        products ( id, name, price, img, slug ),
+        products ( id, name, price, img, slug, visible ),
         categories ( name )
       `
     )
     .eq("category_id", categoryId)
+    .order("id", { ascending: false })
 
   if (error) {
     console.error("Erreur lors de la récupération des produits :", error)
@@ -21,7 +22,7 @@ export async function getProductsByCategory(categoryId: number) {
 }
 
 export async function getAllProducts() {
-  return supabase.from("products").select()
+  return supabase.from("products").select().order("id", { ascending: false })
 }
 
 export async function getProductsByCategoryName(categoryName: string) {
@@ -35,6 +36,7 @@ export async function getProductsByCategoryName(categoryName: string) {
       `
     )
     .filter("categories.name", "eq", categoryName)
+    .order("id", { ascending: false })
 
   if (error) {
     console.error("Erreur lors de la récupération des produits :", error)
@@ -49,6 +51,7 @@ export async function getProductsByWordSearch(word: string) {
     .from("products")
     .select("*")
     .textSearch("name", word)
+    .order("id", { ascending: false })
 
   if (error) {
     console.error("Error performing search:", error)
@@ -63,6 +66,7 @@ export async function getProductBySlug(sku: string) {
     .from("products")
     .select()
     .eq("slug", sku)
+    .order("id", { ascending: false })
 
   if (!data?.length || error) {
     console.log(error)
@@ -75,13 +79,27 @@ export async function getProductBySlug(sku: string) {
 export async function getProductsByUser(id: string) {
   const { data, error } = await supabase
       .from("products")
-      .select()
+      .select(`
+        *,
+        product_categories (
+          category:categories (
+            id,
+            name,
+            description
+          )
+        )
+      `)
       .eq('user_id', id)
+      .order("id", { ascending: false })
 
   if (error) {
     console.error("Erreur lors de la récupération des annonces :", error)
-    return null
+    return []
   }
 
-  return data
+  return (data ?? []).map((product) => ({
+    ...product,
+    category: product.product_categories?.[0]?.category ?? null,
+    product_categories: undefined,
+  }))
 }

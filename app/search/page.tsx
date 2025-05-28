@@ -1,31 +1,30 @@
-import type { Product } from "@/types"
-import Card from "@/components/Card"
-import { translations } from "@/lib/translations"
-import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
+import { translations } from "@/lib/translations";
 import {
   getProductsByCategoryName,
   getProductsByWordSearch,
-} from "@/services/products.service"
-import { redirect } from "next/navigation"
+} from "@/services/products.service";
+import { redirect } from "next/navigation";
+import ProductGrid from "@/components/ProductGrid";
+import { Product } from "@/types/interfaces/product.interface";
 
 // @ts-expect-error oui
 export default async function SearchPage({ searchParams }) {
-  const { q: query } = searchParams
+  const { q: query } = searchParams;
 
-  if (!query) redirect("/")
+  if (!query) redirect("/");
 
-  const resultsBySearchbar = await getProductsByWordSearch(query)
-  const resultsByCategory = await getProductsByCategoryName(query)
+  const resultsBySearchbar = await getProductsByWordSearch(query);
+  const resultsByCategory = await getProductsByCategoryName(query);
 
   const categoryProducts = resultsByCategory
     .flatMap((cat) => cat.products)
-    .filter((p): p is Product => Boolean(p))
+    .filter((p): p is Product => Boolean(p));
 
-  const allProducts = [...resultsBySearchbar, ...categoryProducts]
+  const allProducts = [...resultsBySearchbar, ...categoryProducts];
 
   const uniqueProducts: Product[] = Array.from(
     new Map(allProducts.map((p) => [p.id, p])).values()
-  )
+  );
 
   return (
     <>
@@ -41,19 +40,7 @@ export default async function SearchPage({ searchParams }) {
         </p>
       )}
 
-      <div className="products-grid-home">
-        {uniqueProducts.map((product) => (
-          <Card
-            href={"/items/" + product.slug}
-            key={product.id}
-            imageUrl={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${product.img}`}
-            title={capitalizeFirstLetter(product.name)}
-            price={`${product.price} €`}
-            width={139}
-            height={241}
-          />
-        ))}{" "}
-      </div>
+      <ProductGrid products={uniqueProducts} />
     </>
-  )
+  );
 }
