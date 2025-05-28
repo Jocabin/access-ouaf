@@ -171,8 +171,12 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
 
     const uploadSelectedImages = async (advertId: string) => {
         const uploaded: string[] = []
+        const existingImageNames = formData.img?.split(',').map(name => name.trim()) ?? []
         try {
             for (const file of selectedFiles) {
+                if (existingImageNames.includes(file.name)) {
+                    continue
+                }
                 const data = await uploadImages(file)
                 if (data?.path) {
                     uploaded.push(data.path)
@@ -186,7 +190,9 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                 detail: 'Échec de l’upload des images',
             })
         }
-        await updateAdvertDataImg(uploaded.join(','), advertId)
+        if (uploaded.length > 0) {
+            await updateAdvertDataImg([...existingImageNames, ...uploaded].join(','), advertId)
+        }
     }
 
 
