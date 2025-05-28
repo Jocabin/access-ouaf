@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
-import { createAd, updateAdvert, updateAdvertDataImg, uploadImages } from '@/services/adverts.service'
+import { createAd, deleteImages, updateAdvert, updateAdvertDataImg, uploadImages } from '@/services/adverts.service'
 import { Category } from '@/types'
 import type { Advert } from '@/components/AdvertsDashboard'
+import Image from 'next/image'
 import { InputText } from 'primereact/inputtext'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { Dropdown } from 'primereact/dropdown'
@@ -49,6 +50,31 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
         { value: 'Usé', label: 'Usé' },
     ]
 
+    useEffect(() => {
+        const loadImages = async () => {
+            if (advert?.img) {
+                const files = await fetchExistingImages(advert.img)
+                setSelectedFiles(files)
+            }
+        }
+        loadImages()
+    }, [advert])
+
+    const fetchExistingImages = async (imgString: string): Promise<File[]> => {
+        const imageNames = imgString.split(',').map(i => i.trim())
+        const fetchedFiles: File[] = []
+
+        for (const name of imageNames) {
+            const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${name}`
+            const response = await fetch(url)
+            const blob = await response.blob()
+            const file = new File([blob], name, { type: blob.type })
+            fetchedFiles.push(file)
+        }
+
+        return fetchedFiles
+    }
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = e.target
         setFormData({
@@ -71,12 +97,17 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
         })
     }
 
-    const handleRemoveImage = (imgName: string) => {
+    const handleRemoveImage = async (imgName: string, advertId: string) => {
+        setLoading(true)
+        await deleteImages(imgName)
         const updatedImgList = formData.img?.split(',').filter(name => name.trim() !== imgName.trim()) ?? []
+        await updateAdvertDataImg(updatedImgList.join(','), advertId)
         setFormData(prev => ({
             ...prev,
             img: updatedImgList.join(','),
         }))
+        setSelectedFiles(prev => prev.filter(file => file.name !== imgName.trim()))
+        setLoading(false)
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -275,7 +306,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                             maxFileSize={5000000}
                             disabled={loading}
                             auto={false}
-                            onSelect={(e) => setSelectedFiles(e.files)}
+                            onSelect={(e) => setSelectedFiles(prev => [...prev, ...e.files])}
                             headerTemplate={(options) => {
                                 const { className, chooseButton } = options
                                 return (
@@ -285,30 +316,36 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                                 )
                             }}
                             emptyTemplate={
-                                advert?.img && advert.img.split(',').length > 0 ? (
-                                    <div className="flex gap-12 flex-wrap">
-                                        {formData.img?.split(',').map((img: string, index: number) => (
-                                            <div key={index} className="relative w-24 h-24">
-                                                <img
-                                                    src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}`}
-                                                    alt={`Image ${index + 1}`}
-                                                    className="w-24 h-24 object-cover border rounded"
-                                                />
-                                                <Button
-                                                    icon="pi pi-times"
-                                                    rounded
-                                                    text
-                                                    severity="danger"
-                                                    aria-label="Supprimer"
-                                                    className="absolute h-5"
-                                                    onClick={() => handleRemoveImage(img)}
-                                                />
-                                            </div>
+                                <div className="flex gap-12 flex-wrap">
+                                    {formData.img?.split(',')
+                                        .filter((img: string) => img.trim() !== '')
+                                        .map((img: string, index: number) => (
+                                            img.trim() === '' ? null : (
+                                                <div key={index} className="relative w-24 h-24">
+                                                    <Image
+                                                        src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}?v=${Date.now()}`}
+                                                        alt={`Image ${index + 1}`}
+                                                        width={100}
+                                                        height={100}
+                                                        className="w-24 h-24 object-cover border rounded"
+                                                    />
+                                                    <Button
+                                                        icon="pi pi-times"
+                                                        rounded
+                                                        text
+                                                        severity="danger"
+                                                        aria-label="Supprimer"
+                                                        className="absolute h-5"
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            e.stopPropagation()
+                                                            handleRemoveImage(img, advert?.id)
+                                                        }}
+                                                    />
+                                                </div>
+                                            )
                                         ))}
-                                    </div>
-                                ) : (
-                                    <p className="m-0">{translations.dashboard.accountPage.userAccountComponent.avatarEmptyTemplate}</p>
-                                )
+                                </div>
                             }
                         />
                     </div>
