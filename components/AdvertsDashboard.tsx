@@ -62,7 +62,13 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                                 <h3>{capitalizeFirstLetter(advert.name)}</h3>
                                 <div>
                                     <Button
-                                        label={translations.dashboard.animalPage.editButton}
+                                        label={translations.dashboard.advertsPage.showButton}
+                                        icon="pi pi-eye"
+                                        className="p-button-text p-button-sm p-button-primary ml-2"
+                                        onClick={() => window.location.href = `/items/${advert.slug}`}
+                                    />
+                                    <Button
+                                        label={translations.dashboard.advertsPage.editButton}
                                         icon="pi pi-pencil"
                                         className="p-button-text p-button-sm"
                                         onClick={() => {
@@ -71,7 +77,7 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                                         }}
                                     />
                                     <Button
-                                        label={translations.dashboard.animalPage.deleteButton}
+                                        label={translations.dashboard.advertsPage.deleteButton}
                                         icon="pi pi-trash"
                                         className="p-button-text p-button-sm p-button-danger ml-2"
                                         onClick={() => confirmDelete(advert)}
