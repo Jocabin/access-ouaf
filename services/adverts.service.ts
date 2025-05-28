@@ -19,6 +19,7 @@ export async function createAd(userData: {
   state: string;
   img: string | null;
   category: number;
+  size: string;
 }) {
   const supabase = createClient();
   const {

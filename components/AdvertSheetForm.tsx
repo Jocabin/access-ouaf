@@ -132,6 +132,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                 state: formData.state,
                 img: formData.img,
                 category: formData.category?.id ?? 0,
+                size: ''
             }
 
             let data, error
