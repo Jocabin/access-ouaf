@@ -24,7 +24,6 @@ export default async function ProductPage({
   const { sku } = await params
 
   const product = await getProductBySlug(sku)
-  console.log(product)
   const category = await getCategoryByProductName(product.name)
 
   if (!product) {
@@ -65,22 +64,13 @@ export default async function ProductPage({
       <BreadCrumb model={breadcrumbItems} home={homeBreadcrumbItem} />
 
       <main className="max-w-screen-lg mx-auto p-8 md:p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="w-full">
-            <ProductGallery
-              imagesString={product.img}
-              altText={product.name}
-              titleText="Photos produit"
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
+          <ProductGallery imagesString={product.img} altText={product.name} />
 
           <div className="p-6 rounded-xl shadow-md flex flex-col gap-4">
             <div className="flex justify-between items-start w-full">
               <div className="flex flex-col">
                 <h1 className="text-xl font-semibold mt-2">{productName}</h1>
-                <span className="text-sm text-[var(--secondary-font)]">
-                  {product.size} · {product.state} · {product.brand}
-                </span>
               </div>
               <div className="mt-2">
                 <WishlistButton product={product} />
@@ -100,7 +90,7 @@ export default async function ProductPage({
               </li>
               <li>
                 <strong>{translations.productPage.size} :</strong>{" "}
-                {product.size}
+                {product.size ? product.size : translations.productPage.noSize}
               </li>
               <li>
                 <strong>{translations.productPage.state} :</strong>{" "}
@@ -124,7 +114,7 @@ export default async function ProductPage({
 
             {/* CTA */}
             <div className="flex flex-col gap-3">
-              <Link href={`/buy`}>
+              <Link href={`/buy?product_id=${product.id}`}>
                 <Button label={translations.button.buy} className="w-full" />
               </Link>
               <Link href={`/chat?sku=${product.id}`}>

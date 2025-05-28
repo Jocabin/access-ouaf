@@ -1,11 +1,12 @@
 'use client'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { translations } from '@/lib/translations'
 import AnimalSheetForm from '@/components/AnimalSheetForm'
 import { deleteAnimal } from '@/services/animals.service'
+import { Toast } from 'primereact/toast'
 
 export interface Animal {
     id: string
@@ -22,6 +23,7 @@ export default function AnimalDashboard({ animals }: { animals: Animal[] }) {
     const [formVisible, setFormVisible] = useState(false)
     const [animalList, setAnimalList] = useState(animals)
     const [selectedAnimal, setSelectedAnimal] = useState<Animal | null>(null)
+    const toast = useRef<Toast>(null)
 
     const handleDelete = async (id: string) => {
         await deleteAnimal(id)
@@ -90,15 +92,18 @@ export default function AnimalDashboard({ animals }: { animals: Animal[] }) {
                 />
             </div>
 
-            <Dialog visible={formVisible}
-                    draggable={false}
-                    onHide={() => setFormVisible(false)}
-                    header={ selectedAnimal ?
-                        translations.dashboard.animalPage.animalSheetForm.headerEdit :
-                        translations.dashboard.animalPage.animalSheetForm.headerCreate }
-                    style={{ width: '90vw', maxWidth: '800px' }}
+            <Dialog
+                visible={formVisible}
+                draggable={false}
+                onHide={() => setFormVisible(false)}
+                header={ selectedAnimal
+                    ? translations.dashboard.animalPage.animalSheetForm.headerEdit
+                    : translations.dashboard.animalPage.animalSheetForm.headerCreate
+                }
+                style={{ width: '90vw', maxWidth: '800px' }}
             >
                 <AnimalSheetForm
+                    toast={toast}
                     animal={selectedAnimal ?? undefined}
                     onSuccess={(updatedAnimal) => {
                         if (selectedAnimal) {
