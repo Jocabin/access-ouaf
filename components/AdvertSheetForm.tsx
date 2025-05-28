@@ -3,7 +3,6 @@ import { createClient } from '@/utils/supabase/client'
 import { createAd, deleteImages, updateAdvert, updateAdvertDataImg, uploadImages } from '@/services/adverts.service'
 import { Category } from '@/types'
 import type { Advert } from '@/components/AdvertsDashboard'
-import Image from 'next/image'
 import { InputText } from 'primereact/inputtext'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { Dropdown } from 'primereact/dropdown'
@@ -147,10 +146,19 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
             }
 
             if (data) {
+                const existingImageNames = formData.img?.split(',').map(name => name.trim()) ?? []
+                let uploaded: string[] = []
+
                 if (selectedFiles.length > 0) {
-                    await uploadSelectedImages(data.id)
+                    uploaded = await uploadSelectedImages(data.id)
                 }
-                onSuccess(data)
+
+                const updatedAdvert = {
+                    ...data,
+                    category: formData.category,
+                    img: [...existingImageNames, ...uploaded].join(','),
+                }
+                onSuccess(updatedAdvert)
                 toast.current?.show({
                     severity: 'success',
                     summary: translations.register.successSummary,
@@ -169,7 +177,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
         }
     }
 
-    const uploadSelectedImages = async (advertId: string) => {
+    const uploadSelectedImages = async (advertId: string): Promise<string[]> => {
         const uploaded: string[] = []
         const existingImageNames = formData.img?.split(',').map(name => name.trim()) ?? []
         try {
@@ -193,6 +201,7 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
         if (uploaded.length > 0) {
             await updateAdvertDataImg([...existingImageNames, ...uploaded].join(','), advertId)
         }
+        return uploaded
     }
 
 
@@ -328,11 +337,10 @@ const AdvertSheetForm = ({ advert, onSuccess, categories }: advertData) => {
                                         .map((img: string, index: number) => (
                                             img.trim() === '' ? null : (
                                                 <div key={index} className="relative w-24 h-24">
-                                                    <Image
+                                                    <img
+                                                        key={index}
                                                         src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}?v=${Date.now()}`}
                                                         alt={`Image ${index + 1}`}
-                                                        width={100}
-                                                        height={100}
                                                         className="w-24 h-24 object-cover border rounded"
                                                     />
                                                     <Button

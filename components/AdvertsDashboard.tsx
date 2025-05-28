@@ -7,7 +7,6 @@ import AdvertSheetForm from '@/components/AdvertSheetForm'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
-import Image from 'next/image'
 import { translations } from '@/lib/translations'
 
 export interface Advert {
@@ -79,16 +78,17 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                             <p><strong>Image(s) :</strong></p>
                             {advert.img && (
                                 <div className="flex flex-wrap gap-2">
-                                    {advert.img.split(',').map((img, index) => (
-                                        <Image
-                                            key={index}
-                                            src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}`}
-                                            alt={`Image ${index + 1}`}
-                                            width={100}
-                                            height={100}
-                                            className="object-cover border rounded"
-                                        />
-                                    ))}
+                                    {advert.img.split(',').map((img, index) => {
+                                        console.log(`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}?v=${Date.now()}`)
+                                        return (
+                                            <img
+                                                key={index}
+                                                src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_IMG_URL}${img.trim()}?v=${Date.now()}`}
+                                                alt={`Image ${index + 1}`}
+                                                className="w-24 h-24 object-cover border rounded"
+                                            />
+                                        )
+                                    })}
                                 </div>
                             )}
                         </div>
