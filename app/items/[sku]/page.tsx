@@ -1,40 +1,40 @@
 import React from "react";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
-import { getDaysSinceCreation } from "@/utils/helpers/getDaysSinceCreation";
-import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter";
-import { getCategoryByProductName } from "@/services/categories.service";
-import { getProductBySlug } from "@/services/products.service";
-import WishlistButton from "@/components/WishlistButton";
-import ProductGallery from "@/components/ProductGallery";
-import { translations } from "@/lib/translations";
-import { Button } from "primereact/button";
-import { Divider } from "primereact/divider";
-import { Avatar } from "primereact/avatar";
-import { BreadCrumb } from "primereact/breadcrumb";
-import { MenuItem } from "primereact/menuitem";
+import Link from "next/link"
+import { redirect } from "next/navigation"
+import { createClient } from "@/utils/supabase/server"
+import { getDaysSinceCreation } from "@/utils/helpers/getDaysSinceCreation"
+import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
+import { getCategoryByProductName } from "@/services/categories.service"
+import { getProductBySlug } from "@/services/products.service"
+import WishlistButton from "@/components/WishlistButton"
+import ProductGallery from "@/components/ProductGallery"
+import { translations } from "@/lib/translations"
+import { Button } from "primereact/button"
+import { Divider } from "primereact/divider"
+import { Avatar } from "primereact/avatar"
+import { BreadCrumb } from "primereact/breadcrumb"
+import { MenuItem } from "primereact/menuitem"
 
 export default async function ProductPage({
   params,
 }: {
-  params: Promise<{ sku: string }>;
+  params: Promise<{ sku: string }>
 }) {
-  const supabase = await createClient();
-  const { sku } = await params;
+  const supabase = await createClient()
+  const { sku } = await params
 
-  const product = await getProductBySlug(sku);
-  const category = await getCategoryByProductName(product.name);
+  const product = await getProductBySlug(sku)
+  const category = await getCategoryByProductName(product.name)
 
   if (!product) {
-    redirect("/");
+    redirect("/")
   }
 
-  const productName = capitalizeFirstLetter(product.name.trim());
-  const productDescription = capitalizeFirstLetter(product.description.trim());
-  const categoryName = capitalizeFirstLetter(category?.name.trim());
+  const productName = capitalizeFirstLetter(product.name.trim())
+  const productDescription = capitalizeFirstLetter(product.description.trim())
+  const categoryName = capitalizeFirstLetter(category?.name.trim())
 
-  const daysAgo = getDaysSinceCreation(product.created_at);
+  const daysAgo = getDaysSinceCreation(product.created_at)
 
   const breadcrumbItems = [
     {
@@ -45,20 +45,18 @@ export default async function ProductPage({
       label: productName,
       url: `${product.slug}`,
     },
-  ] as MenuItem[];
+  ] as MenuItem[]
 
-  const homeBreadcrumbItem = { icon: "pi pi-fw pi-home", url: "/" } as MenuItem;
+  const homeBreadcrumbItem = { icon: "pi pi-fw pi-home", url: "/" } as MenuItem
 
   const { data: user } = await supabase.rpc("get_user_by_id", {
     uid: product.user_id,
-  });
+  })
 
-  const images = product.img.split(",");
+  const images = product.img?.split(",") ?? []
 
   for (let i = 0; i < images.length; i += 1) {
-    images[
-      i
-    ] = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${images[i]}`;
+    images[i] = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${images[i]}`
   }
 
   return (
@@ -133,15 +131,12 @@ export default async function ProductPage({
             {/* Vendeur */}
             <div className="flex items-center gap-4 hover:bg-[var(--hover-color)] p-4 rounded-lg">
               <Avatar
-                className="avatar-fixed"
-                image={
-                  `${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${user.raw_meta_data.avatar_url}` ||
-                  undefined
-                }
-                icon={!user.raw_meta_data.avatar_url ? "pi pi-user" : undefined}
-                size="large"
-                shape="circle"
-                style={{ width: "64px", height: "64px", overflow: "hidden" }}
+                  className="avatar-fixed"
+                  image={`${process.env.NEXT_PUBLIC_SUPABASE_URL}${process.env.NEXT_PUBLIC_AVATAR_URL}${user.raw_meta_data.avatar_url}` || undefined}
+                  icon={!user.raw_meta_data.avatar_url ? 'pi pi-user' : undefined}
+                  size="large"
+                  shape="circle"
+                  style={{ width: '64px', height: '64px', overflow: 'hidden' }}
               />
               <div className="flex flex-col">
                 <span className="text-sm">
@@ -159,5 +154,5 @@ export default async function ProductPage({
         </div>
       </main>
     </>
-  );
+  )
 }

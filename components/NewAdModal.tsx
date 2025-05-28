@@ -8,7 +8,7 @@ import { Dropdown } from "primereact/dropdown";
 import { Dialog } from "primereact/dialog";
 import { Category } from "@/types";
 import { InputNumber } from "primereact/inputnumber";
-import { createAd } from "@/services/new-ad.service";
+import { createAd, sanitizeFileName } from "@/services/adverts.service";
 import { FileUpload, FileUploadHandlerEvent } from "primereact/fileupload";
 import { createClient } from "@/lib/client";
 import { useRouter } from "next/navigation";
@@ -107,9 +107,7 @@ export default function NewAdModal({
       const formData = new FormData();
       formData.append("file-" + i, file);
 
-      const fileName = `${Date.now()}_${Math.random()
-        .toString(36)
-        .substring(2, 15)}_${file.name}`;
+      const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}_${sanitizeFileName(file.name)}`;
 
       const supabase = createClient();
       const { error } = await supabase.storage
