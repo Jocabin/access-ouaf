@@ -22,7 +22,7 @@ export async function getReviewsByUser(userId: string) {
     }
 }
 
-export async function createReview(reviewData: object) {
+export async function createReview(reviewData: object, orderId: number) {
     const { data, error } = await supabase
         .from('reviews')
         .insert([reviewData])
@@ -33,5 +33,17 @@ export async function createReview(reviewData: object) {
         return { data: null, error }
     }
 
-    return { data: data?.[0] || null, error: null }
+    const review = data?.[0] || null
+
+    if (review && orderId) {
+        const { error: pivotError } = await supabase
+            .from('orders_reviews')
+            .insert([{ order_id: orderId, review_id: review.id }])
+
+        if (pivotError) {
+            console.error("Erreur lors de l'insertion dans la table pivot :", pivotError)
+        }
+    }
+
+    return { data: review, error: null }
 }

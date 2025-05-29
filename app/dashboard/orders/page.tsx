@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import { CreateReview } from '@/components/CreateReview'
+import { getOrdersByUser } from '@/services/orders.service'
+import OrdersDashboard from '@/components/OrdersDashboard'
 
 export default async function AccountPage() {
     const supabase = await createClient()
@@ -10,5 +11,7 @@ export default async function AccountPage() {
         redirect(`/login?redirect=${encodeURIComponent('/dashboard/orders')}`)
     }
 
-    return <CreateReview />
+    const orders = await getOrdersByUser(user.id)
+
+    return <OrdersDashboard orders={orders} />
 }
