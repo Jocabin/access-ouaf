@@ -6,6 +6,8 @@ import { getDaysSinceCreation } from "@/utils/helpers/getDaysSinceCreation"
 import { capitalizeFirstLetter } from "@/utils/helpers/capitalizeFirstLetter"
 import { getCategoryByProductName } from "@/services/categories.service"
 import { getProductBySlug } from "@/services/products.service"
+import { getReviewsByUser } from '@/services/reviews.service'
+import type { ReviewsData } from "@/types"
 import WishlistButton from "@/components/WishlistButton"
 import ProductGallery from "@/components/ProductGallery"
 import { translations } from "@/lib/translations"
@@ -25,6 +27,9 @@ export default async function ProductPage({
 
   const product = await getProductBySlug(sku)
   const category = await getCategoryByProductName(product.name)
+  const reviews: ReviewsData | null = await getReviewsByUser(product.user_id)
+  const averageRating = reviews?.averageRating ?? 0
+  const totalReviews = reviews?.totalReviews ?? 0
 
   if (!product) {
     redirect("/")
@@ -148,6 +153,11 @@ export default async function ProductPage({
                 >
                   {user.raw_meta_data.display_name}
                 </Link>
+                <div className="flex flex-row items-center gap-2">
+                  <i className="pi pi-star-fill" style={{ color: '#FFC107' }} />
+                  <span className="font-bold">{averageRating}</span>
+                  <span className="font-normal">({totalReviews})</span>
+                </div>
               </div>
             </div>
           </div>

@@ -15,7 +15,7 @@ const footerInfo = (
 
 const footerCommandes = (
     <>
-        <a href="" rel="noopener noreferrer" className="p-button no-underline">
+        <a href="/dashboard/orders" rel="noopener noreferrer" className="p-button no-underline">
             { translations.dashboard.btnCardFooter }
         </a>
     </>
