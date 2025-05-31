@@ -9,9 +9,10 @@ import {Dialog} from 'primereact/dialog'
 import {translations} from '@/lib/translations'
 
 export interface Order {
-    id: string
+    id: number
     created_at: string
     product: Product
+    user_id: string
     orders_reviews?: { id: string }[]
 }
 
@@ -42,7 +43,7 @@ export default function OrdersDashboard({ orders }: { orders: Order[] }) {
                                             setFormVisible(true)
                                         }}
                                     />
-                                    {order.orders_reviews?.length > 0 && (
+                                    {(order.orders_reviews && order.orders_reviews.length > 0) && (
                                         <span className="text-sm text-green-600 text-center">{translations.dashboard.ordersPage.reviewAlreadyPublished}</span>
                                     )}
                                 </div>

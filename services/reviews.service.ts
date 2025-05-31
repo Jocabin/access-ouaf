@@ -1,16 +1,17 @@
 import {supabase} from "@/supabase";
+import type { ReviewsData } from '@/types'
 
 
-export async function getReviewsByUser(userId: string) {
+export async function getReviewsByUser(userId: string): Promise<ReviewsData | null> {
     const { data, error } = await supabase
         .from('reviews')
         .select()
         .eq('to_user_id', userId)
         .order('created_at', { ascending: false })
 
-    if (error) {
+    if (error || !data) {
         console.error("Erreur lors de la récupération des reviews :", error)
-        return []
+        return null
     }
 
     const averageRating = data.reduce((acc, review) => acc + review.rating, 0) / data.length || 0
@@ -18,7 +19,7 @@ export async function getReviewsByUser(userId: string) {
     return {
         reviews: data,
         totalReviews: data.length,
-        averageRating: parseFloat(averageRating.toFixed(1))
+        averageRating: parseFloat(averageRating.toFixed(1)),
     }
 }
 

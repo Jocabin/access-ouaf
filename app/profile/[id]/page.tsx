@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { fetchUser } from '@/services/users.service'
 import { getProductsByUser} from '@/services/products.service'
 import { getReviewsByUser } from '@/services/reviews.service'
+import type { Review } from '@/types'
 import { formatDistanceToNow } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { Avatar } from 'primereact/avatar'
@@ -27,7 +28,7 @@ export default async function ProductPage({params}: {
     const { id } = await params
     const user = await fetchUser(id)
     const annonces = await getProductsByUser(id) ?? []
-    const reviewsData = await getReviewsByUser(id) ?? []
+    const reviewsData = await getReviewsByUser(id) ?? null
 
     const memberSince = formatDistanceToNow(new Date(user?.created_at), { locale: fr })
 
@@ -44,7 +45,12 @@ export default async function ProductPage({params}: {
                 />
                 <span className='font-bold'>{user.raw_meta_data.display_name}</span>
                 <span className='text-sm'>Membre depuis {memberSince}</span>
-                <Rating className='no-opacity-disabled' value={reviewsData.averageRating} disabled cancel={false} />
+                <Rating
+                    className='no-opacity-disabled'
+                    value={reviewsData?.averageRating ?? 0}
+                    disabled
+                    cancel={false}
+                />
             </div>
             <TabView className='w-full md:w-[500px]'>
                 <TabPanel header='Annonces en ligne'>
@@ -84,14 +90,9 @@ export default async function ProductPage({params}: {
                 <TabPanel header="Avis">
                     <div className='flex flex-col items-center'>
                         <div className="mt-4">
-                            {reviewsData.reviews?.length > 0 ? (
+                            {(reviewsData?.reviews?.length ?? 0) > 0 ? (
                                 <ul className="flex flex-col list-none space-y-4 m-0 p-0">
-                                    {reviewsData.reviews.map((review: {
-                                        id: string;
-                                        rating: number;
-                                        comment: string;
-                                        created_at: string;
-                                    }) => (
+                                    {reviewsData?.reviews.map((review: Review) => (
                                         <li key={review.id}>
                                             <Card className="p-0 w-[90vw] md:w-[500px]">
                                                 <div className="flex flex-col gap-2">

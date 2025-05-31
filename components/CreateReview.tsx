@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import { Rating } from 'primereact/rating'
-import { translation s} from '@/lib/translations'
+import { translations } from '@/lib/translations'
 
 interface CreateReviewProps {
     productUserId?: string
@@ -13,8 +13,8 @@ interface CreateReviewProps {
     orderId?: number
 }
 
-export function CreateReview({ productUserId, orderUserId, orderId, onSuccess }) {
-    const [rating, setRating] = useState(undefined)
+export function CreateReview({ productUserId, orderUserId, orderId, onSuccess }: CreateReviewProps & { onSuccess: () => void }) {
+    const [rating, setRating] = useState<number | undefined>(undefined)
     const [comment, setComment] = useState<string>('')
     const [loading, setLoading] = useState(false)
     const toast = useRef<Toast | null>(null)
@@ -29,7 +29,11 @@ export function CreateReview({ productUserId, orderUserId, orderId, onSuccess })
                 comment: comment,
             }
 
-            const {data, error} = await createReview(reviewData, orderId)
+            if (!orderId) {
+                throw new Error('orderId est requis pour créer un avis.')
+            }
+
+            const { data, error } = await createReview(reviewData, orderId)
 
             if (error) {
                 throw error
@@ -69,7 +73,7 @@ export function CreateReview({ productUserId, orderUserId, orderId, onSuccess })
                                 name="rating"
                                 value={rating}
                                 cancel={false}
-                                onChange={(e) => setRating(e.target.value)}
+                                onChange={(e) => setRating(e.value ?? undefined)}
                                 required
                             />
                         </div>
