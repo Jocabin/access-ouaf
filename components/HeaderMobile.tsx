@@ -7,9 +7,11 @@ import MobileAdSection from "./MobileAdSection"
 import Link from "next/link"
 import { createClient } from "@/utils/supabase/client"
 import { User } from "@supabase/supabase-js"
-import router from "next/router"
+import { useRouter } from "next/navigation"
 import { Button } from "primereact/button"
 import { Divider } from "primereact/divider"
+import { translations } from "@/lib/translations"
+import { usePathname } from "next/navigation"
 
 export default function HeaderMobile() {
   const supabase = createClient()
@@ -18,6 +20,8 @@ export default function HeaderMobile() {
   const [user, setUser] = useState<User | null>(null)
 
   const toggleMenu = () => setIsOpen(!isOpen)
+  const pathname = usePathname()
+  const router = useRouter()
 
   const menuItems = [
     { label: "Messages", href: "/messages" },
@@ -29,6 +33,10 @@ export default function HeaderMobile() {
     { label: "Mes annonces", href: "/dashboard/adverts" },
     { label: "Mes animaux", href: "/dashboard/animal" },
   ]
+
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
 
   useEffect(() => {
     if (isOpen) {
@@ -92,7 +100,6 @@ export default function HeaderMobile() {
               <li key={index} className="w-full">
                 <Link
                   href={user ? item.href : "/login"}
-                  onClick={toggleMenu}
                   className="no-underline block text-white py-2 hover:text-orange-400"
                 >
                   {item.label}
@@ -101,16 +108,17 @@ export default function HeaderMobile() {
                 {index !== menuItems.length - 1 && <Divider className="my-1" />}
               </li>
             ))}
+
             {!user ? (
               <li>
-                <Link href="/login" onClick={toggleMenu}>
-                  <Button className="mt-6">Se connecter</Button>
+                <Link href="/login">
+                  <Button className="mt-6">{translations.nav.login}</Button>
                 </Link>
               </li>
             ) : (
               <li>
                 <Button className="mt-6" onClick={handleLogout}>
-                  Se déconnecter
+                  {translations.nav.logout}
                 </Button>
               </li>
             )}
