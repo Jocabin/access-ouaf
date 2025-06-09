@@ -2,7 +2,8 @@
 
 import { Category } from "@/types/interfaces/category.interface"
 import NewAdModal from "./NewAdModal"
-import { useState } from "react"
+import { useRef, useState } from "react"
+import { Toast } from "primereact/toast"
 
 type MobileAdType = {
   categories: Category[]
@@ -10,6 +11,8 @@ type MobileAdType = {
 
 export default function MobileAd({ categories }: MobileAdType) {
   const [dialogVisible, setDialogVisible] = useState(false)
+
+  const toast = useRef<Toast>(null)
 
   function toggleCreateItemDialog() {
     setDialogVisible(!dialogVisible)
@@ -29,6 +32,7 @@ export default function MobileAd({ categories }: MobileAdType) {
         visible={dialogVisible}
         set_dialog_visible={setDialogVisible}
         categories={categories}
+        toast={toast}
       />
     </>
   )

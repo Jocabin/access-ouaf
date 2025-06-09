@@ -28,9 +28,10 @@
     cursor: pointer;
     color: var(--dark-grey);
     font-size: 1.125rem;
+    padding: 0;
 }
 
-.searchbar__button button i {
+.searchbar__button i {
     display: inline-block;
 }
 
@@ -38,6 +39,5 @@
     .searchbar__form {
         width: 60%;
         padding: 0.5rem;
-
     }
 }
