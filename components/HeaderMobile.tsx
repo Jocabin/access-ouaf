@@ -25,11 +25,11 @@ export default function HeaderMobile() {
 
   const menuItems = [
     { label: "Messages", href: "/messages" },
-    { label: "Mes favoris", href: "/wishlist" },
-    { label: "Mon profil", href: `/profile/${user?.id}` },
+    { label: "Favoris", href: "/wishlist" },
+    { label: "Profil", href: `/profile/${user?.id}` },
+    { label: "Commandes", href: "/dashboard/orders" },
     { label: "Mon compte", href: "/dashboard" },
     { label: "Mes informations", href: "/dashboard/account" },
-    { label: "Mes commandes", href: "/dashboard/orders" },
     { label: "Mes annonces", href: "/dashboard/adverts" },
     { label: "Mes animaux", href: "/dashboard/animal" },
   ]

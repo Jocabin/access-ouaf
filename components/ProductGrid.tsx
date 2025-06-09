@@ -47,6 +47,7 @@ export default function ProductGrid({ title, products }: ProductGridProps) {
                       height={0}
                       style={{ height: "200px" }}
                       className="object-cover rounded-t-xl"
+                      priority
                     />
                   </Link>
                   <div className="absolute top-2 right-2 z-10">
