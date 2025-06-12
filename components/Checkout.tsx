@@ -60,7 +60,6 @@ export default function Checkout({ total, productId, userId }: PaymentForm) {
         insertError.message ?? "Erreur lors de la création de la commande"
       );
     }
-    console.log("ici3");
 
     const { error: updateError } = await supabase
       .from("products")
@@ -74,7 +73,6 @@ export default function Checkout({ total, productId, userId }: PaymentForm) {
         updateError.message ?? "Erreur lors de la mise à jour du produit"
       );
     }
-    console.log("ici4");
 
     const { error: confirmError } = await stripe.confirmPayment({
       elements,
@@ -83,14 +81,12 @@ export default function Checkout({ total, productId, userId }: PaymentForm) {
         return_url: window.location.origin + "/payment-success",
       },
     });
-    console.log("ici");
 
     if (confirmError) {
       set_error_message(
         confirmError.message ?? "Erreur lors de la validation du paiement"
       );
     }
-    console.log("ici2");
 
     set_loading(false);
   }

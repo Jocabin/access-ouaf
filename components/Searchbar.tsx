@@ -1,56 +1,55 @@
-"use client";
+"use client"
 
-import { translations } from '@/lib/translations'
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { translations } from "@/lib/translations"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useCallback, useState } from "react"
+import { InputText } from "primereact/inputtext"
+import { IconField } from "primereact/iconfield"
+import { InputIcon } from "primereact/inputicon"
 
 export default function Searchbar() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
     null
-  );
-  const [query, setQuery] = useState(searchParams?.get("q") ?? "");
+  )
+  const [query, setQuery] = useState(searchParams?.get("q") ?? "")
 
   const handleKeyPress = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const q = event.target.value;
-      setQuery(q);
+      const q = event.target.value
+      setQuery(q)
 
       if (searchTimeout) {
-        clearTimeout(searchTimeout);
+        clearTimeout(searchTimeout)
       }
 
       const timeout = setTimeout(() => {
-        router.push(`/search?q=${encodeURIComponent(q)}`);
-      }, 300);
+        router.push(`/search?q=${encodeURIComponent(q)}`)
+      }, 300)
 
-      setSearchTimeout(timeout);
+      setSearchTimeout(timeout)
     },
     [router, searchTimeout]
-  );
+  )
 
   return (
     <form
-      className="searchbar__form"
+      className="searchbar-form"
       onSubmit={(e) => {
-        e.preventDefault();
-        router.push(`/search?q=${encodeURIComponent(query)}`);
+        e.preventDefault()
+        router.push(`/search?q=${encodeURIComponent(query)}`)
       }}
     >
-      <input
-        className="searchbar__input"
-        type="text"
-        id="textInput"
-        required
-        value={query}
-        placeholder={translations.search.placeholder}
-        onChange={handleKeyPress}
-      />
-
-      <button type="submit" className="searchbar__button">
-        <i className="pi pi-search"></i>
-      </button>
+      <IconField iconPosition="left">
+        <InputIcon className="pi pi-search" />
+        <InputText
+          placeholder={translations.search.placeholder}
+          value={query}
+          onChange={handleKeyPress}
+          className="searchbar-input"
+        />
+      </IconField>
     </form>
-  );
+  )
 }

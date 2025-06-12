@@ -28,7 +28,6 @@ export default function HeaderDesktop() {
   const [hideToggle, setHideToggle] = useState(false)
   const menu = useRef<TieredMenu>(null)
   const [user, setUser] = useState<User | null>(null)
-  console.log(user)
 
   useEffect(() => {
     const loadUser = async () => {
