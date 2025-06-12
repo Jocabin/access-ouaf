@@ -96,4 +96,7 @@ no-opacity-disabled.p-rating .p-rating-item,
   body {
     padding-top: 5rem;
   }
+  .hide-label-on-mobile .p-button-label {
+    display: none;
+  }
 }

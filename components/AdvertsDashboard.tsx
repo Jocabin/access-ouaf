@@ -65,13 +65,13 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                                     <Button
                                         label={translations.dashboard.advertsPage.showButton}
                                         icon="pi pi-eye"
-                                        className="p-button-text p-button-sm p-button-primary ml-2"
+                                        className="p-button-text p-button-sm p-button-primary p-1 md:p-2 hide-label-on-mobile"
                                         onClick={() => window.location.href = `/items/${advert.slug}`}
                                     />
                                     <Button
                                         label={translations.dashboard.advertsPage.editButton}
                                         icon="pi pi-pencil"
-                                        className="p-button-text p-button-sm"
+                                        className="p-button-text p-button-sm p-1 md:p-2 hide-label-on-mobile"
                                         onClick={() => {
                                             setSelectedAdvert(advert)
                                             setFormVisible(true)
@@ -80,7 +80,7 @@ export default function AdvertDashboard({ adverts, categories }: { adverts: Adve
                                     <Button
                                         label={translations.dashboard.advertsPage.deleteButton}
                                         icon="pi pi-trash"
-                                        className="p-button-text p-button-sm p-button-danger ml-2"
+                                        className="p-button-text p-button-sm p-button-danger p-1 md:p-2 hide-label-on-mobile"
                                         onClick={() => confirmDelete(advert)}
                                     />
                                 </div>
