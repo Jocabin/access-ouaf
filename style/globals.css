@@ -38,6 +38,7 @@ html,
 body {
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -65,16 +66,9 @@ h2 {
   justify-content: space-between;
 }
 
-.phone-homepage {
-  display: none;
-}
-
-.desktop-homepage {
-  display: block;
-}
-
 .main--content {
   padding-top: 2rem;
+  padding-bottom: 2rem;
   flex: 1;
   padding-inline: 1rem;
 }
@@ -101,13 +95,5 @@ no-opacity-disabled.p-rating .p-rating-item,
 @media (max-width: 768px) {
   body {
     padding-top: 5rem;
-  }
-
-  .phone-homepage {
-    display: block;
-  }
-
-  .desktop-homepage {
-    display: none;
   }
 }

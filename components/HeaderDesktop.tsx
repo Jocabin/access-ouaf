@@ -73,9 +73,7 @@ export default function HeaderDesktop() {
             uniqueRooms.add(msg.room_name);
           }
         });
-        
-        console.log(`Utilisateur ${user?.id}: ${uniqueRooms.size} conversations non lues`);
-        
+                
         const newCount = uniqueRooms.size;
         if (newCount !== unreadConversationsCount) {
           setUnreadConversationsCount(newCount);
