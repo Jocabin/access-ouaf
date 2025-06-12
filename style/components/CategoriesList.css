@@ -5,6 +5,29 @@
 
 @media (max-width: 768px) {
     .categories__list {
+        font-size: 0.875rem;
+        padding: 1rem;
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+    }
+
+    .categories__list::-webkit-scrollbar {
         display: none;
+    }
+
+    .categories__list a {
+        color: var(--tertiary-font);
+        font-weight: 500;
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        white-space: nowrap;
+        border: 1px solid var(--dark-grey);
+        padding: 0.5rem 1rem;
+        border-radius: 1.25rem;
+        text-decoration: none;
     }
 }

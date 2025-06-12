@@ -100,7 +100,7 @@ export default function HeaderMobile() {
               <li key={index} className="w-full">
                 <Link
                   href={user ? item.href : "/login"}
-                  className="no-underline block text-white py-2 hover:text-orange-400"
+                  className="no-underline block text-white py-2 hover:text-[var(--brown)]"
                 >
                   {item.label}
                 </Link>
