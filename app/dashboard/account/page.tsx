@@ -29,7 +29,7 @@ export default async function AccountPage() {
                                     <UserAccount
                                         id={user.id}
                                         name={user.user_metadata.display_name}
-                                        email={user.user_metadata.email}
+                                        email={user.email}
                                         phone={user.user_metadata.phone}
                                         avatar={user.user_metadata.avatar_url}
                                         address={addressData?.address}

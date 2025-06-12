@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 
-export async function updateUserDataAction(userData: { email: string; name: string }) {
+export async function updateUserDataAction(userData: { email: string | undefined; name: string }) {
     const supabase = await createClient()
 
     const { data, error } = await supabase.auth.updateUser({

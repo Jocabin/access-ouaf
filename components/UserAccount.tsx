@@ -13,7 +13,7 @@ import { translations } from '@/lib/translations'
 interface UserAccountProps {
     id: string,
     name: string
-    email: string,
+    email: string | undefined,
     phone: string,
     avatar: string,
     address: string,
