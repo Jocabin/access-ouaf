@@ -1,4 +1,5 @@
 import { supabase } from "@/supabase"
+import { unstable_noStore } from 'next/cache'
 
 export async function getProductsByCategory(categoryId: number) {
   const { data, error } = await supabase
@@ -23,6 +24,7 @@ export async function getProductsByCategory(categoryId: number) {
 }
 
 export async function getAllProducts() {
+  unstable_noStore()
   return supabase
     .from("products")
     .select()
