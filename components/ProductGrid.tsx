@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image"
 import Link from "next/link"
 import WishlistButton from "./WishlistButton"
@@ -35,27 +36,22 @@ export default function ProductGrid({ title, products }: ProductGridProps) {
               subTitle={subTitle}
               header={
                 <div className="relative">
-                  <Link
-                    key={product.id}
-                    href={`/items/${product.slug}`}
-                    className="no-underline"
-                  >
-                    <Image
-                      alt={productTitle}
-                      src={getFirstImage(imageUrl)}
-                      width={250}
-                      height={0}
-                      style={{ height: "200px" }}
-                      className="object-cover rounded-t-xl"
-                      priority
-                    />
-                  </Link>
+                  <Image
+                    alt={productTitle}
+                    src={getFirstImage(imageUrl)}
+                    width={250}
+                    height={0}
+                    style={{ height: "200px" }}
+                    className="object-cover rounded-t-xl"
+                    priority
+                  />
                   <div className="absolute top-2 right-2 z-10">
                     <WishlistButton product={product} />
                   </div>
                 </div>
               }
-              className="w-full max-w-[220px] mx-auto shadow-md hover:shadow-lg rounded-xl"
+              className="w-full max-w-[220px] mx-auto shadow-md hover:shadow-lg rounded-xl cursor-pointer"
+              onClick={() => window.location.href = `/items/${product.slug}`}
             />
           )
         })}
