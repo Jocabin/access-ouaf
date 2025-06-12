@@ -1,8 +1,8 @@
 "use client"
 
 import { translations } from "@/lib/translations"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useCallback, useState } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useCallback, useEffect, useState } from "react"
 import { InputText } from "primereact/inputtext"
 import { IconField } from "primereact/iconfield"
 import { InputIcon } from "primereact/inputicon"
@@ -10,10 +10,18 @@ import { InputIcon } from "primereact/inputicon"
 export default function Searchbar() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const pathname = usePathname()
+
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
     null
   )
   const [query, setQuery] = useState(searchParams?.get("q") ?? "")
+
+  useEffect(() => {
+    if (!pathname.startsWith("/search")) {
+      setQuery("")
+    }
+  }, [pathname])
 
   const handleKeyPress = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
