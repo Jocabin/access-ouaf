@@ -7,4 +7,5 @@ export interface Product {
   state?: string
   img: string
   slug: string
+  visible: string
 }

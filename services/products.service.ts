@@ -6,11 +6,12 @@ export async function getProductsByCategory(categoryId: number) {
     .select(
       `
         product_id,
-        products ( id, name, price, img, slug, visible ),
+        products!inner ( id, name, price, img, slug, visible ),
         categories ( name )
       `
     )
     .eq("category_id", categoryId)
+    .eq("products.visible", true)
     .order("id", { ascending: false })
 
   if (error) {
@@ -22,7 +23,11 @@ export async function getProductsByCategory(categoryId: number) {
 }
 
 export async function getAllProducts() {
-  return supabase.from("products").select().order("id", { ascending: false })
+  return supabase
+    .from("products")
+    .select()
+    .eq("visible", true)
+    .order("id", { ascending: false })
 }
 
 export async function getProductsByCategoryName(categoryName: string) {
@@ -31,11 +36,12 @@ export async function getProductsByCategoryName(categoryName: string) {
     .select(
       `
         product_id,
-        products ( id, name, price, img, slug ),
+        products!inner ( id, name, price, img, slug, visible ),
         categories!inner ( name )
       `
     )
     .filter("categories.name", "eq", categoryName)
+    .eq("products.visible", true)
     .order("id", { ascending: false })
 
   if (error) {
@@ -52,6 +58,7 @@ export async function getProductsByWordSearch(word: string) {
     .select("*")
     .textSearch("name", word)
     .order("id", { ascending: false })
+    .eq("visible", true)
 
   if (error) {
     console.error("Error performing search:", error)
@@ -67,6 +74,7 @@ export async function getProductBySlug(sku: string) {
     .select()
     .eq("slug", sku)
     .order("id", { ascending: false })
+    .eq("visible", "TRUE")
 
   if (!data?.length || error) {
     console.log(error)
@@ -78,8 +86,9 @@ export async function getProductBySlug(sku: string) {
 
 export async function getProductsByUser(id: string) {
   const { data, error } = await supabase
-      .from("products")
-      .select(`
+    .from("products")
+    .select(
+      `
         *,
         product_categories (
           category:categories (
@@ -88,9 +97,12 @@ export async function getProductsByUser(id: string) {
             description
           )
         )
-      `)
-      .eq('user_id', id)
-      .order("id", { ascending: false })
+      `
+    )
+    .eq("user_id", id)
+    .eq("visible", true)
+
+    .order("id", { ascending: false })
 
   if (error) {
     console.error("Erreur lors de la récupération des annonces :", error)
