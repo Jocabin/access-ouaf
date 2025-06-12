@@ -1,6 +1,6 @@
 "use client";
 
-import { translations } from "../lib/translations";
+import { translations } from '@/lib/translations'
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
@@ -49,7 +49,7 @@ export default function Searchbar() {
       />
 
       <button type="submit" className="searchbar__button">
-        <i className="fa fa-search"></i>
+        <i className="pi pi-search"></i>
       </button>
     </form>
   );

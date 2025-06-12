@@ -163,7 +163,7 @@ export default function HeaderDesktop() {
         <Searchbar />
         <div className="header--icons">
           <Button
-            icon="fa-regular fa-heart"
+            icon="pi pi-heart"
             text
             onClick={() => {
               router.push("/wishlist")
@@ -171,7 +171,7 @@ export default function HeaderDesktop() {
           />
           <div className="relative">
                       <Button 
-                        icon="fa-regular fa-paper-plane" 
+                        icon="pi pi-send"
                         text 
                         onClick={() => {
                           router.push("/messages");

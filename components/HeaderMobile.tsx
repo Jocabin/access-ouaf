@@ -87,8 +87,8 @@ export default function HeaderMobile() {
         className="burger-menu-button w-[2rem] h-[2rem] flex items-center justify-center"
       >
         <i
-          className={`header--burger-icon fa-solid ${
-            isOpen ? "fa-xmark" : "fa-bars"
+          className={`header--burger-icon ${
+            isOpen ? "pi pi-times" : "pi pi-bars"
           }`}
         />
       </button>

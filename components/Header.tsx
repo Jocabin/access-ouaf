@@ -110,11 +110,11 @@ export default function Header() {
   return (
     <>
       <header>
-        <i className="header--burger-icon fa-solid fa-burger"></i>
+        <i className="header--burger-icon pi pi-bars"></i>
         <Logo />
         <div className="header--icons">
           <Button
-            icon="fa-regular fa-heart"
+            icon="pi pi-heart"
             text
             onClick={() => {
               router.push("/wishlist");
@@ -122,7 +122,7 @@ export default function Header() {
           />
           <div className="relative">
             <Button 
-              icon="fa-regular fa-paper-plane" 
+              icon="pi pi-send"
               text 
               onClick={() => {
                 router.push("/messages");

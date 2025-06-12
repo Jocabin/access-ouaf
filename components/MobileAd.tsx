@@ -20,7 +20,7 @@ export default function MobileAd({ categories }: MobileAdType) {
 
   const ButtonAddItem = () => (
     <span onClick={toggleCreateItemDialog}>
-      <i className="header--burger-icon fa-solid fa-square-plus"></i>
+      <i className="header--burger-icon pi pi-plus-circle"></i>
     </span>
   )
 
