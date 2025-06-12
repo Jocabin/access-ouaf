@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getAllProducts } from "@/services/products.service"
 import { getAllCategories } from "@/services/categories.service"
 import HomepageAd from "./HomepageAd"
