@@ -23,5 +23,9 @@ export default function DashboardBreadcrumb({
     },
   ] as MenuItem[]
 
-  return <BreadCrumb model={breadcrumbItems} home={homeBreadcrumbItem} />
+  return (
+    <div className="block md:hidden pb-4">
+      <BreadCrumb model={breadcrumbItems} home={homeBreadcrumbItem} />
+    </div>
+  )
 }
