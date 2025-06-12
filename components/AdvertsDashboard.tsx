@@ -105,7 +105,7 @@ export default function AdvertDashboard({
               </div>
               <p>
                 <strong>Catégorie :</strong>{" "}
-                {advert.category?.name ?? "Non renseignée"}
+                {capitalizeFirstLetter(advert.category?.name) ?? "Non renseignée"}
               </p>
               <p>
                 <strong>Marque :</strong> {advert.brand}
