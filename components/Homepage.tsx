@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 import { getAllProducts } from "@/services/products.service"
 import { getAllCategories } from "@/services/categories.service"
