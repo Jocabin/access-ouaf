@@ -28,6 +28,7 @@ export default function HeaderDesktop() {
   const [hideToggle, setHideToggle] = useState(false)
   const menu = useRef<TieredMenu>(null)
   const [user, setUser] = useState<User | null>(null)
+  console.log(user)
 
   useEffect(() => {
     const loadUser = async () => {
@@ -184,20 +185,27 @@ export default function HeaderDesktop() {
                       )}
                     </div>
           <TieredMenu model={items} popup ref={menu} breakpoint="767px" />
-          {!loading &&
-            (user ? (
+          {loading ? (
               <Button
-                icon="pi pi-user"
-                text
-                onClick={(e) => menu.current?.toggle(e)}
+                  icon="pi pi-user"
+                  text
               />
-            ) : (
-              <Button
-                icon="pi pi-user-plus"
-                text
-                onClick={() => setVisible(true)}
-              />
-            ))}
+          ) : (
+              user ? (
+                  <Button
+                      icon="pi pi-user"
+                      text
+                      onClick={(e) => menu.current?.toggle(e)}
+                  />
+              ) : (
+                  <Button
+                      icon="pi pi-user-plus"
+                      text
+                      onClick={() => setVisible(true)}
+                  />
+              )
+          )}
+
           <Dialog
             className="responsive-dialog"
             visible={visible}
